@@ -1,0 +1,31 @@
+# Algorithms 4 setting
+if [ -z "$CLASSPATH" ]
+then
+  export CLASSPATH=~/algs4/algs4.jar
+else
+  export CLASSPATH=$CLASSPATH:~/algs4/algs4.jar
+fi
+
+export RSYNC_LOCAL_DIR='/Users/will/myFile/rsync/'
+export RSYNC_CLOUD_DIR='/home/ubuntu/myFile/rsync/'
+export ZSH_PLUGINS_ARRAY=(
+  git
+  git-extras
+  git-flow
+  autojump
+  colored-man
+  colorize
+  github
+  vagrant
+  pip
+  python
+  zsh-syntax-highlighting
+  npm
+  nvm
+  docker
+  docker-compose
+  django
+  node
+  sudo
+  web-search
+)

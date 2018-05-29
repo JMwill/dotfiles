@@ -1,6 +1,10 @@
 # Enable tab completion
-[ -f $HOME/.bash_git_setting/git-completion.bash ] && source $HOME/.bash_git_setting/git-completion.bash
+export BASH_GIT_SETTING="$HOME/dotfiles/shell/bash-git-setting"
+[ -f $BASH_GIT_SETTING/git-completion.bash ] && source $BASH_GIT_SETTING/git-completion.bash
 
-# ================= Autojump setting ================= #
+# Autojump setting
 [[ -s /usr/share/autojump/autojump.sh ]] && . /usr/share/autojump/autojump.sh || [[ -s $(brew --prefix)/etc/profile.d/autojump.sh ]] && . $(brew --prefix)/etc/profile.d/autojump.sh
-# ================= End Autojump setting ================= #
+
+# nvm setting
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
