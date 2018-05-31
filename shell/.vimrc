@@ -513,7 +513,8 @@ au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
 au BufRead *.py map <buffer> <F5> :w<CR>:!/usr/bin/env python % <CR>
 
 " Custom Key Map
-imap kj <Esc>
+inoremap kj <ESC>`^
+xnoremap kj <ESC>
 
 " Custom Plugin Setting
 let NERDTreeShowHidden=1

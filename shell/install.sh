@@ -12,7 +12,10 @@ if ! [ -d $HOME/.emacs.d/.git ]; then
 fi
 
 # install percol
-sudo pip install percol
+pip install percol
+
+# install ipython
+pip install ipython
 
 # install virtualenv
 # [ -x "$(which virtualenv)" ] || sudo pip install virtualenv

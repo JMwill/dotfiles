@@ -9,6 +9,19 @@ brew upgrade
 apps=(
   google-chrome
   iterm2
+  visual-studio-code
+  dash
+  alfred
+  spectacle
+  the-unarchiver
+  evernote
+  sourcetree
+  shadowsocksx
+  postman
+  xmind
+  slack
+  google-backup-and-sync
+  p4merge
 )
 
 # Install apps to /Applications
