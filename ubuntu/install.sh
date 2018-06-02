@@ -21,9 +21,14 @@ cliapps=(
   git-flow
   xsel
   code
+  neovim
 )
 sudo apt-get install -y ${cliapps[@]}
 pip3 install -U pip
 
+cd "$(dirname "${BASH_SOURCE[0]}")"
+. ../shell/install.sh
+cd -
+
 # change default shell
-chsh -s $(which zsh)
+sudo chsh -s $(which zsh)

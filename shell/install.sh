@@ -1,8 +1,3 @@
-# install oh-my-zsh
-sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
-## plugins
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
 # install emacs.d
 if ! [ -d $HOME/.emacs.d/.git ]; then
   rm $HOME/.emacs.d/init.el
@@ -12,10 +7,10 @@ if ! [ -d $HOME/.emacs.d/.git ]; then
 fi
 
 # install percol
-pip install percol
+pip install --user percol
 
 # install ipython
-pip install ipython
+pip install --user ipython
 
 # install virtualenv
 # [ -x "$(which virtualenv)" ] || sudo pip install virtualenv
@@ -24,3 +19,8 @@ pip install ipython
 
 # install nvm
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
+
+# install oh-my-zsh
+sh -c "$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)"
+## plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
