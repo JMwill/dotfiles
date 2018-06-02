@@ -1,0 +1,20 @@
+[ui]
+username = Will <lijiaming@ifanr.com>
+verbose = true
+editor = vim
+merge = internal:merge3
+[extensions]
+flow = /usr/local/opt/hg-flow/libexec/hgflow.py
+shelve =
+strip =
+mq =
+purge =
+[flow]
+autoshelve = true
+[merge-tools]
+p4.priority = 60
+p4.premerge = True
+p4.executable = /Applications/p4merge.app/Contents/MacOS/p4merge
+p4.gui = True
+p4.args = $base $local $other $output
+p4.binary = False
