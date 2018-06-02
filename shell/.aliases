@@ -1,0 +1,48 @@
+alias vi=vim
+alias em="emacs -nw"
+alias ".."="cd .."
+alias -- -="cd -"
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias _='sudo env PATH=$PATH'
+alias tmux="tmux -2"
+
+if hash python3 2>/dev/null; then
+    alias python="python3"
+    alias pserver="python3 -m http.server";
+elif hash python2 2>/dev/null; then
+    alias python="python2"
+    alias pserver="python2 -m SimpleHTTPServer";
+fi
+
+if [ -x "$(command -v colordiff)" ]; then
+  alias lfolderdiff="colordiff -ENwbur"
+else
+  alias lfolderdiff="diff -ENwbur"
+fi
+
+# rsync relative
+alias rsync-ssh="rsync -vzrtopg --progress -e ssh --delete"
+alias rsync-cloud="rsync-ssh $RSYNC_LOCAL_DIR tencent-cloud:$RSYNC_CLOUD_DIR"
+alias rsync-local="rsync-ssh tencent-cloud:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR"
+
+# npm relative
+alias npmlg="command -v npm > /dev/null && npm list -g --depth=0 2>/dev/null"
+alias npmln="command -v npm > /dev/null && npm list --depth=0 2>/dev/null"
+
+# git relative
+alias glook-back="git log --reverse --ancestry-path HEAD^..$1"
+alias gset-back="git reset --hard"
+alias gdiff="git difftool"
+
+# docker relative
+alias dkps="docker ps"
+alias dkst="docker stats"
+alias dkpsa="docker ps -a"
+alias dkimgs="docker images"
+alias dkcpup="docker-compose up -d"
+alias dkcpdown="docker-compose down"
+alias dkcpstart="docker-compose start"
+alias dkcpstop="docker-compose stop"

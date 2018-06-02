@@ -1,0 +1,9 @@
+# ------ example ---------------
+# Host host-name
+#   HostName host-ip-or-host-website-eg-github.com
+#   User login-user-name
+#   PreferredAuthentications publickey
+#   IdentityFile /.ssh/parent/path/.ssh/id_rsa
+#   UseKeychain yes
+#   AddKeysToAgent yes
+# ----------------------------
