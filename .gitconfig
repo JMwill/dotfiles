@@ -1,8 +1,8 @@
 [user]
-  name = JMwill
-  email = 787505998@qq.com
+	name = JMwill
+	email = 787505998@qq.com
 [core]
-  excludesfile = ~/.gitignore_global
+	excludesfile = ~/.gitignore_global
   editor = vim
 [alias]
   co = checkout
