@@ -12,6 +12,7 @@ export ZSH_PLUGINS_ARRAY=(
   git
   git-extras
   git-flow
+  mercurial
   autojump
   colored-man
   colorize

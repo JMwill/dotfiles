@@ -116,8 +116,8 @@ if ! shopt -oq posix; then
 fi
 
 # load custom config file
-if [ -f ~/dotfiles/custom/.bashrc ]; then
-    . ~/dotfiles/custom/.bashrc
+if [ -f "$DOTFILES_PATH"/custom/.bashrc ]; then
+    . "$DOTFILES_PATH"/custom/.bashrc
 fi
 
 # display git branch

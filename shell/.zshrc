@@ -12,8 +12,18 @@ export ZSH=~/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 # ZSH_THEME="robbyrussell"
 # ZSH_THEME="random"
-# ZSH_THEME="powerlevel9k/powerlevel9k"
-ZSH_THEME="agnoster"
+# ZSH_THEME="agnoster"
+ZSH_THEME="powerlevel9k/powerlevel9k"
+
+# powerlevel9k setting
+# left side config
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable vcs)
+# right side config
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs history ram load time)
+# not show user
+DEFAULT_USER=$USER
+# more icon
+POWERLEVEL9K_MODE='nerdfont-complete'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -90,7 +100,7 @@ ZSH_THEME="agnoster"
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
 # * ~/.extra can be used for other settings you don’t want to commit.
-for file in ~/dotfiles/shell/.{path,prompt,exports,aliases,functions,extra}; do
+for file in "$DOTFILES_PATH"/shell/.{path,zsh_prompt,exports,aliases,functions,extra}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;

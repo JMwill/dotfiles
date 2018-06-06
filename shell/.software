@@ -1,5 +1,5 @@
 # Enable tab completion
-export BASH_GIT_SETTING="$HOME/dotfiles/shell/bash-git-setting"
+export BASH_GIT_SETTING="$DOTFILES_PATH/shell/bash-git-setting"
 [ -f $BASH_GIT_SETTING/git-completion.bash ] && source $BASH_GIT_SETTING/git-completion.bash
 
 # Autojump setting
