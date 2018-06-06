@@ -1,8 +1,8 @@
 [user]
-	name = JMwill
-	email = 787505998@qq.com
+  name = JMwill
+  email = 787505998@qq.com
 [core]
-	excludesfile = ~/.gitignore_global
+  excludesfile = ~/.gitignore_global
   editor = vim
 [alias]
   co = checkout
@@ -12,6 +12,6 @@
   unstage = reset HEAD --
   last = log -1 HEAD
 [diff]
-    tool = default-difftool
+  tool = default-difftool
 [difftool "default-difftool"]
-    cmd = code --wait --diff $LOCAL $REMOTE
+  cmd = code --wait --diff $LOCAL $REMOTE
