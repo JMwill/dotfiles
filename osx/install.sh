@@ -2,7 +2,7 @@ has_cmd() {
   type "$1" > /dev/null 2>&1
 }
 
-if has_cmd "brew"; then
+if ! has_cmd "brew"; then
   echo "Installing homebrew..."
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 fi
@@ -34,12 +34,17 @@ apps=(
   vagrant
   virtualbox
   vagrant-manager
+  font-sourcecodepro-nerd-font
 )
 
 # Install apps to /Applications
 # Default is: /Users/$user/Applications
 echo "=======> installing apps... <======="
 brew cask install --appdir="/Applications" ${apps[@]}
+
+# install font
+brew tap caskroom/fonts
+brew install cask font-hack-nerd-font
 
 # Cli Apps
 cliapps=(
@@ -55,6 +60,7 @@ cliapps=(
 
 brew install ${cliapps[@]}
 brew install yarn --without-node
+brew reinstall python # for pip2
 
 pip install -U pip
 echo "=======> apps installed <======="

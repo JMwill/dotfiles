@@ -1,1 +1,1 @@
-source ~/dotfiles/shell/.bashrc
+source "$DOTFILES_PATH"/shell/.bashrc
