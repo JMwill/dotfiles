@@ -25,6 +25,7 @@ cliapps=(
 )
 sudo apt-get install -y ${cliapps[@]}
 pip3 install -U pip
+sudo pip install pipenv
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 . ../shell/install.sh
