@@ -56,11 +56,13 @@ cliapps=(
   git
   git-flow
   neovim
+  pipenv
+  mitmproxy
 )
 
 brew install ${cliapps[@]}
 brew install yarn --without-node
-brew reinstall python # for pip2
+# brew reinstall python # for pip2
 
 pip install -U pip
 echo "=======> apps installed <======="
