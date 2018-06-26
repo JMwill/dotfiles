@@ -24,9 +24,9 @@ else
 fi
 
 # rsync relative
-alias rsync-ssh="rsync -vzrtopg --progress -e ssh --delete"
-alias rsync-cloud="rsync-ssh $RSYNC_LOCAL_DIR tencent-cloud:$RSYNC_CLOUD_DIR"
-alias rsync-local="rsync-ssh tencent-cloud:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR"
+alias rssh="rsync -vzrtopg --progress -e ssh --delete"
+alias rtocloud="rssh $RSYNC_LOCAL_DIR tencent:$RSYNC_CLOUD_DIR"
+alias rtolocal="rssh tencent:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR"
 
 # npm relative
 alias npmlg="command -v npm > /dev/null && npm list -g --depth=0 2>/dev/null"

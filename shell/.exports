@@ -6,8 +6,8 @@ else
   export CLASSPATH=$CLASSPATH:~/algs4/algs4.jar
 fi
 
-export RSYNC_LOCAL_DIR='/Users/will/myFile/rsync/'
-export RSYNC_CLOUD_DIR='/home/ubuntu/myFile/rsync/'
+export RSYNC_LOCAL_DIR="$(echo ~)/Personal/rsync-folder/"
+export RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
 export ZSH_PLUGINS_ARRAY=(
   git
   git-extras
