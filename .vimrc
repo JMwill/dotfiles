@@ -1,35 +1,31 @@
-"" General
-set number " Show line numbers
-set linebreak " Break lines at word (requires Wrap lines)
-set showbreak=+++ " Wrap-broken line prefix
-set textwidth=120 " Line wrap (number of cols)
-set showmatch " Highlight matching brace
-set visualbell " Use visual bell (no beeping)
+" Show line numbers
+set number
+" Show row and column ruler information
+set ruler
+" Highlight matching brace
+set showmatch
+" Use visual bell (no beeping)
+set visualbell
+" Make Vim more useful
+set nocompatible
 
-set hlsearch " Highlight all search results
-set smartcase " Enable smart-case search
-set ignorecase " Always case-insensitive
-set incsearch " Searches for strings incrementally
+" Highlight all search results
+set hlsearch
+" Enable smart-case search
+set smartcase
+" Always case-insensitive
+set ignorecase
+" Searches for strings incrementally
+set incsearch
 
-set autoindent " Auto-indent new lines
-set expandtab " Use spaces instead of tabs
-set shiftwidth=2 " Number of auto-indent spaces
-set smartindent " Enable smart-indent
-set smarttab " Enable smart-tabs
-set softtabstop=2 " Number of spaces per Tab
-
-"" Advanced
-set ruler " Show row and column ruler information
-
-set undolevels=1000 " Number of undo levels
+" Number of undo levels
+set undolevels=1000
 
 " Use the Solarized Dark theme
 " set background=dark
 colorscheme solarized
 let g:solarized_termtrans=1
 
-" Make Vim more useful
-set nocompatible
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -71,12 +67,6 @@ set number
 syntax on
 " Highlight current line
 set cursorline
-" Make tabs as wide as two spaces
-set tabstop=2
-" Show “invisible” characters
-" set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-set lcs=tab:▸\ ,trail:·,nbsp:_
-set list
 " Always show status line
 set laststatus=2
 " Enable mouse in all modes
@@ -126,6 +116,32 @@ endif
 "" keymap
 " Enable folding with the spacebar
 nnoremap <space> za
-
-" ESC map
+" ESC key map
 inoremap kj <ESC>`^
+
+" Show “invisible” characters
+" set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+set lcs=tab:\|\ ,eol:¶,extends:→,precedes:←,trail:·,nbsp:·,extends:»
+set list
+
+" Break lines at word (requires Wrap lines)
+set linebreak
+" Wrap-broken line prefix
+set showbreak=→\
+" Line wrap (number of cols)
+set textwidth=120
+
+" Auto-indent new lines
+set autoindent
+" Enable smart-indent
+set smartindent
+" Make tabs as wide as two spaces
+set tabstop=2
+" Enable smart-tabs
+set smarttab
+" Number of spaces per Tab
+set softtabstop=2
+" Use spaces instead of tabs
+set expandtab
+" Number of auto-indent spaces
+set shiftwidth=2
