@@ -46,27 +46,9 @@ brew cask install --appdir="/Applications" ${apps[@]}
 brew tap caskroom/fonts
 brew install cask font-hack-nerd-font
 
-# Cli Apps
-cliapps=(
-  zsh
-  zsh-completions
-  python3
-  autojump
-  emacs
-  git
-  git-flow
-  neovim
-  pipenv
-  mitmproxy
-)
-
-brew install ${cliapps[@]}
-brew install yarn --without-node
 # brew reinstall python # for pip2
 
-pip install -U pip
 echo "=======> apps installed <======="
-
 cd "$(dirname "${BASH_SOURCE[0]}")"
 . ../shell/install.sh
 cd -
