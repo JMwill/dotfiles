@@ -29,6 +29,14 @@ echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>"$DO
 
 sources "$DOTFILES_PATH"/shell/.profile
 
+# Font install
+git clone --depth 1 git@github.com:ryanoasis/nerd-fonts.git
+cd ./nerd-fonts
+chmod +x ./install.sh
+./install.sh Hack
+cd -
+rm -rf ./nerd-fonts
+
 cd "$(dirname "${BASH_SOURCE[0]}")"
 . ../shell/install.sh
 cd -
