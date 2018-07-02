@@ -19,7 +19,7 @@ function doIt() {
 
 function lnIt() {
   for file in ./.{zshrc,vimrc,npmrc,hgrc,gitignore_global,hgignore_global,gitconfig}; do
-    rm ~/"$file";
+    [ -r "$file" ] && [ -f "$file" ] && rm ~/"$file";
     [ -r "$file" ] && [ -f "$file" ] && ln -s ~/.dotfiles/"$file" ~/"$file";
   done;
   unset file;

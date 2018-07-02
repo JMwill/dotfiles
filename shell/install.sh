@@ -14,6 +14,7 @@ cliapps=(
   mitmproxy
   wget
   curl
+  rsync
 )
 
 brew install ${cliapps[@]}
