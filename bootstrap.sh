@@ -14,16 +14,35 @@ function doIt() {
     --exclude "osx/" \
     --exclude "ubuntu/" \
     -avh --no-perms . ~;
-  source ~/.bash_profile;
+  # source ~/.bash_profile;
 }
 
-if [ "$1" == "--force" -o "$1" == "-f" ]; then
-  doIt;
-else
+function lnIt() {
+  ln -s ${files[@]} ${cliapps[@]}
+
+  for file in ./.{zshrc,vimrc,npmrc,hgrc,gitignore_global,hgignore_global,gitconfig}; do
+    [ -r "$file" ] && [ -f "$file" ] && ln -s "$file" "~/.dotfiles/$file";
+  done;
+  unset file;
+
+  rsync -avh --no-perms .vim ~;
+  # source ~/.bash_profile;
+}
+
+if [ "$1" == "--overwrite" -o "$1" == "-o" ]; then
   read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
   echo "";
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     doIt;
   fi;
+elif [ "$1" == "--force" -o "$1" == "-f" ]; then
+  doIt;
+else
+  read -p "This may link files in your home directory and will overwrite .vim folder. Are you sure? (y/n) " -n 1;
+  echo "";
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    lnIt;
+  fi;
 fi;
 unset doIt;
+unset lnIt;
