@@ -30,3 +30,6 @@ export ZSH_PLUGINS_ARRAY=(
   sudo
   web-search
 )
+
+# Functions export
+[ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`

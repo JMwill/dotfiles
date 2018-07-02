@@ -25,7 +25,7 @@ function gqurl () {
 }
 # ================= End Git functions ================= #
 
-# ================= Percol tool setting ================= #
+# ================= Fzf tool setting ================= #
 function pclip() {
     if [ $OS_NAME == CYGWIN ]; then
         putclip $@;
@@ -51,7 +51,7 @@ function baseff() {
     filename=${filename##*./} # remove  ".../" from the beginning
     # Only the filename without path is needed
     # filename should be reasonable
-    local cli=`find . -not -iwholename '*/vendor/*' -not -iwholename '*/bower_components/*' -not -iwholename '*/node_modules/*' -not -iwholename '*/target/*' -not -iwholename '*.svn*' -not -iwholename '*.git*' -not -iwholename '*.sass-cache*' -not -iwholename '*.hg*' -type f -path '*'${filename}'*' -print | ~/.envs/python3/bin/percol`
+    local cli=`find . -not -iwholename '*/vendor/*' -not -iwholename '*/bower_components/*' -not -iwholename '*/node_modules/*' -not -iwholename '*/target/*' -not -iwholename '*.svn*' -not -iwholename '*.git*' -not -iwholename '*.sass-cache*' -not -iwholename '*.hg*' -type f -path '*'${filename}'*' -print | fzf`
     # convert relative path to full path
     echo $(cd $(dirname $cli); pwd)/$(basename $cli)
 }
@@ -64,10 +64,10 @@ function ff() {
     echo -n ${cli} | pclip
 }
 
-function cf() {
-    local cli=`baseff $*`
-    local p=`cygpath -w $cli`
-    echo ${p}
-    echo -n ${p} | pclip;
-}
+# function cf() {
+#     local cli=`baseff $*`
+#     local p=`cygpath -w $cli`
+#     echo ${p}
+#     echo -n ${p} | pclip;
+# }
 # ================= End Percol tool setting ================= #

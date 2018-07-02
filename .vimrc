@@ -145,3 +145,6 @@ set softtabstop=2
 set expandtab
 " Number of auto-indent spaces
 set shiftwidth=2
+
+"" Plugin setup
+set rtp+=/usr/local/opt/fzf
