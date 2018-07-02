@@ -18,10 +18,9 @@ function doIt() {
 }
 
 function lnIt() {
-  ln -s ${files[@]} ${cliapps[@]}
-
   for file in ./.{zshrc,vimrc,npmrc,hgrc,gitignore_global,hgignore_global,gitconfig}; do
-    [ -r "$file" ] && [ -f "$file" ] && ln -s "$file" "~/.dotfiles/$file";
+    rm ~/"$file";
+    [ -r "$file" ] && [ -f "$file" ] && ln -s ~/.dotfiles/"$file" ~/"$file";
   done;
   unset file;
 
@@ -38,7 +37,7 @@ if [ "$1" == "--overwrite" -o "$1" == "-o" ]; then
 elif [ "$1" == "--force" -o "$1" == "-f" ]; then
   doIt;
 else
-  read -p "This may link files in your home directory and will overwrite .vim folder. Are you sure? (y/n) " -n 1;
+  read -p "This may link files in your home directory and will existed file/folder. Are you sure? (y/n) " -n 1;
   echo "";
   if [[ $REPLY =~ ^[Yy]$ ]]; then
     lnIt;

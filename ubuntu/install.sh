@@ -1,13 +1,13 @@
-# vscode preinstall
-curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-
 sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
 sudo apt-get -y autoremove
-sudo apt-get install build-essential curl file git
+sudo apt-get -y install build-essential curl file git
+
+# vscode preinstall
+curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
 
 cliapps=(
   xsel
@@ -30,4 +30,5 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 cd -
 
 # change default shell
+command -v zsh | sudo tee -a /etc/shells
 sudo chsh -s $(which zsh)
