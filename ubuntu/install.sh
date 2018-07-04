@@ -2,7 +2,7 @@ sudo apt-get -y update
 sudo apt-get -y upgrade
 sudo apt-get -y dist-upgrade
 sudo apt-get -y autoremove
-sudo apt-get -y install build-essential curl file git
+sudo apt-get -y install build-essential curl file git unzip
 
 # vscode preinstall
 curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
@@ -36,6 +36,21 @@ brewapps=(
 brew install ${brewapps[@]}
 
 # Font install
+curl https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip -C -o Hack.zip --progress
+unzip -o Hack.zip -d /tmp/; rm Hack.zip
+if [! -d ~/.local/share/fonts ]; then
+  mkdir -p ~/.local/share/fonts
+  cp -r /tmp/Hack/* ~/.local/share/fonts/
+fi
+if [! -d ~/.config/fontconfig/conf.d/]; then
+  mkdir -p ~/.config/fontconfig/conf.d/
+  if [-d config/fontconfig/]; then
+    cp -r config/fontconfig/ ~/.config/fontconfig/conf.d/
+  fi
+fi
+fc-cache -fv
+fc-list | grep "Hack"
+
 git clone --depth 1 git@github.com:ryanoasis/nerd-fonts.git
 cd ./nerd-fonts
 chmod +x ./install.sh
