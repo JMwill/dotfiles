@@ -27,7 +27,13 @@ test -d /home/linuxbrew/.linuxbrew && PATH="/home/linuxbrew/.linuxbrew/bin:/home
 test -r ~/.bash_profile && echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>~/.bash_profile
 echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>"$DOTFILES_PATH"/shell/.profile
 
-sources "$DOTFILES_PATH"/shell/.profile
+source "$DOTFILES_PATH"/shell/.profile
+
+brewapps=(
+  gcc
+)
+
+brew install ${brewapps[@]}
 
 # Font install
 git clone --depth 1 git@github.com:ryanoasis/nerd-fonts.git
