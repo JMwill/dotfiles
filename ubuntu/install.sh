@@ -36,14 +36,12 @@ brewapps=(
 brew install ${brewapps[@]}
 
 # Font install
-curl https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip -C -o Hack.zip --progress
-wait
-unzip -o Hack.zip -d /tmp/; rm Hack.zip
-if [! -d ~/.local/share/fonts ]; then
+curl https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip -C -o Hack.zip --progress && unzip -o Hack.zip -d /tmp/; rm Hack.zip
+if ! [ -d ~/.local/share/fonts ]; then
   mkdir -p ~/.local/share/fonts
   cp -r /tmp/Hack/* ~/.local/share/fonts/
 fi
-if [! -d ~/.config/fontconfig/conf.d/]; then
+if ! [ -d ~/.config/fontconfig/conf.d/]; then
   mkdir -p ~/.config/fontconfig/conf.d/
   if [-d config/fontconfig/]; then
     cp -r config/fontconfig/ ~/.config/fontconfig/conf.d/
