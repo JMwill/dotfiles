@@ -37,6 +37,7 @@ brew install ${brewapps[@]}
 
 # Font install
 curl https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip -C -o Hack.zip --progress
+wait
 unzip -o Hack.zip -d /tmp/; rm Hack.zip
 if [! -d ~/.local/share/fonts ]; then
   mkdir -p ~/.local/share/fonts
@@ -50,13 +51,6 @@ if [! -d ~/.config/fontconfig/conf.d/]; then
 fi
 fc-cache -fv
 fc-list | grep "Hack"
-
-git clone --depth 1 git@github.com:ryanoasis/nerd-fonts.git
-cd ./nerd-fonts
-chmod +x ./install.sh
-./install.sh Hack
-cd -
-rm -rf ./nerd-fonts
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
 . ../shell/install.sh
