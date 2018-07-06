@@ -36,7 +36,8 @@ brewapps=(
 brew install ${brewapps[@]}
 
 # Font install
-curl https://github.com/source-foundry/Hack/releases/download/v3.003/Hack-v3.003-ttf.zip -C -o Hack.zip --progress && unzip -o Hack.zip -d /tmp/; rm Hack.zip
+unzip -o "$DOTFILES_PATH"/ubuntu/Hack.zip -d /tmp/
+rm Hack.zip
 if ! [ -d ~/.local/share/fonts ]; then
   mkdir -p ~/.local/share/fonts
   cp -r /tmp/Hack/* ~/.local/share/fonts/
@@ -51,7 +52,7 @@ fc-cache -fv
 fc-list | grep "Hack"
 
 cd "$(dirname "${BASH_SOURCE[0]}")"
-. ../shell/install.sh
+. "$DOTFILES_PATH"/shell/install.sh
 cd -
 
 # change default shell
