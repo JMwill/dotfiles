@@ -8,6 +8,7 @@ alias .....="cd ../../../.."
 alias ......="cd ../../../../.."
 alias _='sudo env PATH=$PATH'
 alias tmux="tmux -2"
+alias rm='echo "This is not the command you are looking for."; false'
 
 if hash python3 2>/dev/null; then
     alias python="python3"

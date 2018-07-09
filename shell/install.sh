@@ -22,6 +22,7 @@ brew install yarn --without-node
 
 # pip install -U pip
 pip3 install -U pip
+pip install trash-cli
 
 # install emacs.d
 if ! [ -d $HOME/.emacs.d/.git ]; then
