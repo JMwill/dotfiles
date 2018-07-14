@@ -37,14 +37,13 @@ brew install ${brewapps[@]}
 
 # Font install
 unzip -o "$DOTFILES_PATH"/ubuntu/Hack.zip -d /tmp/
-rm Hack.zip
 if ! [ -d ~/.local/share/fonts ]; then
   mkdir -p ~/.local/share/fonts
   cp -r /tmp/Hack/* ~/.local/share/fonts/
 fi
-if ! [ -d ~/.config/fontconfig/conf.d/]; then
-  mkdir -p ~/.config/fontconfig/conf.d/
-  if [-d config/fontconfig/]; then
+if ! [ -d ~/.config/fontconfig/conf.d ]; then
+  mkdir -p ~/.config/fontconfig/conf.d
+  if [ -d config/fontconfig ]; then
     cp -r config/fontconfig/ ~/.config/fontconfig/conf.d/
   fi
 fi
