@@ -1,13 +1,11 @@
 cliapps=(
   python
-  zsh
   zsh-completions
   autojump
   emacs
   git
   git-flow
   pipenv
-  # neovim
   vim
   fzf
   ipython

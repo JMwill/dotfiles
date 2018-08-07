@@ -8,6 +8,7 @@ if ! has_cmd "brew"; then
 fi
 brew update
 brew upgrade
+brew install zsh
 
 # Apps
 apps=(

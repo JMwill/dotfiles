@@ -14,6 +14,7 @@ sudo apt-get -y update
 cliapps=(
   xsel
   code
+  zsh
 )
 
 sudo apt-get install -y ${cliapps[@]}
