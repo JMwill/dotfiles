@@ -19,13 +19,9 @@ cliapps=(
 sudo apt-get install -y ${cliapps[@]}
 
 # Linuxbrew install
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+git clone https://github.com/Linuxbrew/brew.git ~/.linuxbrew
 
 DOTFILES_PATH=~/.dotfiles
-test -d ~/.linuxbrew && PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"
-test -d /home/linuxbrew/.linuxbrew && PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:$PATH"
-test -r ~/.bash_profile && echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>~/.bash_profile
-echo "export PATH='$(brew --prefix)/bin:$(brew --prefix)/sbin'":'"$PATH"' >>"$DOTFILES_PATH"/shell/.profile
 
 source "$DOTFILES_PATH"/shell/.profile
 
