@@ -1,5 +1,10 @@
 DOTFILES_PATH=~/.dotfiles
 
+# Helper Function
+has_cmd() {
+  type "$1" > /dev/null 2>&1
+}
+
 read -p "Did you setup the valid ssh config? (y/n) " -n 1;
 echo "";
 if [[ $REPLY =~ ^[Yy]$ ]]; then

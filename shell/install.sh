@@ -30,11 +30,6 @@ if ! [ -d $HOME/.emacs.d/.git ]; then
   cd $HOME/.emacs.d; git reset --hard stable
 fi
 
-# install powerlevel9k
-if [ -d $HOME/.oh-my-zsh ]; then
-  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
-fi
-
 if has_cmd "wget"; then
   echo "Install via wget"
   # install nvm
@@ -50,5 +45,11 @@ else
   # install oh-my-zsh
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 fi
+
+# install powerlevel9k
+if [ -d $HOME/.oh-my-zsh ]; then
+  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+fi
+
 ## plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting

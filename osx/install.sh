@@ -1,7 +1,3 @@
-has_cmd() {
-  type "$1" > /dev/null 2>&1
-}
-
 if ! has_cmd "brew"; then
   echo "Installing homebrew..."
   ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
