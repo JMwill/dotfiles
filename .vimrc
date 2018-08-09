@@ -4,8 +4,6 @@ set number
 set ruler
 " Highlight matching brace
 set showmatch
-" Use visual bell (no beeping)
-set visualbell
 " Make Vim more useful
 set nocompatible
 
@@ -61,8 +59,6 @@ set modelines=4
 " Enable per-directory .vimrc files and disable unsafe commands in them
 set exrc
 set secure
-" Enable line numbers
-set number
 " Enable syntax highlighting
 syntax on
 " Highlight current line
@@ -71,8 +67,6 @@ set cursorline
 set laststatus=2
 " Enable mouse in all modes
 set mouse=a
-" Disable error bells
-set noerrorbells
 " Don’t reset cursor to start of line when moving around.
 set nostartofline
 " Don’t show the intro message when starting Vim
@@ -121,7 +115,8 @@ inoremap kj <ESC>`^
 
 " Show “invisible” characters
 " set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-set lcs=tab:\|\ ,eol:¶,extends:→,precedes:←,trail:·,nbsp:·,extends:»
+" set lcs=tab:\|\ ,eol:¶,extends:→,precedes:←,trail:·,nbsp:·,extends:»
+set lcs=tab:\|\ ,extends:→,precedes:←,trail:·,nbsp:·,extends:»
 set list
 
 " Break lines at word (requires Wrap lines)

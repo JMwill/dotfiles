@@ -52,5 +52,7 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 cd -
 
 # change default shell
-command -v zsh | sudo tee -a /etc/shells
-sudo chsh -s $(which zsh)
+if ! grep -q "/zsh" /etc/shells; then
+  command -v zsh | sudo tee -a /etc/shells
+fi
+sudo chsh -s "$(command -v zsh)" "${USER}"
