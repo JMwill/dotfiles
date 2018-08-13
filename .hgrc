@@ -9,6 +9,7 @@ shelve =
 strip =
 mq =
 purge =
+rebase =
 [flow]
 autoshelve = true
 [merge-tools]
