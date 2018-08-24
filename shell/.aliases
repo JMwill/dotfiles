@@ -47,3 +47,7 @@ alias dkcpup="docker-compose up -d"
 alias dkcpdown="docker-compose down"
 alias dkcpstart="docker-compose start"
 alias dkcpstop="docker-compose stop"
+
+# x11 client
+# X11 client
+alias localablexhost="xhost + 127.0.0.1"
