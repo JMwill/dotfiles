@@ -1,4 +1,5 @@
 cliapps=(
+  tmux
   python
   zsh-completions
   autojump
