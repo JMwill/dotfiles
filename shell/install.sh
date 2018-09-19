@@ -7,7 +7,6 @@ cliapps=(
   git
   git-flow
   pipenv
-  vim
   fzf
   ipython
   mitmproxy
@@ -17,6 +16,7 @@ cliapps=(
 )
 
 brew install ${cliapps[@]}
+brew install vim --with-lua --with-override-system-vi
 brew install yarn --without-node
 
 # pip install -U pip
