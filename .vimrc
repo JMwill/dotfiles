@@ -1,48 +1,216 @@
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Maintainer:
+"   JMwill
+"
+"
+" Sections:
+"   -> Reconfig default setting
+"   -> User Interface
+"   -> Themes & Colors & Fonts
+"   -> System setting
+"   -> Files & Backups & Undo
+"   -> Functions
+"   -> Key binding & Custom Command
+"
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Reconfig default setting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set how many lines of history VIM has to remember
+set history=1000
+" Enable filetype plugins
+filetype plugin on
+filetype indent on
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" With a map leader it's possible to do extra key combinations
+" like <leader>w saves the current file
+let mapleader=","
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => User Interface
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Set 7 lines to the cursor - when moving vertically using j/k
+set scrolloff=7
+
+" Enhance command-line completion, Turn on the Wild menu
+set wildmenu
+
 " Show line numbers
 set number
-" Show row and column ruler information
+
+" Always show cursor position (show row and column ruler information)
 set ruler
+
 " Highlight matching brace
 set showmatch
+
 " Make Vim more useful
 set nocompatible
 
 " Highlight all search results
 set hlsearch
+
 " Enable smart-case search
 set smartcase
+
 " Always case-insensitive
 set ignorecase
+
 " Searches for strings incrementally
 set incsearch
 
 " Number of undo levels
 set undolevels=1000
 
-" Use the Solarized Dark theme
-" set background=dark
-colorscheme solarized
-let g:solarized_termtrans=1
+" Height of the command bar
+set cmdheight=1
 
+" A buffer becomes hidden when it is abandoned
+set hid
+
+" Don't redraw while executing macros (good performance config)
+set lazyredraw
+
+" No annoying sound on errors
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+
+" Properly disable sound on errors on MacVim
+if has("gui_macvim")
+    autocmd GUIEnter * set vb t_vb=
+endif
+
+" Add a bit extra margin to the left
+set foldcolumn=1
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+" Ignore compiled files
+set wildignore=*.o,*~,*.pyc
+if has("win16") || has("win32")
+  set wildignore+=.git\*,.hg\*,.svn\*
+else
+  set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store
+endif
+
+" Highlight current line
+set cursorline
+
+" Always show status line
+set laststatus=2
+
+" Don’t show the intro message when starting Vim
+set shortmess=atI
+
+" Show the (partial) command as it’s being typed
+set showcmd
+
+" Use relative line numbers
+if exists("&relativenumber")
+  set relativenumber
+  au BufReadPost * set relativenumber
+endif
+
+" Show the current mode
+set showmode
+
+" Show the filename in the window titlebar
+set title
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Themes & Colors & Fonts
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Enable syntax highlighting
+syntax enable
+
+" Enable 256 colors palette in Gnome Terminal
+if $COLORTERM == 'gnome-terminal'
+  set t_Co=256
+endif
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+try
+  " Use the Solarized Dark theme
+  " set background=dark
+  let g:solarized_termtrans=1
+  colorscheme solarized
+catch
+endtry
+
+set background=dark
+
+" Show “invisible” characters
+" set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
+" set lcs=tab:\|\ ,eol:¶,extends:→,precedes:←,trail:·,nbsp:·,extends:»
+set lcs=tab:\|\ ,precedes:←,trail:·,nbsp:·,extends:»
+set list
+
+" Break lines at word (requires Wrap lines)
+set linebreak
+
+" Line wrap (number of cols)
+set textwidth=120
+
+" Auto-indent new lines
+set autoindent
+
+" Enable smart-indent
+set smartindent
+
+" Make tabs as wide as two spaces
+set tabstop=2
+
+" Enable smart-tabs
+set smarttab
+
+" Number of spaces per Tab
+set softtabstop=2
+
+" Use spaces instead of tabs
+set expandtab
+
+" Number of auto-indent spaces
+set shiftwidth=2
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => System setting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
-" Enhance command-line completion
-set wildmenu
+
 " Allow cursor keys in insert mode
 set esckeys
-" Allow backspace in insert mode
-set backspace=indent,eol,start
+
 " Optimize for fast terminal connections
 set ttyfast
-" Add the g flag to search/replace by default
-set gdefault
-" Use UTF-8 without BOM
-set encoding=utf-8 nobomb
-" Change mapleader
-let mapleader=","
-" Don’t add empty newlines at the end of files
-set binary
-set noeol
+
+" Enable mouse in all modes
+set mouse=a
+
+" Don’t reset cursor to start of line when moving around.
+set nostartofline
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Files & Backups & Undo
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Centralize backups, swapfiles and undo history
 set backupdir=~/.vim/backups
 set directory=~/.vim/swaps
@@ -53,49 +221,10 @@ endif
 " Don’t create backups when editing files in certain directories
 set backupskip=/tmp/*,/private/tmp/*
 
-" Respect modeline in files
-set modeline
-set modelines=4
-" Enable per-directory .vimrc files and disable unsafe commands in them
-set exrc
-set secure
-" Enable syntax highlighting
-syntax on
-" Highlight current line
-set cursorline
-" Always show status line
-set laststatus=2
-" Enable mouse in all modes
-set mouse=a
-" Don’t reset cursor to start of line when moving around.
-set nostartofline
-" Don’t show the intro message when starting Vim
-set shortmess=atI
-" Show the current mode
-set showmode
-" Show the filename in the window titlebar
-set title
-" Show the (partial) command as it’s being typed
-set showcmd
-" Use relative line numbers
-if exists("&relativenumber")
-  set relativenumber
-  au BufReadPost * set relativenumber
-endif
-" Start scrolling three lines before the horizontal window border
-set scrolloff=3
-
-" Strip trailing whitespace (,ss)
-function! StripWhitespace()
-  let save_cursor = getpos(".")
-  let old_query = getreg('/')
-  :%s/\s\+$//e
-  call setpos('.', save_cursor)
-  call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
-" Save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
+" Or Turn backup off, since most stuff is in SVN, git et.c anyway...
+" set nobackup
+" set nowb
+" set noswapfile
 
 " Automatic commands
 if has("autocmd")
@@ -107,39 +236,36 @@ if has("autocmd")
   autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
 endif
 
-"" keymap
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Functions
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Strip trailing whitespace (,ss)
+function! StripWhitespace()
+  let save_cursor = getpos(".")
+  let old_query = getreg('/')
+  :%s/\s\+$//e
+  call setpos('.', save_cursor)
+  call setreg('/', old_query)
+endfunction
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Key binding & Custom Command
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Fast saving
+nmap <leader>w :w!<cr>
+
+" :W sudo saves the file
+" (useful for handling the permission-denied error)
+command W w !sudo tee % > /dev/null
+
 " Enable folding with the spacebar
 nnoremap <space> za
+
 " ESC key map
 inoremap kj <ESC>`^
 
-" Show “invisible” characters
-" set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-" set lcs=tab:\|\ ,eol:¶,extends:→,precedes:←,trail:·,nbsp:·,extends:»
-set lcs=tab:\|\ ,extends:→,precedes:←,trail:·,nbsp:·,extends:»
-set list
+" strip white space
+noremap <leader>ss :call StripWhitespace()<CR>
 
-" Break lines at word (requires Wrap lines)
-set linebreak
-" Wrap-broken line prefix
-set showbreak=→\
-" Line wrap (number of cols)
-set textwidth=120
-
-" Auto-indent new lines
-set autoindent
-" Enable smart-indent
-set smartindent
-" Make tabs as wide as two spaces
-set tabstop=2
-" Enable smart-tabs
-set smarttab
-" Number of spaces per Tab
-set softtabstop=2
-" Use spaces instead of tabs
-set expandtab
-" Number of auto-indent spaces
-set shiftwidth=2
-
-"" Plugin setup
-set rtp+=/usr/local/opt/fzf
