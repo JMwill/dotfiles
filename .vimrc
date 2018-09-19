@@ -11,6 +11,7 @@
 "   -> Files & Backups & Undo
 "   -> Functions
 "   -> Key binding & Custom Command
+"   -> Plugins
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -127,6 +128,9 @@ set showmode
 " Show the filename in the window titlebar
 set title
 
+" Format the status line
+set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Themes & Colors & Fonts
@@ -145,12 +149,12 @@ set encoding=utf8
 try
   " Use the Solarized Dark theme
   " set background=dark
-  let g:solarized_termtrans=1
-  colorscheme solarized
+  " let g:solarized_termtrans=1
+  " colorscheme solarized
+  let g:badwolf_darkgutter = 1
+  colorscheme badwolf
 catch
 endtry
-
-set background=dark
 
 " Show “invisible” characters
 " set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
@@ -189,8 +193,14 @@ set shiftwidth=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => System setting
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use the OS clipboard by default (on versions compiled with `+clipboard`)
-set clipboard=unnamed
+" yank to clipboard
+if has("clipboard")
+  set clipboard=unnamed " Use the OS clipboard by default (on versions compiled with `+clipboard`)
+
+  if has("unnamedplus") " X11 support
+    set clipboard+=unnamedplus
+  endif
+endif
 
 " Allow cursor keys in insert mode
 set esckeys
@@ -249,12 +259,23 @@ function! StripWhitespace()
   call setreg('/', old_query)
 endfunction
 
+" Returns true if paste mode is enabled
+function! HasPaste()
+  if &paste
+    return 'PASTE MODE  '
+  endif
+  return ''
+endfunction
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Key binding & Custom Command
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fast saving
 nmap <leader>w :w!<cr>
+
+" Search current folder file
+nmap <leader>p :FZF
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -269,3 +290,8 @@ inoremap kj <ESC>`^
 " strip white space
 noremap <leader>ss :call StripWhitespace()<CR>
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set rtp+=/usr/local/opt/fzf
