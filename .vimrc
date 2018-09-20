@@ -66,9 +66,6 @@ set ignorecase
 " Searches for strings incrementally
 set incsearch
 
-" Number of undo levels
-set undolevels=1000
-
 " Height of the command bar
 set cmdheight=1
 
@@ -148,7 +145,7 @@ set encoding=utf8
 
 try
   " Use the Solarized Dark theme
-  " set background=dark
+  set background=dark
   " let g:solarized_termtrans=1
   " colorscheme solarized
   let g:badwolf_darkgutter = 1
@@ -162,11 +159,23 @@ endtry
 set lcs=tab:\|\ ,precedes:←,trail:·,nbsp:·,extends:»
 set list
 
-" Break lines at word (requires Wrap lines)
-set linebreak
+" Wrap lines
+set wrap
 
 " Line wrap (number of cols)
-set textwidth=120
+set textwidth=79
+
+" Number of spaces per Tab
+set softtabstop=2
+
+" Make tabs as wide as two spaces
+set tabstop=2
+
+" Number of auto-indent spaces
+set shiftwidth=2
+
+" Break lines at word (requires Wrap lines)
+set linebreak
 
 " Auto-indent new lines
 set autoindent
@@ -174,20 +183,11 @@ set autoindent
 " Enable smart-indent
 set smartindent
 
-" Make tabs as wide as two spaces
-set tabstop=2
-
 " Enable smart-tabs
 set smarttab
 
-" Number of spaces per Tab
-set softtabstop=2
-
 " Use spaces instead of tabs
 set expandtab
-
-" Number of auto-indent spaces
-set shiftwidth=2
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -222,14 +222,22 @@ set ffs=unix,dos,mac
 " => Files & Backups & Undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Centralize backups, swapfiles and undo history
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
-if exists("&undodir")
+" Turn persistent undo on
+try
   set undodir=~/.vim/undo
-endif
+  set backupdir=~/.vim/backups
+  set backupskip=/tmp/*,/private/tmp/*
+  set directory=~/.vim/swaps
+  set backup
+  set undofile
+  set writebackup
+catch
+endtry
+
+" Number of undo levels
+set undolevels=1000
 
 " Don’t create backups when editing files in certain directories
-set backupskip=/tmp/*,/private/tmp/*
 
 " Or Turn backup off, since most stuff is in SVN, git et.c anyway...
 " set nobackup
@@ -267,6 +275,23 @@ function! HasPaste()
   return ''
 endfunction
 
+function! VisualSelection(direction, extra_filter) range
+  let l:saved_reg = @"
+  execute "normal! vgvy"
+
+  let l:pattern = escape(@", "\\/.*'$^~[]")
+  let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+  if a:direction == 'gv'
+    call CmdLine("Ack '" . l:pattern . "' " )
+  elseif a:direction == 'replace'
+    call CmdLine("%s" . '/'. l:pattern . '/')
+  endif
+
+  let @/ = l:pattern
+  let @" = l:saved_reg
+endfunction
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Key binding & Custom Command
@@ -289,6 +314,27 @@ inoremap kj <ESC>`^
 
 " strip white space
 noremap <leader>ss :call StripWhitespace()<CR>
+
+" turn off search highlight
+nnoremap <leader>/ :nohlsearch<CR>
+
+" move vertically by visual line
+nnoremap j gj
+nnoremap k gk
+
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
+vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
