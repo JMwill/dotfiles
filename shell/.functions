@@ -64,6 +64,7 @@ function ff() {
     echo -n ${cli} | pclip
 }
 
+# Windows system file path search
 # function cf() {
 #     local cli=`baseff $*`
 #     local p=`cygpath -w $cli`

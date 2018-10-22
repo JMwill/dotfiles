@@ -8,6 +8,7 @@ fi
 
 export RSYNC_LOCAL_DIR="$(echo ~)/Personal/rsync-folder/"
 export RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
+export NVM_LAZY_LOAD=true # lozy load nvm npm node
 export ZSH_PLUGINS_ARRAY=(
   git
   git-extras
@@ -17,18 +18,19 @@ export ZSH_PLUGINS_ARRAY=(
   colored-man
   colorize
   github
-  vagrant
   pip
   python
   zsh-syntax-highlighting
-  npm
-  nvm
   docker
   docker-compose
-  django
   node
   sudo
-  web-search
+  zsh-nvm # provide lazy load for nvm
+  # nvm
+  # npm
+  # django
+  # web-search
+  # vagrant
 )
 
 # Functions export
