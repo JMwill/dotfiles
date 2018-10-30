@@ -23,15 +23,29 @@ export ZSH_PLUGINS_ARRAY=(
   zsh-syntax-highlighting
   docker
   docker-compose
-  node
   sudo
+  node
+  npm
   zsh-nvm # provide lazy load for nvm
   # nvm
-  # npm
   # django
   # web-search
   # vagrant
 )
+
+# To load default node first
+load_default_node() {
+  local NVM_DIR="$HOME/.nvm"
+  local NVM_DEFAULT_FILE="$NVM_DIR/alias/default"
+  [ -s "$NVM_DEFAULT_FILE" ] &&
+  while IFS='' read -r line || [[ -n "$line" ]]; do
+    local NODE_DEFAULT_VERSION="$line"
+  done < "$NVM_DEFAULT_FILE"
+
+  local DEFAULT_NODE="$NVM_DIR/versions/node/v$NODE_DEFAULT_VERSION"
+  [ -d "$DEFAULT_NODE" ] && export PATH="$DEFAULT_NODE/bin:$PATH"
+}
+load_default_node
 
 # Functions export
 [ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`
