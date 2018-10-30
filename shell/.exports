@@ -15,18 +15,19 @@ export ZSH_PLUGINS_ARRAY=(
   git-flow
   mercurial
   autojump
-  colored-man
-  colorize
-  github
+  colored-man-pages
   pip
   python
   zsh-syntax-highlighting
   docker
   docker-compose
   sudo
-  node
-  npm
+  yarn
   zsh-nvm # provide lazy load for nvm
+  # npm # npm command shortcut
+  # node # node-docs fs; open document in browser
+  # colorize # ccat <file>; output colorize content
+  # github # github shortcut
   # nvm
   # django
   # web-search
