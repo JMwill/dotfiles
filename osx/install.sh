@@ -16,22 +16,25 @@ apps=(
   the-unarchiver
   xquartz
   shadowsocksx
-  xmind
   spectacle
   vlc
+  appcleaner
 
   # develop
   iterm2
   visual-studio-code
-  dash
-  alfred
   sourcetree
   postman
-  p4merge
-  vagrant
   virtualbox
-  vagrant-manager
   font-sourcecodepro-nerd-font
+
+  # unnecessary
+  # xmind
+  # dash
+  # alfred
+  # p4merge
+  # vagrant
+  # vagrant-manager
 )
 
 # Install apps to /Applications
