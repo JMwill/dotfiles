@@ -23,6 +23,7 @@ export ZSH_PLUGINS_ARRAY=(
   docker-compose
   sudo
   yarn
+  fzf-zsh # fzf fuzzy search zsh support
   zsh-nvm # provide lazy load for nvm
   # npm # npm command shortcut
   # node # node-docs fs; open document in browser
