@@ -47,3 +47,13 @@ alias dkimgs="docker images"
 # x11 client
 # X11 client
 alias localablexhost="xhost + 127.0.0.1"
+
+# ls alternative app
+alias ls="exa"
+alias ll="exa -lh"
+alias l="exa -lah"
+alias la="exa -lah"
+alias lsa="exa -lah"
+alias lsg="exa --git"
+alias llg="exa -lh --git"
+alias lag="exa -lah --git"
