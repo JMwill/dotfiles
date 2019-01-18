@@ -13,7 +13,8 @@ cliapps=(
   wget
   curl
   rsync
-  exa
+  exa # alternate ls
+  bat # alternate cat
 )
 
 brew install ${cliapps[@]}

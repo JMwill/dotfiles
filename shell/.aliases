@@ -57,3 +57,6 @@ alias lsa="exa -lah"
 alias lsg="exa --git"
 alias llg="exa -lh --git"
 alias lag="exa -lah --git"
+
+# cat alternative app
+alias cat="bat"
