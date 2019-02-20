@@ -73,6 +73,7 @@ set cmdheight=1
 set hid
 
 " Don't redraw while executing macros (good performance config)
+" Use :redraw to force an update
 set lazyredraw
 
 " No annoying sound on errors
@@ -88,6 +89,12 @@ endif
 
 " Add a bit extra margin to the left
 set foldcolumn=1
+
+" Enable folding
+augroup vimrc
+  au BufReadPre * setlocal foldmethod=indent
+  au BufWinEnter * if &fdm == 'indent' | setlocal foldmethod=manual | endif
+augroup END
 
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
@@ -162,8 +169,8 @@ set list
 " Wrap lines
 set wrap
 
-" Line wrap (number of cols)
-set textwidth=79
+" Break lines at word (requires Wrap lines)
+set linebreak
 
 " Number of spaces per Tab
 set softtabstop=2
@@ -173,9 +180,6 @@ set tabstop=2
 
 " Number of auto-indent spaces
 set shiftwidth=2
-
-" Break lines at word (requires Wrap lines)
-set linebreak
 
 " Auto-indent new lines
 set autoindent
