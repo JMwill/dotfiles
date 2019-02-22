@@ -12,6 +12,7 @@
 "   -> Functions
 "   -> Key binding & Custom Command
 "   -> Plugins
+"   -> Plugins setting
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -133,7 +134,7 @@ set showmode
 set title
 
 " Format the status line
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
+" set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ %l\ \ Column:\ %c
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -163,14 +164,10 @@ endtry
 " Show “invisible” characters
 " set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 " set lcs=tab:\|\ ,eol:¶,extends:→,precedes:←,trail:·,nbsp:·,extends:»
-set lcs=tab:\|\ ,precedes:←,trail:·,nbsp:·,extends:»
-set list
+" set lcs=tab:\|\ ,precedes:←,trail:·,nbsp:·,extends:»
 
-" Wrap lines
-set wrap
-
-" Break lines at word (requires Wrap lines)
-set linebreak
+" softwrap lines
+set wrap linebreak nolist
 
 " Number of spaces per Tab
 set softtabstop=2
@@ -303,18 +300,21 @@ endfunction
 " Fast saving
 nmap <leader>w :w!<cr>
 
-" Search current folder file
-nmap <leader>p :FZF
+" Change CWD of all windows
+nnoremap <leader>cd :cd %:p:h<CR>
+
+" Change CWD of current windows
+nnoremap <leader>lcd :lcd %:p:h<CR>
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
+" command W w !sudo tee % > /dev/null
 
 " Enable folding with the spacebar
 nnoremap <space> za
 
 " ESC key map
-inoremap kj <ESC>`^
+inoremap kj <ESC>
 
 " strip white space
 noremap <leader>ss :call StripWhitespace()<CR>
@@ -338,10 +338,60 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Return to last edit position when opening files (You want this!)
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set rtp+=/usr/local/opt/fzf
+" Specify a directory for plugins
+" - Avoid using standard Vim directory names like 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" fzf plugin
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+
+" ack plugin
+Plug 'mileszs/ack.vim'
+
+" restore view for fold & cursor & etc
+Plug 'vim-scripts/restore_view.vim'
+
+" Intellisense support
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+let g:deoplete#enable_at_startup = 1
+
+" snippet
+" Plug 'Shougo/neosnippet'
+" Plug 'Shougo/neosnippet-snippets'
+
+" python support
+Plug 'zchee/deoplete-jedi', { 'for': 'python' }
+
+" Initialize plugin system
+call plug#end()
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins setting
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" for restore_view.vim
+set viewoptions=cursor,folds,slash,unix
+let g:skipview_files = ['*\.vim']
+
+" for deoplete.vim's requirements: nvim-yarp
+let g:python_host_prog = '/usr/local/bin/python2'
+let g:python3_host_prog = '/usr/local/bin/python3'
+
+" for deoplete-jedi plugin
+let g:deoplete#sources#jedi#statement_length=100
+let g:jedi#completions_enabled = 0
+

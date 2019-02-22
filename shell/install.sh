@@ -15,6 +15,7 @@ cliapps=(
   rsync
   exa # alternate ls
   bat # alternate cat
+  the_silver_searcher
 )
 
 brew install ${cliapps[@]}
@@ -22,7 +23,9 @@ brew install vim --with-lua --with-override-system-vi
 
 # pip install -U pip
 pip3 install -U pip
-pip install trash-cli
+pip3 install trash-cli
+pip3 install --user pynvim
+pip3 install --user jedi
 
 # install emacs.d
 if ! [ -d $HOME/.emacs.d/.git ]; then
@@ -53,9 +56,14 @@ if [ -d $HOME/.oh-my-zsh ]; then
   git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
 fi
 
-## plugins
+## on-my-zsh plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 git clone https://github.com/lukechilds/zsh-nvm.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-nvm
 git clone https://github.com/junegunn/fzf.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf
 git clone https://github.com/Treri/fzf-zsh.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh
 git clone https://github.com/tmux-plugins/tmux-resurrect.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/tmux-resurrect
+
+# vim plugin manager
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+
