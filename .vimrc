@@ -153,7 +153,7 @@ set encoding=utf8
 
 try
   " Use the Solarized Dark theme
-  set background=dark
+  " set background=dark
   " let g:solarized_termtrans=1
   " colorscheme solarized
   let g:badwolf_darkgutter = 1
@@ -395,3 +395,9 @@ let g:python3_host_prog = '/usr/local/bin/python3'
 let g:deoplete#sources#jedi#statement_length=100
 let g:jedi#completions_enabled = 0
 
+" buildin netrw setting
+let g:netrw_liststyle = 3 " list in tree view
+
+" set new command of fzf.vim
+command! -bang -nargs=? -complete=dir DotFiles
+  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --ignore .git -g ""'}, <bang>0)
