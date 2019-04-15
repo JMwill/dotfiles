@@ -52,3 +52,6 @@ load_default_node
 
 # Functions export
 [ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`
+
+# Search english sentence by word in multiple file settings
+export SEN_FOLDER_PATH='/Users/will/Downloads/英语词典/单词句子'
