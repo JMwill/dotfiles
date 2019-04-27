@@ -116,11 +116,16 @@ function senw() {
 
 function senwn() {
     local content=$(_sen_get_parameter $@)
-    sen "^([1-9]+).*?\s$content\s" | ag $content
+    sen "^([1-9]+\.).*?\s$content\s" | ag $content
 }
 
 function senwup() {
     local content=$(_sen_get_parameter $@)
     sen "^[A-Z].*?\s$content\s" | ag $content
+}
+
+function senwdot() {
+    local content=$(_sen_get_parameter $@)
+    sen "\s*•.*?\s$content\s" | ag $content
 }
 # ================= End english learn tool setting ================= #
