@@ -19,6 +19,7 @@ apps=(
   spectacle
   vlc
   appcleaner
+  mactex-no-gui # LaTeX support on Mac
 
   # develop
   iterm2
