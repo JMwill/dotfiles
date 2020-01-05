@@ -19,7 +19,7 @@ cliapps=(
 )
 
 brew install ${cliapps[@]}
-brew install vim --with-lua --with-override-system-vi
+# brew install vim --with-lua --with-override-system-vi
 
 # pip install -U pip
 pip3 install -U pip
@@ -64,6 +64,6 @@ git clone https://github.com/Treri/fzf-zsh.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom
 git clone https://github.com/tmux-plugins/tmux-resurrect.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/tmux-resurrect
 
 # vim plugin manager
-curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+# curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+#     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 

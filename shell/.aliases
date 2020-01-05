@@ -1,5 +1,5 @@
-alias vi=vim
-alias em="emacs -nw"
+alias v=nvim
+alias e="emacs -nw"
 alias ".."="cd .."
 alias -- -="cd -"
 alias ...="cd ../.."
