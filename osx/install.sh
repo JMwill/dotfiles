@@ -10,16 +10,13 @@ brew install zsh
 apps=(
   # tools
   google-chrome
-  evernote
   slack
   google-backup-and-sync
   the-unarchiver
   xquartz
-  shadowsocksx
-  spectacle
-  vlc
+  shadowsocksx-ng
   appcleaner
-  mactex-no-gui # LaTeX support on Mac
+  mathpix-snipping-tool
 
   # develop
   iterm2
