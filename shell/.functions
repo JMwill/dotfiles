@@ -1,26 +1,38 @@
+# ================= Inner utils start ================= #
+function basesed() {
+    if [ "$OS_NAME" = "Darwin" ]; then
+        echo $(gsed $@)
+    else
+        echo $(sed $@)
+    fi
+}
+# ================= Inner utils end ================= #
 # ================= Git function, prefix with g ================= #
 function gurl() {
     if [ -z "$1" ]; then
         echo "Usage: gurl commit-id"
         echo "get the full http url of commit"
     else
-        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|sed -e "s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
+        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|basesed -e"s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
         local url=""
       # github
-        if [ "${msg:0:14}" == "git@github.com" ]; then
-            echo https://github.com/`echo ${msg}|sed -e "s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
+        echo $msg
+        if [ "${msg:0:14}" = "git@github.com" ]; then
+            echo https://github.com/`echo ${msg}|basesed -e"s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
+        elif [ "${msg:0:18}" = "https://github.com" ]; then
+            echo https://github.com/`echo ${msg}|basesed -e"s/^https\:\/\/github\.com\/\(.*\)\.git$/\1/"`/commit/$1
         fi
     fi
 }
 # pick commit id from `git log`
 function gcid () {
-    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|basesed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
     echo ${commit_id}
 }
 
 #pick commit from `git log` and output its url
 function gqurl () {
-    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|percol|sed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|basesed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
     gurl ${commit_id}
 }
 # ================= End Git function ================= #
@@ -76,10 +88,10 @@ function baseff() {
 
 function ff() {
     local cli=`baseff $*`
-    #echo ${cli} | sed 's%^'${HOME}'%~%'
-    #echo -n ${cli}  | sed 's%^'${HOME}'%~%' | pclip
-    echo ${cli}
-    echo -n ${cli} | pclip
+    echo ${cli} | basesed 's%^'${HOME}'%~%'
+    echo -n ${cli}  | basesed 's%^'${HOME}'%~%' | pclip
+    # echo ${cli}
+    # echo -n ${cli} | pclip
 }
 
 # Windows system file path search
@@ -89,7 +101,7 @@ function ff() {
 #     echo ${p}
 #     echo -n ${p} | pclip;
 # }
-# ================= End Percol tool setting ================= #
+# ================= End Fzf tool setting ================= #
 
 # ================= Start english learn tool setting ================= #
 # Search english sentence by word in multiple file
