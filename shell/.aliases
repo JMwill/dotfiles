@@ -1,5 +1,7 @@
-alias v=nvim
-alias e="emacs -nw"
+alias v=vim
+alias e=emacs
+alias ec='emacsclient -nw'
+alias emd='emacs --daemon "$@"'
 alias ".."="cd .."
 alias -- -="cd -"
 alias ...="cd ../.."
@@ -9,6 +11,7 @@ alias ......="cd ../../../../.."
 alias _='sudo env PATH=$PATH'
 alias tmux="tmux -2"
 alias rm='echo "This is not the command you are looking for."; false'
+alias fli='alias | fzf'
 
 if hash python3 2>/dev/null; then
     alias python="python3"
@@ -60,3 +63,6 @@ alias lag="exa -lah --git"
 
 # cat alternative app
 alias cat="bat"
+
+# brew ctags support
+alias ctags="`brew --prefix`/bin/ctags"
