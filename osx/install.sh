@@ -23,7 +23,6 @@ apps=(
   visual-studio-code
   sourcetree
   postman
-  virtualbox
   font-sourcecodepro-nerd-font
 
   # unnecessary

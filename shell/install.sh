@@ -1,15 +1,15 @@
 cliapps=(
   tmux
   python
+  pipenv
+  pyenv
   zsh-completions
   autojump
   emacs
   vim
   git
   git-flow
-  pipenv
   fzf
-  ipython
   mitmproxy
   wget
   curl
@@ -23,8 +23,11 @@ cliapps=(
 brew install ${cliapps[@]}
 
 # pip install -U pip
+pyenv install 3.7.6
+pyenv global 3.7.6
 pip3 install -U pip
-pip3 install trash-cli
+pip3 install --user trash-cli
+pip3 install --user ipython
 pip3 install --user pynvim
 pip3 install --user jedi
 
