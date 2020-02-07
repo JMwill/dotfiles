@@ -1,9 +1,9 @@
 # ================= Inner utils start ================= #
 function basesed() {
     if [ "$OS_NAME" = "Darwin" ]; then
-        echo $(gsed $@)
+        echo -n $(gsed $@)
     else
-        echo $(sed $@)
+        echo -n $(sed $@)
     fi
 }
 # ================= Inner utils end ================= #
@@ -41,7 +41,7 @@ function gqurl () {
 function pclip() {
     if [ "$OS_NAME" = "CYGWIN" ]; then
         putclip $@;
-    elif [ "$OS_NAME" = "Darwin" ]; then
+    elif [ "$OS_NAME" = "Darwin" ] || [ "$(uname)" = "Darwin" ]; then
         pbcopy $@;
     else
         if [ -x /usr/bin/xsel ]; then
@@ -59,7 +59,7 @@ function pclip() {
 function ppaste() {
     if [ "$OS_NAME" = "CYGWIN" ]; then
         getclip;
-    elif [ "$OS_NAME" = "Darwin" ]; then
+    elif [ "$OS_NAME" = "Darwin" ] || [ "$(uname)" = "Darwin" ]; then
         pbpaste;
     else
         if [ -x /usr/bin/xsel ]; then
@@ -83,13 +83,17 @@ function baseff() {
     # filename should be reasonable
     local cli=`find . -not -iwholename '*/vendor/*' -not -iwholename '*/bower_components/*' -not -iwholename '*/node_modules/*' -not -iwholename '*/target/*' -not -iwholename '*.svn*' -not -iwholename '*.git*' -not -iwholename '*.sass-cache*' -not -iwholename '*.hg*' -type f -path '*'${filename}'*' -print | fzf`
     # convert relative path to full path
-    echo $(cd $(dirname $cli); pwd)/$(basename $cli)
+    if [ "$cli" ]; then
+        echo $(cd $(dirname $cli); pwd)/$(basename $cli)
+    fi
 }
 
 function ff() {
     local cli=`baseff $*`
-    echo ${cli} | basesed 's%^'${HOME}'%~%'
-    echo -n ${cli}  | basesed 's%^'${HOME}'%~%' | pclip
+    if [ "$cli" ]; then
+        echo ${cli} | basesed 's%^'${HOME}'%~%'
+        echo -n ${cli}  | basesed 's%^'${HOME}'%~%' | pclip
+    fi
     # echo ${cli}
     # echo -n ${cli} | pclip
 }
