@@ -18,6 +18,7 @@ cliapps=(
   bat # alternate cat
   the_silver_searcher
   gnu-sed
+  w3m
 )
 
 brew install ${cliapps[@]}

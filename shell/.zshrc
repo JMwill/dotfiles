@@ -1,5 +1,7 @@
 # tmux setting need to be set on top
-export TERM="xterm-256color"
+if [ "$TERM" != "dumb" ]; then
+    export TERM="xterm-256color"
+fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -17,9 +19,10 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # powerlevel9k setting
 # left side config
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable vcs)
+POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status background_jobs context dir dir_writable vcs)
 # right side config
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs history ram load time)
+# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs history ram load time)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
 # not show user
 DEFAULT_USER=$USER
 # more icon
