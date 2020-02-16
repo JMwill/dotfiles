@@ -1,41 +1,47 @@
 # ================= Inner utils start ================= #
 function basesed() {
     if [ "$OS_NAME" = "Darwin" ]; then
-        echo -n $(gsed $@)
+        gsed $@
     else
-        echo -n $(sed $@)
+        sed $@
     fi
 }
+function echosed() {
+    echo -n $(basesed $@)
+}
 # ================= Inner utils end ================= #
+
+
 # ================= Git function, prefix with g ================= #
 function gurl() {
     if [ -z "$1" ]; then
         echo "Usage: gurl commit-id"
         echo "get the full http url of commit"
     else
-        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|basesed -e"s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
+        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|echosed -e"s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
         local url=""
       # github
         echo $msg
         if [ "${msg:0:14}" = "git@github.com" ]; then
-            echo https://github.com/`echo ${msg}|basesed -e"s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
+            echo https://github.com/`echo ${msg}|echosed -e"s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
         elif [ "${msg:0:18}" = "https://github.com" ]; then
-            echo https://github.com/`echo ${msg}|basesed -e"s/^https\:\/\/github\.com\/\(.*\)\.git$/\1/"`/commit/$1
+            echo https://github.com/`echo ${msg}|echosed -e"s/^https\:\/\/github\.com\/\(.*\)\.git$/\1/"`/commit/$1
         fi
     fi
 }
 # pick commit id from `git log`
 function gcid () {
-    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|basesed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|echosed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
     echo ${commit_id}
 }
 
 #pick commit from `git log` and output its url
 function gqurl () {
-    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|basesed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
+    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|echosed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
     gurl ${commit_id}
 }
 # ================= End Git function ================= #
+
 
 # ================= Fzf tool setting ================= #
 function pclip() {
@@ -91,8 +97,8 @@ function baseff() {
 function ff() {
     local cli=`baseff $*`
     if [ "$cli" ]; then
-        echo ${cli} | basesed 's%^'${HOME}'%~%'
-        echo -n ${cli}  | basesed 's%^'${HOME}'%~%' | pclip
+        echo ${cli} | echosed 's%^'${HOME}'%~%'
+        echo -n ${cli}  | echosed 's%^'${HOME}'%~%' | pclip
     fi
     # echo ${cli}
     # echo -n ${cli} | pclip
@@ -106,6 +112,7 @@ function ff() {
 #     echo -n ${p} | pclip;
 # }
 # ================= End Fzf tool setting ================= #
+
 
 # ================= Start english learn tool setting ================= #
 # Search english sentence by word in multiple file
@@ -150,10 +157,10 @@ function senwdot() {
 # ================= Start docker setting ================= #
 function dkls() {
     local pos=${1:=1}
-    local dk_img=`docker images --format="table {{.ID}}\t{{.Repository}}:{{.Tag}}\tNone\tImage"|basesed -e"1d" -e"/^[[:space:]]*$/d"`
-    local dk_cnt=`docker container ls --all --format="table {{.ID}}\t{{.Image}}\t{{.Names}}\tContainer"|basesed -e"1d" -e"/^[[:space:]]*$/d"`
-    local dk_ps=`docker ps --format="table {{.ID}}\t{{.Image}}\t{{.Names}}\tPs"|basesed -e"1d" -e"/^[[:space:]]*$/d"`
-    local dk_result=`{echo $dk_img;echo $dk_cnt;echo $dk_ps}|fzf|basesed -e"$(echo -n 's/^\([^ ]\+\)\s\([^ ]\+\)\s\([^ ]\+\)\s\+.*$/\\'$pos'/')"`
+    local dk_img=`docker images --format="table {{.ID}} {{.Repository}}:{{.Tag}} None Image"|basesed -e"1d" -e"/^$/d"`
+    local dk_cnt=`docker container ls --all --format="table {{.ID}} {{.Image}} {{.Names}} Container"|basesed -e"1d" -e"/^$/d"`
+    local dk_ps=`docker ps --format="table {{.ID}} {{.Image}} {{.Names}} Ps"|basesed -e"1d" -e"/^$/d"`
+    local dk_result=`{echo $dk_img;echo $dk_cnt;echo $dk_ps}|fzf|echosed -e"$(echo -n 's/^\([^ ]\+\)\s\([^ ]\+\)\s\([^ ]\+\)\s\+.*$/\\'$pos'/')"`
     echo -n $dk_result
 }
 
