@@ -166,12 +166,15 @@ function dkrun() {
 
 function dkexec() {
     local dk_id=`dkls 1`
-    if [ -n "$1" ] && [ -n "$dk_id" ]; then
+    if [ -n "$dk_id" ]; then
         docker exec -it ${dk_id} /bin/bash --login
     fi
 }
 
 function dkmysqlexec() {
-    dkexec mysql -uroot -p
+    local dk_id=`dkls 1`
+    if [ -n "$dk_id" ]; then
+        docker exec -it ${dk_id} mysql -uroot -p
+    fi
 }
 # ================= End docker setting ================= #
