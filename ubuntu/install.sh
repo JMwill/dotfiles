@@ -34,6 +34,7 @@ source "$DOTFILES_PATH"/shell/.profile
 
 brewapps=(
   gcc
+  emacs
 )
 
 brew install ${brewapps[@]}

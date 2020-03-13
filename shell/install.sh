@@ -5,7 +5,6 @@ cliapps=(
   pyenv
   zsh-completions
   autojump
-  emacs
   vim
   git
   git-flow

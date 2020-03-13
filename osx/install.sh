@@ -12,11 +12,13 @@ apps=(
   google-chrome
   slack
   google-backup-and-sync
-  the-unarchiver
   xquartz
-  shadowsocksx-ng
   appcleaner
   mathpix-snipping-tool
+  clashx
+  keka
+  iina
+  emacs
 
   # develop
   iterm2
@@ -26,6 +28,9 @@ apps=(
   font-sourcecodepro-nerd-font
 
   # unnecessary
+  # cheatsheet
+  # snip
+  # aerial
   # xmind
   # dash
   # alfred
