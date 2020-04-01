@@ -18,6 +18,7 @@ cliapps=(
   the_silver_searcher
   gnu-sed
   w3m
+  hugo
 )
 
 brew install ${cliapps[@]}
