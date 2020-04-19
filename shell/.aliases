@@ -66,3 +66,6 @@ alias cat="bat"
 
 # brew ctags support
 alias ctags="`brew --prefix`/bin/ctags"
+
+# hexo support
+alias hugod="hugo server -D --navigateToChanged"

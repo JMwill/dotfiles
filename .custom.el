@@ -70,3 +70,33 @@
 (elpy-enable)
 (pyenv-mode)
 ;; ========= Python settings =========
+
+;; ========= Code completion and navigation settings =========
+(local-require 'counsel-etags)
+(defun my-setup-develop-environment ()
+  "Set up my develop environment."
+  (interactive)
+  (unless (is-buffer-file-temp)
+    (add-hook 'after-save-hook 'counsel-etags-virtual-update-tags 'append 'local)))
+(add-hook 'prog-mode-hook 'my-setup-develop-environment)
+
+(require 'eacl)
+(with-eval-after-load 'grep
+  (dolist (v '("node_modules"
+               "bower_components"
+               ".sass_cache"
+               ".cache"
+               ".npm"))
+    (add-to-list 'grep-find-ignored-directories v))
+  (dolist (v '("*.min.js"
+               "*.bundle.js"
+               "*.min.css"
+               "*.json"
+               "*.log"))
+    (add-to-list 'grep-find-ignored-files v)))
+;; ========= Code completion and navigation settings =========
+
+;; ========= ox-hugo settings =========
+(with-eval-after-load 'ox
+  (require 'ox-hugo))
+;; ========= ox-hugo settings =========
