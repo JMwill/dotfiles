@@ -1,6 +1,11 @@
 (setq multi-term-program (executable-find "zsh"))
 (setq shell-file-name (executable-find "zsh"))
 
+;; ========= Custom package require =========
+(require-package 'ox-hugo)
+;; ========= Custom package require =========
+
+
 ;; ========= Proxy settings =========
 (setq url-proxy-services
       '(("https" . "localhost:7890")
@@ -101,7 +106,6 @@
     (add-hook 'after-save-hook 'counsel-etags-virtual-update-tags 'append 'local)))
 (add-hook 'prog-mode-hook 'my-setup-develop-environment)
 
-(require 'eacl)
 (with-eval-after-load 'grep
   (dolist (v '("node_modules"
                "bower_components"
