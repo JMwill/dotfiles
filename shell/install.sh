@@ -19,6 +19,7 @@ cliapps=(
   gnu-sed
   w3m
   hugo
+  trash-cli
 )
 
 brew install ${cliapps[@]}
@@ -27,7 +28,6 @@ brew install ${cliapps[@]}
 pyenv install 3.7.6
 pyenv global 3.7.6
 pip3 install -U pip
-pip3 install --user trash-cli
 pip3 install --user ipython
 pip3 install --user pynvim
 pip3 install --user jedi
@@ -58,7 +58,7 @@ fi
 
 # install powerlevel9k
 if [ -d $HOME/.oh-my-zsh ]; then
-  git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k
 fi
 
 ## on-my-zsh plugins

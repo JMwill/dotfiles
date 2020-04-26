@@ -15,18 +15,13 @@ export ZSH=~/.oh-my-zsh
 # ZSH_THEME="robbyrussell"
 # ZSH_THEME="random"
 # ZSH_THEME="agnoster"
-ZSH_THEME="powerlevel9k/powerlevel9k"
 
-# powerlevel9k setting
-# left side config
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(status background_jobs context dir dir_writable vcs)
-# right side config
-# POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs history ram load time)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=()
+# powerlevel10k setting
+ZSH_THEME="powerlevel10k/powerlevel10k"
 # not show user
 DEFAULT_USER=$USER
-# more icon
-POWERLEVEL9K_MODE='nerdfont-complete'
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
