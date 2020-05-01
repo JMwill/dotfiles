@@ -1,10 +1,24 @@
-(setq multi-term-program (executable-find "zsh"))
-(setq shell-file-name (executable-find "zsh"))
-
 ;; ========= Custom package require =========
 (require-package 'ox-hugo)
+(require-package 'pyenv-mode)
+(require-package 'org-download)
 ;; ========= Custom package require =========
 
+;; ========= Custom font face =========
+(load-theme 'badwolf t)
+(when (member "MesloLGS NF" (font-family-list))
+  (set-face-attribute 'default nil :height 140)
+  (set-frame-font "MesloLGS NF" t t))
+;; ========= Custom font face =========
+
+;; Save all tempfiles in $TMPDIR/emacs$UID/
+(defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+(setq backup-directory-alist
+      `((".*" . ,emacs-tmp-dir)))
+(setq auto-save-file-name-transforms
+      `((".*" ,emacs-tmp-dir t)))
+(setq auto-save-list-file-prefix
+      emacs-tmp-dir)
 
 ;; ========= Proxy settings =========
 (setq url-proxy-services
@@ -15,20 +29,10 @@
 
 
 ;; ========= Org mode settings =========
-;; Set browser
-(setq browse-url-browser-function (quote browse-url-generic))
-(setq browse-url-generic-program (cond
-                                  ((string-equal system-type "darwin") "open")
-                                  ((string-equal system-type "gun/linux") (executable-find "firefox"))
-                                  ))
-;; Use the default browser to open the website instead of w3m
-;; (org-link-set-parameters "chrome" :follow (lambda (path) (browse-url-default-macosx-browser (concat "https:" path))))
-
 ;; Add agenda files
 (setq org-agenda-files '("~/gtd/inbox.org"
                          "~/gtd/gtd.org"
                          "~/gtd/tickler.org"))
-
 
 ;; Set up org capture template
 ;; Populates only the EXPORT_FILE_NAME property in the inserted headline.
@@ -123,5 +127,27 @@
 
 ;; ========= ox-hugo settings =========
 (with-eval-after-load 'ox
+  (require 'org-download)
   (require 'ox-hugo))
+
+(defun will//insert-org-or-md-img-link (prefix imagename)
+  (if (equal (file-name-extension (buffer-file-name)) "org")
+      (insert (format "[[%s%s]]" prefix imagename))
+    (insert (format "![%s](%s%s)" imagename prefix imagename))))
+
+(defun will/capture-screenshot (basename)
+  "Take a screenshot into a time stamped unique-named file
+  in the same directory as the org-buffer/markdown-buffer and insert a link to this file."
+  (interactive "sScreenshot name: ")
+  (if (equal basename "")
+      (setq basename (format-time-string "%Y%m%dT%H%M%S")))
+  (progn
+    (setq final-image-full-path (concat basename ".png"))
+    (call-process "screencapture" nil nil nil "-s" final-image-full-path)
+    (if (executable-find "convert")
+        (progn
+          (setq resize-command-str (format "convert %s -resize 800x600 %s" final-image-full-path final-image-full-path))
+          (shell-command-to-string resize-command-str)))
+    (will//insert-org-or-md-img-link "./" (concat basename ".png")))
+  (insert "\n"))
 ;; ========= ox-hugo settings =========
