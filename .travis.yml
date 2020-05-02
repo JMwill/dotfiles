@@ -12,13 +12,14 @@ jobs:
 
 # S: Build Lifecycle
 install:
-  - . scripts/integrity-install.sh
+  - cp -r ./ ~/.dotfiles
+  - . ~/.dotfiles/scripts/integrity-install.sh
 
 # before_script:
 #   - rm -rf folder 2> /dev/null
 
 script:
-  - . scripts/integrity-test.sh
+  - . ~/.dotfiles/scripts/integrity-test.sh
 
 # after_script:
 #   - cd public
