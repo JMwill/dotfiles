@@ -1,0 +1,38 @@
+language: c
+dist: xenial
+os:
+  - osx
+  - linux
+jobs:
+  include:
+    - os: osx
+    - os: linux
+      dist: xenial
+
+
+# S: Build Lifecycle
+install:
+  - . scripts/integrity-install.sh
+
+# before_script:
+#   - rm -rf folder 2> /dev/null
+
+script:
+  - . scripts/integrity-test.sh
+
+# after_script:
+#   - cd public
+#   - git init
+#   - git config user.name "${GITHUB_USERNAME}"
+#   - git config user.email "${GITHUB_EMAIL}"
+#   - git add .
+#   - git commit -m "Update Blog"
+#   - git push --force --quiet "https://${GH_Token}@${GH_REF}" master:gh-pages
+# E: Build LifeCycle
+
+branches:
+  only:
+    - develop
+env:
+  global:
+    - GH_REF: github.com/JMwill/dotfiles.git
