@@ -1,4 +1,22 @@
 #!/usr/bin/env bash
+__brew_install_chacker() {
+    local echoname=$1
+    shift
+    brew ls --versions $@ >/dev/null 2>&1 || ( err_echo "BREW: ${echoname} not fully install" && return 1 )
+}
+
+__dir_exist_checker() {
+    local echoname=$1
+    shift
+    ls $@ >/dev/null 2>&1 || ( err_echo "DIR: ${echoname} not fully exist" && return 1 )
+}
+
+__cmd_install_checker() {
+    local echoname=$1
+    shift
+    command -v $@ >/dev/null 2>&1 || ( err_echo "CMD: ${echoname} not fully install" && return 1 )
+}
+
 __dotfile_install_integrity_test() {
     local TEST_BASIC_BREW_APPS=(
         git-flow fzf wget zsh
@@ -7,12 +25,12 @@ __dotfile_install_integrity_test() {
         exa # alternate ls
         bat # alternate cat
     )
-    brew ls --versions ${TEST_BASIC_BREW_APPS[@]} || ( err_echo 'TEST_BASIC_BREW_APPS not fully install' && return 1 )
+    __brew_install_chacker 'TEST_BASIC_BREW_APPS' ${TEST_BASIC_BREW_APPS[@]} || return 1
 
     local TEST_BASIC_CMD=(
         nvm autojump
     )
-    command -v ${TEST_BASIC_CMD[@]} || ( err_echo 'TEST_BASIC_CMD not fully install' && return 1 )
+    __cmd_install_checker 'TEST_BASIC_CMD' ${TEST_BASIC_CMD[@]} || return 1
 
     local TEST_BASIC_DIR=(
         "$HOME/.oh-my-zsh"
@@ -23,7 +41,7 @@ __dotfile_install_integrity_test() {
         "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/fzf-zsh"
         "${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/tmux-resurrect"
     )
-    test -d ${TEST_BASIC_DIR[@]} || ( err_echo 'TEST_BASIC_DIR not fully install' && return 1 )
+    __dir_exist_checker 'TEST_BASIC_DIR' ${TEST_BASIC_DIR[@]} || return 1
 
     local TEST_HANDY_BREW_APPS=(
         tmux pipenv pyenv mitmproxy wget w3m
@@ -33,22 +51,22 @@ __dotfile_install_integrity_test() {
     )
 
     if [[ ! "$SSH_TTY" && "$OSTYPE" =~ ^darwin ]]; then
-        brew ls --versions ${TEST_HANDY_BREW_APPS[@]} || ( err_echo 'TEST_HANDY_BREW_APPS not fully install' && return 1 )
-        test -d ${TEST_HANDY_DIR[@]} || ( err_echo 'TEST_HANDY_DIR not fully install' && return 1 )
+        __brew_install_chacker 'TEST_HANDY_BREW_APPS' ${TEST_HANDY_BREW_APPS[@]} || return 1
+        __dir_exist_checker 'TEST_HANDY_DIR' ${TEST_HANDY_DIR[@]} || return 1
     else
-        test -d ${TEST_HANDY_DIR[@]} || ( err_echo 'TEST_HANDY_DIR not fully install' && return 1 )
+        __dir_exist_checker 'TEST_HANDY_DIR' ${TEST_HANDY_DIR[@]} || return 1
         local TEST_UBUNTU_BASIC_APPS=(
             gcc
         )
-        brew ls --versions ${TEST_UBUNTU_BASIC_APPS[@]} || ( err_echo 'TEST_UBUNTU_BASIC_APPS not fully install' && return 1 )
+        __brew_install_chacker 'TEST_UBUNTU_BASIC_APPS' ${TEST_UBUNTU_BASIC_APPS[@]} || return 1
         if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
             info_echo "WSL test"
         else
-            brew ls --versions ${TEST_HANDY_BREW_APPS[@]} || ( err_echo 'TEST_HANDY_BREW_APPS not fully install' && return 1 )
+            __brew_install_chacker 'TEST_HANDY_BREW_APPS' ${TEST_HANDY_BREW_APPS[@]} || return 1
             local TEST_UBUNTU_CMD=(
                 xsel
             )
-            command -v ${TEST_UBUNTU_CMD[@]} || ( err_echo 'TEST_UBUNTU_CMD not fully install' && return 1 )
+            __cmd_install_checker 'TEST_UBUNTU_CMD' ${TEST_UBUNTU_CMD[@]} || return 1
         fi
     fi
 
