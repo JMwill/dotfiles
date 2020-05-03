@@ -20,7 +20,7 @@ __dotfile_install_extra() {
             sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
         fi
 
-        retry 5 pip3 install --user ${app[@]}
+        retry 5 pip3 install --user ${pyapps[@]}
     else
         info_echo 'Without pip3; *ipython*, *jedi* not install...'
     fi
