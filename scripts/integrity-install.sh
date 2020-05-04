@@ -2,10 +2,6 @@
 DOTFILES_PATH=~/.dotfiles
 . "$DOTFILES_PATH"/scripts/tools.sh
 
-if ! ( has_cmd "curl" && has_cmd "git" && has_cmd "file" ) ; then
-    info_echo 'Can not install without *git*, *curl*, *file*, *build-essential*; install it now...'
-    retry 5 sudo apt install -y build-essential curl file git
-fi
 # Brew install
 if ! ( has_cmd "brew" ) ; then
     git clone https://github.com/Homebrew/brew ~/.linuxbrew/Homebrew

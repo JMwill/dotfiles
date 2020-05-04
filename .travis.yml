@@ -8,7 +8,9 @@ jobs:
     - os: osx
     - os: linux
       dist: bionic
-
+addons:
+  apt:
+    packages: build-essential curl file git perl
 
 # S: Build Lifecycle
 install:
