@@ -1,13 +1,13 @@
 language: c
-dist: bionic
+# dist: bionic
 os:
   - osx
-  - linux
+  # - linux
 jobs:
   include:
     - os: osx
-    - os: linux
-      dist: bionic
+    # - os: linux
+    #   dist: bionic
 addons:
   apt:
     packages: build-essential curl file git perl
