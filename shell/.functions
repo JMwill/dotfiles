@@ -20,7 +20,7 @@ function gurl() {
     else
         local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|echosed -e"s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
         local url=""
-      # github
+        # github
         echo $msg
         if [ "${msg:0:14}" = "git@github.com" ]; then
             echo https://github.com/`echo ${msg}|echosed -e"s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
@@ -49,6 +49,8 @@ function pclip() {
         putclip $@;
     elif [ "$OS_NAME" = "Darwin" ] || [ "$(uname)" = "Darwin" ]; then
         pbcopy $@;
+    elif grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
+        clip.exe $@
     else
         if [ -x /usr/bin/xsel ]; then
             xsel -ib $@;
@@ -129,27 +131,27 @@ function sen() {
     # awk '{print $0,"\n"}'
     # egrep -irh --colour $@ $dir
     local content=$(_sen_get_parameter $@)
-    ag -S --nofilename --nonumbers $content $SEN_FOLDER_PATH
+    rg -S --no-filename -N $content $SEN_FOLDER_PATH
 }
 
 function senw() {
     local content=$(_sen_get_parameter $@)
-    sen $content | ag "\s$content\s"
+    sen $content | rg "\s$content\s"
 }
 
 function senwn() {
     local content=$(_sen_get_parameter $@)
-    sen "^([1-9]+\.).*?\s$content\s" | ag $content
+    sen "^([1-9]+\.).*?\s$content\s" | rg $content
 }
 
 function senwup() {
     local content=$(_sen_get_parameter $@)
-    sen "^[A-Z].*?\s$content\s" | ag $content
+    sen "^[A-Z].*?\s$content\s" | rg $content
 }
 
 function senwdot() {
     local content=$(_sen_get_parameter $@)
-    sen "\s*•.*?\s$content\s" | ag $content
+    sen "\s*•.*?\s$content\s" | rg $content
 }
 # ================= End english learn tool setting ================= #
 

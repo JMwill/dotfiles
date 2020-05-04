@@ -120,6 +120,11 @@ if [ -f "$DOTFILES_PATH"/custom/.bashrc ]; then
     . "$DOTFILES_PATH"/custom/.bashrc
 fi
 
+for file in "$DOTFILES_PATH"/shell/.{profile,path,bash_prompt,exports}; do
+  [ -r "$file" ] && [ -f "$file" ] && source "$file";
+done;
+unset file;
+
 # display git branch
 #function git_branch {
 #  branch="`git branch 2>/dev/null | grep "^\*" | sed -e "s/^\*\ //"`"

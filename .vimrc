@@ -344,39 +344,39 @@ map <C-l> <C-W>l
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Specify a directory for plugins
-" - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.vim/plugged')
+" " Specify a directory for plugins
+" " - Avoid using standard Vim directory names like 'plugin'
+" call plug#begin('~/.vim/plugged')
 
-" fzf plugin
-Plug '/usr/local/opt/fzf'
-Plug 'junegunn/fzf.vim'
+" " fzf plugin
+" Plug '/usr/local/opt/fzf'
+" Plug 'junegunn/fzf.vim'
 
-" ack plugin
-Plug 'mileszs/ack.vim'
+" " ack plugin
+" Plug 'mileszs/ack.vim'
 
-" restore view for fold & cursor & etc
-Plug 'vim-scripts/restore_view.vim'
+" " restore view for fold & cursor & etc
+" Plug 'vim-scripts/restore_view.vim'
 
-" Intellisense support
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
-let g:deoplete#enable_at_startup = 1
+" " Intellisense support
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+" let g:deoplete#enable_at_startup = 1
 
-" snippet
-" Plug 'Shougo/neosnippet'
-" Plug 'Shougo/neosnippet-snippets'
+" " snippet
+" " Plug 'Shougo/neosnippet'
+" " Plug 'Shougo/neosnippet-snippets'
 
-" python support
-Plug 'zchee/deoplete-jedi', { 'for': 'python' }
+" " python support
+" Plug 'zchee/deoplete-jedi', { 'for': 'python' }
 
-" Initialize plugin system
-call plug#end()
+" " Initialize plugin system
+" call plug#end()
 
 
 
@@ -400,4 +400,4 @@ let g:netrw_liststyle = 3 " list in tree view
 
 " set new command of fzf.vim
 command! -bang -nargs=? -complete=dir DotFiles
-  \ call fzf#vim#files(<q-args>, {'source': 'ag --hidden --ignore .git -g ""'}, <bang>0)
+  \ call fzf#vim#files(<q-args>, {'source': 'rg --hidden --ignore-file .git -H ""'}, <bang>0)

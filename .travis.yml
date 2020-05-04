@@ -1,5 +1,5 @@
 language: c
-dist: xenial
+dist: bionic
 os:
   - osx
   - linux
@@ -7,7 +7,7 @@ jobs:
   include:
     - os: osx
     - os: linux
-      dist: xenial
+      dist: bionic
 
 
 # S: Build Lifecycle
