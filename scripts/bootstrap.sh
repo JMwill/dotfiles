@@ -21,7 +21,7 @@ function doIt() {
 function lnIt() {
     local backup_folder="/tmp/$(date +'%y%m%d%H%M%S-dotfile-bootstrap-ln-backup')"
     local filelist=(
-        .zshrc .vimrc .npmrc .hgrc
+        .zshrc .vimrc .npmrc .hgrc .bashrc
         .gitignore_global .hgignore_global
         .gitconfig .custom.el .ctags
     )

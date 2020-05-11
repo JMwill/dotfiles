@@ -49,8 +49,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
         if ! grep -q "/zsh" /etc/shells; then
             command -v zsh | sudo tee -a /etc/shells
         fi
-        # sudo chsh -s "$(command -v zsh)" "${USER}"
-        sudo chsh -s $(command -v zsh)
+        sudo chsh -s "$(command -v zsh)" "${USER}"
     fi
     . "$DOTFILES_PATH"/scripts/integrity-test.sh
 fi;

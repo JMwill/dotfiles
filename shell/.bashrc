@@ -120,7 +120,7 @@ if [ -f "$DOTFILES_PATH"/custom/.bashrc ]; then
     . "$DOTFILES_PATH"/custom/.bashrc
 fi
 
-for file in "$DOTFILES_PATH"/shell/.{profile,path,bash_prompt,exports}; do
+for file in "$DOTFILES_PATH"/shell/.{profile,path,bash_prompt,exports,software}; do
   [ -r "$file" ] && [ -f "$file" ] && source "$file";
 done;
 unset file;
