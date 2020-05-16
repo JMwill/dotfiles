@@ -130,24 +130,26 @@
   (require 'org-download)
   (require 'ox-hugo))
 
-(defun will//insert-org-or-md-img-link (prefix imagename)
-  (if (equal (file-name-extension (buffer-file-name)) "org")
-      (insert (format "[[%s%s]]" prefix imagename))
-    (insert (format "![%s](%s%s)" imagename prefix imagename))))
+(setq org-download-screenshot-method "screencapture -i %s")
 
-(defun will/capture-screenshot (basename)
-  "Take a screenshot into a time stamped unique-named file
-  in the same directory as the org-buffer/markdown-buffer and insert a link to this file."
-  (interactive "sScreenshot name: ")
-  (if (equal basename "")
-      (setq basename (format-time-string "%Y%m%dT%H%M%S")))
-  (progn
-    (setq final-image-full-path (concat basename ".png"))
-    (call-process "screencapture" nil nil nil "-s" final-image-full-path)
-    (if (executable-find "convert")
-        (progn
-          (setq resize-command-str (format "convert %s -resize 800x600 %s" final-image-full-path final-image-full-path))
-          (shell-command-to-string resize-command-str)))
-    (will//insert-org-or-md-img-link "./" (concat basename ".png")))
-  (insert "\n"))
+;; (defun will//insert-org-or-md-img-link (prefix imagename)
+;;   (if (equal (file-name-extension (buffer-file-name)) "org")
+;;       (insert (format "[[%s%s]]" prefix imagename))
+;;     (insert (format "![%s](%s%s)" imagename prefix imagename))))
+
+;; (defun will/capture-screenshot (basename)
+;;   "Take a screenshot into a time stamped unique-named file
+;;   in the same directory as the org-buffer/markdown-buffer and insert a link to this file."
+;;   (interactive "sScreenshot name: ")
+;;   (if (equal basename "")
+;;       (setq basename (format-time-string "%Y%m%dT%H%M%S")))
+;;   (progn
+;;     (setq final-image-full-path (concat basename ".png"))
+;;     (call-process "screencapture" nil nil nil "-s" final-image-full-path)
+;;     (if (executable-find "convert")
+;;         (progn
+;;           (setq resize-command-str (format "convert %s -resize 800x600 %s" final-image-full-path final-image-full-path))
+;;           (shell-command-to-string resize-command-str)))
+;;     (will//insert-org-or-md-img-link "./" (concat basename ".png")))
+;;   (insert "\n"))
 ;; ========= ox-hugo settings =========
