@@ -57,8 +57,12 @@ load_default_node
 export SEN_FOLDER_PATH='/Users/will/Downloads/英语资料/单词句子'
 
 # Force terminal to connect with proxy
-alias tproxy='export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7891'
-alias tunproxy='unset ALL_PROXY'
+function _export_proxy() {
+    local addr='127.0.0.1'
+    eval "export https_proxy=http://${1:-$addr}:${2:-7890} http_proxy=http://${1:-$addr}:${2:-7890} all_proxy=socks5://${1:-$addr}:${3:-7891}"
+}
+alias tproxy=_export_proxy
+alias tunproxy='unset all_proxy https_proxy http_proxy'
 
 # Add /usr/local/sbin to PATH
 export PATH="/usr/local/sbin:$PATH"
