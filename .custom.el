@@ -6,9 +6,9 @@
 
 ;; ========= Custom font face =========
 (load-theme 'badwolf t)
-(when (member "MesloLGS NF" (font-family-list))
-  (set-face-attribute 'default nil :height 140)
-  (set-frame-font "MesloLGS NF" t t))
+(set-face-attribute 'default nil :height 140)
+;; (when (member "MesloLGS NF" (font-family-list))
+;;   (set-frame-font "MesloLGS NF" t t))
 ;; ========= Custom font face =========
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/
@@ -22,9 +22,9 @@
 
 ;; ========= Proxy settings =========
 (setq url-proxy-services
-      '(("https" . "localhost:7890")
+      '(("no_proxy" . "^\\(localhost\\)")
         ("http" . "localhost:7890")
-        ("no_proxy" . "^\\(localhost\\)")))
+        ("https" . "localhost:7890")))
 ;; ========= Proxy settings =========
 
 
