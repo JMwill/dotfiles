@@ -40,15 +40,15 @@
   (defun org-hugo-new-subtree-post-capture-template ()
     "Returns `org-capture' template string for new Hugo post. See `org-capture-templates' for more information."
     (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-	   (fname (org-hugo-slug title)))
+     (fname (org-hugo-slug title)))
       (mapconcat #'identity
-		 `(
-		   ,(concat "* TODO " title)
-		   ":PROPERTIES:"
-		   ,(concat ":EXPORT_FILE_NAME: " (format-time-string "%Y-%m-%d-") fname)
-		   ":END:"
-		   "%?\n")          ;Place the cursor here finally
-		 "\n"))))
+     `(
+       ,(concat "* TODO " title)
+       ":PROPERTIES:"
+       ,(concat ":EXPORT_FILE_NAME: " (format-time-string "%Y-%m-%d-") fname)
+       ":END:"
+       "%?\n")          ;Place the cursor here finally
+     "\n"))))
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
                                (file+headline "~/gtd/inbox.org" "Tasks")
