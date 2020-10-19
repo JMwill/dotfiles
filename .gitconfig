@@ -1,41 +1,7 @@
 [user]
   name = JMwill
   email = willsurpriseyou@foxmail.com
+[credential]
+  helper = store --file ~/.will-git-credentials
 [core]
-  filemode = true
-  ignorecase = false
-  whitespace = cr-at-eol
-  excludesfile = ~/.gitignore_global
-  editor = vim
-  quotePath = false
-  autocrlf = false
-[color]
-  diff = auto
-  status = auto
-  branch = auto
-  ui = auto
-[alias]
-  edf = mergetool --no-prompt --tool=ediff
-  co = checkout
-  br = branch
-  ci = commit
-  st = status
-  unstage = reset HEAD --
-  last = log -1 HEAD
-
-# [diff]
-#   tool = default-difftool
-# [difftool "default-difftool"]
-#   cmd = code --wait --diff $LOCAL $REMOTE
-[merge]
-  branchdesc = true
-  log = true
-  tool = vimdiff
-[diff]
-  tool = vimdiff
-[mergetool]
-  # no prompt before merge each file
-  prompt = false
-[mergetool.ediff]
-  # use git mergetool ediff to resolve conflicts
-  cmd = emacs -nw -Q --eval \"(setq startup-now t)\" -l \"~/.emacs.d/init.el\" --eval \"(progn (setq ediff-quit-hook 'kill-emacs) (if (file-readable-p \\\"$BASE\\\") (ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\") (ediff-merge-files \\\"$LOCAL\\\" \\\"$REMOTE\\\" nil \\\"$MERGED\\\")))\"
+  excludesfile = ~/.dotfiles/.gitignore_global
