@@ -31,8 +31,6 @@ export ZSH_PLUGINS_ARRAY=(
 [ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`
 ##################### Export OS name #####################
 
-# Search english sentence by word in multiple file settings
-export SEN_FOLDER_PATH='/Users/will/Downloads/英语资料/单词句子'
 
 # Force terminal to connect with proxy
 function _export_proxy() {

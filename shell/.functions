@@ -116,46 +116,6 @@ function ff() {
 # ================= End Fzf tool setting ================= #
 
 
-# ================= Start english learn tool setting ================= #
-# Search english sentence by word in multiple file
-function _sen_get_parameter() {
-    local content=$@
-    if [ -z "$content" ]; then
-        content=$(ppaste)
-    fi
-    echo -n $content
-}
-
-function sen() {
-    # 添加末尾换行符
-    # awk '{print $0,"\n"}'
-    # egrep -irh --colour $@ $dir
-    local content=$(_sen_get_parameter $@)
-    rg -S --no-filename -N $content $SEN_FOLDER_PATH
-}
-
-function senw() {
-    local content=$(_sen_get_parameter $@)
-    sen $content | rg "\s$content\s"
-}
-
-function senwn() {
-    local content=$(_sen_get_parameter $@)
-    sen "^([1-9]+\.).*?\s$content\s" | rg $content
-}
-
-function senwup() {
-    local content=$(_sen_get_parameter $@)
-    sen "^[A-Z].*?\s$content\s" | rg $content
-}
-
-function senwdot() {
-    local content=$(_sen_get_parameter $@)
-    sen "\s*•.*?\s$content\s" | rg $content
-}
-# ================= End english learn tool setting ================= #
-
-
 # ================= Start docker setting ================= #
 function dkls() {
     local pos=${1:=1}
