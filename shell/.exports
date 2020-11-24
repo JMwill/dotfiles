@@ -9,32 +9,18 @@ fi
 export RSYNC_LOCAL_DIR="$(echo ~)/Personal/rsync-folder/"
 export RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
 export NVM_LAZY_LOAD=true # lozy load nvm npm node
+
+##################### ZSH Plugins #####################
 export ZSH_PLUGINS_ARRAY=(
   git
-  git-extras
-  git-flow
-  mercurial
+  emacs
+  nvm
   autojump
-  colored-man-pages
-  pip
-  python
-  zsh-syntax-highlighting
-  docker
-  docker-compose
-  sudo
-  npm
   fzf
-  fzf-zsh # fzf fuzzy search zsh support
-  zsh-nvm # provide lazy load for nvm
-  # npm # npm command shortcut
-  # node # node-docs fs; open document in browser
-  # colorize # ccat <file>; output colorize content
-  # github # github shortcut
-  # nvm
-  # django
-  # web-search
-  # vagrant
+  tmux
+  zsh-syntax-highlighting
 )
+##################### ZSH Plugins #####################
 
 # To load default node first
 load_default_node() {
