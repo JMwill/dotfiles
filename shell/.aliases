@@ -1,16 +1,3 @@
-alias v=vim
-alias e=emacs
-alias ec='emacsclient -nw'
-alias emd='emacs --daemon "$@"'
-alias ".."="cd .."
-alias -- -="cd -"
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-alias ......="cd ../../../../.."
-alias _='sudo env PATH=$PATH'
-alias tmux="tmux -2"
-alias rm='echo "This is not the command you are looking for."; false'
 alias fli='alias | fzf'
 
 if hash python3 2>/dev/null; then
@@ -21,54 +8,13 @@ elif hash python2 2>/dev/null; then
     alias pserver="python2 -m SimpleHTTPServer";
 fi
 
-if [ -x "$(command -v colordiff)" ]; then
-    alias lfolderdiff="colordiff -ENwbur"
-else
-    alias lfolderdiff="diff -ENwbur"
-fi
-
 # rsync relative
 alias rssh="rsync -vzrtopg --progress -e ssh --delete"
 alias rtocloud="rssh $RSYNC_LOCAL_DIR tencent:$RSYNC_CLOUD_DIR"
 alias rtolocal="rssh tencent:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR"
 
-# npm relative
-alias npmlg="command -v npm > /dev/null && npm list -g --depth=0 2>/dev/null"
-alias npmln="command -v npm > /dev/null && npm list --depth=0 2>/dev/null"
-
-# git relative
-# alias glook-back="git log --reverse --ancestry-path HEAD^..$1"
-# alias gset-back="git reset --hard"
-# alias gdiff="git difftool"
-
-# docker relative
-alias dkps="docker ps"
-alias dkst="docker stats"
-alias dkpsa="docker ps -a"
-alias dkimgs="docker images"
-
 # X11 client
 alias localablexhost="xhost + 127.0.0.1"
-
-# ls alternative app
-if command -v exa &> /dev/null; then
-    alias ls="exa"
-    alias ll="exa -lh"
-    alias l="exa -lah"
-    alias la="exa -lah"
-    alias lsa="exa -lah"
-    alias lsg="exa --git"
-    alias llg="exa -lh --git"
-    alias lag="exa -lah --git"
-fi
-
-# cat alternative app
-if command -v bat &> /dev/null; then
-    alias cat="bat"
-fi
-
-# brew ctags support
-alias ctags="`brew --prefix`/bin/ctags"
 
 # hexo support
 alias hugod="hugo server -D --navigateToChanged"
