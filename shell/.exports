@@ -1,13 +1,18 @@
-# Algorithms 4 setting
+##################### Book: Algorithms edition 4 config #####################
 if [ -z "$CLASSPATH" ]
 then
   export CLASSPATH=~/algs4/algs4.jar
 else
   export CLASSPATH=$CLASSPATH:~/algs4/algs4.jar
 fi
+##################### Book: Algorithms edition 4 config #####################
 
+
+##################### Command line tool: Rsync's upload/download config #####################
 export RSYNC_LOCAL_DIR="$(echo ~)/Personal/rsync-folder/"
 export RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
+##################### Command line tool: Rsync's upload/download config #####################
+
 
 ##################### ZSH Plugins #####################
 export ZSH_PLUGINS_ARRAY=(
@@ -21,8 +26,10 @@ export ZSH_PLUGINS_ARRAY=(
 )
 ##################### ZSH Plugins #####################
 
-# Functions export
+
+##################### Export OS name #####################
 [ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`
+##################### Export OS name #####################
 
 # Search english sentence by word in multiple file settings
 export SEN_FOLDER_PATH='/Users/will/Downloads/英语资料/单词句子'
