@@ -1,5 +1,11 @@
-alias fli='alias | fzf'
+##################### Oneline alias #####################
+alias fli='alias | fzf' # Search alias with fzf
+alias localablexhost="xhost + 127.0.0.1" # Setup X11 client
+alias hugod="hugo server -D --navigateToChanged" # Setup hugo server
+##################### Oneline alias #####################
 
+
+##################### Setup python http server #####################
 if hash python3 2>/dev/null; then
     alias python="python3"
     alias pserver="python3 -m http.server";
@@ -7,17 +13,15 @@ elif hash python2 2>/dev/null; then
     alias python="python2"
     alias pserver="python2 -m SimpleHTTPServer";
 fi
+##################### Setup python http server #####################
 
-# rsync relative
+
+##################### Rsync upload/download shortcut #####################
 alias rssh="rsync -vzrtopg --progress -e ssh --delete"
 alias rtocloud="rssh $RSYNC_LOCAL_DIR tencent:$RSYNC_CLOUD_DIR"
 alias rtolocal="rssh tencent:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR"
+##################### Rsync upload/download shortcut #####################
 
-# X11 client
-alias localablexhost="xhost + 127.0.0.1"
-
-# hexo support
-alias hugod="hugo server -D --navigateToChanged"
 
 ##################### Terminal's proxy alias #####################
 function _export_proxy() {
