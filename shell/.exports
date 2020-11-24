@@ -30,12 +30,3 @@ export ZSH_PLUGINS_ARRAY=(
 ##################### Export OS name #####################
 [ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`
 ##################### Export OS name #####################
-
-
-# Force terminal to connect with proxy
-function _export_proxy() {
-    local addr='127.0.0.1'
-    eval "export https_proxy=http://${1:-$addr}:${2:-7890} http_proxy=http://${1:-$addr}:${2:-7890} all_proxy=socks5://${1:-$addr}:${3:-7891}"
-}
-alias tproxy=_export_proxy
-alias tunproxy='unset all_proxy https_proxy http_proxy'
