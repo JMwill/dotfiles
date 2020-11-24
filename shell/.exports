@@ -41,6 +41,3 @@ function _export_proxy() {
 }
 alias tproxy=_export_proxy
 alias tunproxy='unset all_proxy https_proxy http_proxy'
-
-# Add /usr/local/sbin to PATH
-export PATH="/usr/local/sbin:$PATH"
