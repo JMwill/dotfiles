@@ -1,4 +1,5 @@
-# ================= Inner utils start ================= #
+##################### Inner utils #####################
+# Sed
 function basesed() {
     if [ "$OS_NAME" = "Darwin" ]; then
         gsed $@
@@ -9,10 +10,11 @@ function basesed() {
 function echosed() {
     echo -n $(basesed $@)
 }
-# ================= Inner utils end ================= #
+##################### Inner utils #####################
 
 
-# ================= Git function, prefix with g ================= #
+##################### Git function, prefix with g #####################
+# Get full url of commit
 function gurl() {
     if [ -z "$1" ]; then
         echo "Usage: gurl commit-id"
@@ -40,10 +42,10 @@ function gqurl () {
     local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|echosed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
     gurl ${commit_id}
 }
-# ================= End Git function ================= #
+##################### Git function, prefix with g #####################
 
 
-# ================= Fzf tool setting ================= #
+##################### Fzf helper #####################
 function pclip() {
     if [ "$OS_NAME" = "CYGWIN" ]; then
         putclip $@;
@@ -113,10 +115,10 @@ function ff() {
 #     echo ${p}
 #     echo -n ${p} | pclip;
 # }
-# ================= End Fzf tool setting ================= #
+##################### Fzf helper #####################
 
 
-# ================= Start docker setting ================= #
+##################### Docker helper #####################
 function dkls() {
     local pos=${1:=1}
     local dk_img=`docker images --format="table {{.ID}} {{.Repository}}:{{.Tag}} None Image"|basesed -e"1d" -e"/^$/d"`
@@ -146,8 +148,10 @@ function dkmysqlexec() {
         docker exec -it ${dk_id} mysql -uroot -p
     fi
 }
-# ================= End docker setting ================= #
+##################### Docker helper #####################
 
+
+##################### Exercise function #####################
 function memtype() {
     chars='`1234567890-=~!@#$%^&*()_+'
 
@@ -160,3 +164,4 @@ function memtype() {
         read temp
     done
 }
+##################### Exercise function #####################
