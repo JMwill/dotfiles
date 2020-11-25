@@ -14,20 +14,6 @@ export RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
 ##################### Command line tool: Rsync's upload/download config #####################
 
 
-##################### ZSH Plugins #####################
-export ZSH_PLUGINS_ARRAY=(
-  osx
-  git
-  emacs
-  nvm
-  autojump
-  fzf
-  tmux
-  zsh-syntax-highlighting
-)
-##################### ZSH Plugins #####################
-
-
 ##################### Export OS name #####################
 [ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`
 ##################### Export OS name #####################
