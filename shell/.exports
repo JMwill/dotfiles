@@ -16,6 +16,7 @@ export RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
 
 ##################### ZSH Plugins #####################
 export ZSH_PLUGINS_ARRAY=(
+  osx
   git
   emacs
   nvm
