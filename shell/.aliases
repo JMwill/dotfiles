@@ -31,3 +31,10 @@ function _export_proxy() {
 alias tproxy=_export_proxy
 alias tunproxy='unset all_proxy https_proxy http_proxy'
 ##################### Terminal's proxy alias #####################
+
+
+##################### WSL alias #####################
+if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
+  alias open='explorer.exe'
+fi
+##################### WSL alias #####################
