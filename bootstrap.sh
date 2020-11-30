@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 cd "$(dirname "${BASH_SOURCE}")";
-cd ..
 
 git pull origin master;
 
@@ -11,9 +10,7 @@ function doIt() {
           --exclude "README.md" \
           --exclude "LICENSE" \
           --exclude "shell/" \
-          --exclude "osx/" \
-          --exclude "ubuntu/" \
-          --exclude "scripts/" \
+          --exclude "legacy/" \
           -avh --no-perms . ~;
     # source ~/.bash_profile;
 }
@@ -21,9 +18,9 @@ function doIt() {
 function lnIt() {
     local backup_folder="/tmp/$(date +'%y%m%d%H%M%S-dotfile-bootstrap-ln-backup')"
     local filelist=(
-        .zshrc .vimrc .npmrc .hgrc .bashrc
-        .gitignore_global .hgignore_global
-        .gitconfig .custom.el .ctags
+        .zshrc .vimrc .gitignore_global
+        .gitconfig .custom.el .tmux.conf
+        .ssh_config
     )
 
     echo -e "\e[32m\e[1mInfo:\e[0m \e[32mBackup file in ${backup_folder}\e[0m"
