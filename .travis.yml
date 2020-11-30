@@ -23,6 +23,8 @@ install:
 
 script:
   - yes | . ~/.dotfiles/bootstrap.sh
+  - cd -
+  - yes | . ~/.dotfiles/bootstrap.sh --force
 
 branches:
   only:

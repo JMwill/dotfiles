@@ -29,7 +29,7 @@ function lnIt() {
 
     echo -e '\e[32m\e[1mInfo:\e[0m \e[32mLink file to ~\e[0m'
     for file in "${filelist[@]}"; do
-        [ -r "$file" ] && [ -f "$file" ] && rm ~/"$file";
+        [ -r "$file" ] && [ -f "$file" ] && [ -r ~/"$file" ] && [ -f ~/"$file" ] && rm ~/"$file";
         [ -r "$file" ] && [ -f "$file" ] && ln -s ~/.dotfiles/"$file" ~/"$file";
     done
     unset file;
