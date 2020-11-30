@@ -4,7 +4,7 @@
 
 ### MacOS
 
-首先安装管理工具 [brew](https://brew.sh/)
+首先安装管理工具 [brew](https://brew.sh/)，以及 `brew install rsync`
 
 ### Ubuntu
 
@@ -12,6 +12,7 @@
 
 ```shell
 apt install -y build-essential \
+  rsync \
   gcc \
   file \
   xsel
@@ -35,10 +36,10 @@ apt install -y build-essential \
 # nvm 根据官方方式安装：https://github.com/nvm-sh/nvm#installing-and-updating
 
 # MacOS
-brew install git curl zsh autojump fzf rsync ripgrep gun-sed hugo
+brew install git curl zsh autojump fzf ripgrep gun-sed hugo
 
 # Ubuntu
-apt install git zsh autojump fzf rsync ripgrep hugo
+apt install git zsh autojump fzf ripgrep hugo
 ```
 
 #### Oh My Zsh 插件
