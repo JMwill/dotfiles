@@ -1,37 +1,28 @@
+
 language: c
 # dist: bionic
 os:
   - osx
-  # - linux
+  - linux
 jobs:
   include:
     - os: osx
-    # - os: linux
-    #   dist: bionic
+    - os: linux
+      dist: bionic
 addons:
   apt:
-    packages: build-essential curl file git perl
-
+    packages: build-essential git rsync
+  homebrew:
+    packages: git rsync
 # S: Build Lifecycle
 install:
   - cp -r ./ ~/.dotfiles
-  - . ~/.dotfiles/scripts/integrity-install.sh
 
 # before_script:
 #   - rm -rf folder 2> /dev/null
 
 script:
-  - . ~/.dotfiles/scripts/integrity-test.sh
-
-# after_script:
-#   - cd public
-#   - git init
-#   - git config user.name "${GITHUB_USERNAME}"
-#   - git config user.email "${GITHUB_EMAIL}"
-#   - git add .
-#   - git commit -m "Update Blog"
-#   - git push --force --quiet "https://${GH_Token}@${GH_REF}" master:gh-pages
-# E: Build LifeCycle
+  - yes | . ~/.dotfiles/bootstrap.sh
 
 branches:
   only:
