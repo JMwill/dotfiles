@@ -18,14 +18,6 @@
 (setq auto-save-list-file-prefix
       emacs-tmp-dir)
 
-;; ========= Proxy settings =========
-(setq url-proxy-services
-      '(("no_proxy" . "^\\(localhost\\)")
-        ("http" . "localhost:7890")
-        ("https" . "localhost:7890")))
-;; ========= Proxy settings =========
-
-
 ;; ========= Org mode settings =========
 ;; Add agenda files
 (setq org-agenda-files '("~/gtd/inbox.org"
