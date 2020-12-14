@@ -151,3 +151,18 @@
 ;;     (will//insert-org-or-md-img-link "./" (concat basename ".png")))
 ;;   (insert "\n"))
 ;; ========= ox-hugo settings =========
+
+;; ========= sdcv dictionary settings =========
+(setq sdcv-dictionary-complete-list
+      '(
+        "Longman Dictionary of Contemporary English 5th Ed. (En-En)"
+        "Longman Dictionary of Contemporary English Extras 5th Ed. (En-En)"
+        ))
+
+(general-create-definer custom-semicolon-leader-def
+  :prefix ";"
+  :states '(normal visual))
+
+(custom-semicolon-leader-def
+  "dp" 'sdcv-search-pointer) ; details
+;; ========= sdcv dictionary settings =========
