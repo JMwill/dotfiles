@@ -1,6 +1,6 @@
 ;; ========= Custom package require =========
 (require-package 'ox-hugo)
-(require-package 'pyenv-mode)
+;; (require-package 'pyenv-mode)
 (require-package 'org-download)
 ;; ========= Custom package require =========
 
@@ -97,8 +97,8 @@
 
 
 ;; ========= Python settings =========
-(elpy-enable)
-(pyenv-mode)
+;; (elpy-enable)
+;; (pyenv-mode)
 ;; ========= Python settings =========
 
 ;; ========= Code completion and navigation settings =========
