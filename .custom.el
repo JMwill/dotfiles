@@ -145,6 +145,7 @@
 ;; ========= ox-hugo settings =========
 
 ;; ========= sdcv dictionary settings =========
+;; Dictionary resource: http://download.huzheng.org/bigdict/
 (setq sdcv-dictionary-complete-list
       '(
         "Longman Dictionary of Contemporary English 5th Ed. (En-En)"
