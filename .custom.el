@@ -6,9 +6,7 @@
 
 ;; ========= Custom font face =========
 (load-theme 'badwolf t)
-(set-face-attribute 'default nil :height 140)
-;; (when (member "MesloLGS NF" (font-family-list))
-;;   (set-frame-font "MesloLGS NF" t t))
+;; (set-face-attribute 'default nil :height 140)
 ;; ========= Custom font face =========
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/
