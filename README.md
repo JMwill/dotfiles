@@ -64,7 +64,7 @@ brew cask install google-chrome appcleaner mathpix-snipping-tool \
 
 ```shell
 # mitmproxy 在 linux 上需要下载安装包安装：https://mitmproxy.org/
-apt install w3m tmux
+apt install sdcv w3m tmux
 
 snap install code emacs mathpix-snipping-tool
 ```
