@@ -2,6 +2,10 @@
 (require-package 'ox-hugo)
 ;; (require-package 'pyenv-mode)
 (require-package 'org-download)
+
+;; org-roam needs latest org
+;; after that run: package-refresh-contents & install org-roam with package-install
+(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 ;; ========= Custom package require =========
 
 ;; ========= Custom font face =========
