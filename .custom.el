@@ -2,10 +2,6 @@
 (require-package 'ox-hugo)
 ;; (require-package 'pyenv-mode)
 (require-package 'org-download)
-
-;; org-roam needs latest org
-;; after that run: package-refresh-contents & install org-roam with package-install
-(add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 ;; ========= Custom package require =========
 
 ;; ========= Custom font face =========
@@ -163,3 +159,15 @@
 (custom-semicolon-leader-def
   "dp" 'sdcv-search-pointer) ; details
 ;; ========= sdcv dictionary settings =========
+
+
+;; ========= org-roam settings =========
+;; org-roam needs latest org, install step:
+;; use "C-M-:" to exec this line: (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
+;; after that M-x to run: package-refresh-contents & package-install org-roam
+;; plaese ensure that sqlite3 installed, use (executable-find "sqlite3") to check it
+;; if sqlite3 installed and still cannot find it, use (add-to-list 'exec-path "path/to/sqlite3")
+(if (not (file-directory-p "~/org-roam")) (make-directory "~/org-roam"))
+(setq org-roam-directory "~/org-roam")
+(add-hook 'after-init-hook 'org-roam-mode)
+;; ========= org-roam settings =========
