@@ -45,7 +45,7 @@
                               ("c" "org-protocol-capture" entry
                                (file ,(concat JMwill/org-agenda-directory "inbox.org"))
                                "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
-                              ("T" "Tickler" entry
+                              ("t" "Tickler" entry
                                (file+headline (concat JMwill/org-agenda-directory "tickler.org") "备忘录")
                                "* %i%? \n %U")
                               ("h" "Hugo post" entry
