@@ -1,13 +1,6 @@
-;; ========= Custom package require =========
-(require-package 'ox-hugo)
-;; (require-package 'pyenv-mode)
-(require-package 'org-download)
-;; ========= Custom package require =========
-
-;; ========= Custom font face =========
+;; ========= Custom settings =========
 (load-theme 'badwolf t)
 ;; (set-face-attribute 'default nil :height 140)
-;; ========= Custom font face =========
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
@@ -17,6 +10,8 @@
       `((".*" ,emacs-tmp-dir t)))
 (setq auto-save-list-file-prefix
       emacs-tmp-dir)
+;; ========= Custom settings =========
+
 
 ;; ========= Org mode settings =========
 ;; Add agenda files
@@ -67,7 +62,6 @@
 ;; Set up todo keywords
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
-
 ;; Create custom agenda commands
 (setq org-agenda-custom-commands
       '(("o" "At the office" tags-todo "@office"
@@ -93,9 +87,11 @@
 
 
 ;; ========= Python settings =========
+;; (require-package 'pyenv-mode)
 ;; (elpy-enable)
 ;; (pyenv-mode)
 ;; ========= Python settings =========
+
 
 ;; ========= Code completion and navigation settings =========
 (local-require 'counsel-etags)
@@ -121,7 +117,10 @@
     (add-to-list 'grep-find-ignored-files v)))
 ;; ========= Code completion and navigation settings =========
 
-;; ========= ox-hugo settings =========
+
+;; ========= HUGO settings =========
+(require-package 'ox-hugo)
+(require-package 'org-download)
 (with-eval-after-load 'ox
   (require 'org-download)
   (require 'ox-hugo))
@@ -148,7 +147,8 @@
 ;;           (shell-command-to-string resize-command-str)))
 ;;     (will//insert-org-or-md-img-link "./" (concat basename ".png")))
 ;;   (insert "\n"))
-;; ========= ox-hugo settings =========
+;; ========= HUGO settings =========
+
 
 ;; ========= sdcv dictionary settings =========
 ;; Dictionary resource: http://download.huzheng.org/bigdict/
