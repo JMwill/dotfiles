@@ -174,7 +174,9 @@
 ;; plaese ensure that sqlite3 installed, use (executable-find "sqlite3") to check it
 ;; if sqlite3 installed and still cannot find it, use (add-to-list 'exec-path "path/to/sqlite3")
 (require-package 'org-roam)
-(if (not (file-directory-p "~/Orgroom/zettelkasten")) (make-directory "~/Orgroom/zettelkasten"))
-(setq org-roam-directory "~/Orgroom/zettelkasten")
+(setq JMwill/org-zettelkasten-directory "~/Orgroom/zettelkasten")
+(if (not (file-directory-p JMwill/org-zettelkasten-directory))
+    (make-directory JMwill/org-zettelkasten-directory))
+(setq org-roam-directory JMwill/org-zettelkasten-directory)
 (add-hook 'after-init-hook 'org-roam-mode)
 ;; ========= org-roam settings =========
