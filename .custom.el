@@ -20,9 +20,10 @@
 
 ;; ========= Org mode settings =========
 ;; Add agenda files
-(setq org-agenda-files '("~/gtd/inbox.org"
-                         "~/gtd/gtd.org"
-                         "~/gtd/tickler.org"))
+(setq JMwill/org-agenda-directory "~/Orgroom/gtd/")
+(setq org-agenda-files '((concat JMwill/org-agenda-directory "inbox.org")
+                         (concat JMwill/org-agenda-directory "gtd.org")
+                         (concat JMwill/org-agenda-directory "tickler.org")))
 
 ;; Set up org capture template
 ;; Populates only the EXPORT_FILE_NAME property in the inserted headline.
@@ -40,11 +41,17 @@
        "%?\n")          ;Place the cursor here finally
      "\n"))))
 
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline "~/gtd/inbox.org" "Tasks")
+(setq org-capture-templates `(("i" "inbox" entry
+                               (file ,(concat JMwill/org-agenda-directory "inbox.org"))
                                "* TODO %i%?")
+                              ("l" "link" entry
+                               (file ,(concat JMwill/org-agenda-directory "inbox.org"))
+                               "* TODO %(org-cliplink-capture)" :immediate-finish t)
+                              ("c" "org-protocol-capture" entry
+                               (file ,(concat JMwill/org-agenda-directory "inbox.org"))
+                               "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
                               ("T" "Tickler" entry
-                               (file+headline "~/gtd/tickler.org" "Tickler")
+                               (file+headline (concat JMwill/org-agenda-directory "tickler.org") "备忘录")
                                "* %i%? \n %U")
                               ("h" "Hugo post" entry
                                 ;; It is assumed that below file is present in `org-directory'
@@ -54,9 +61,8 @@
                                (function org-hugo-new-subtree-post-capture-template))))
 
 ;; Set up org refile targets
-(setq org-refile-targets '(("~/gtd/gtd.org" :maxlevel . 3)
-                           ("~/gtd/someday.org" :level . 1)
-                           ("~/gtd/tickler.org" :maxlevel . 2)))
+(setq org-refile-targets '(((concat JMwill/org-agenda-directory "gtd.org") :maxlevel . 3)
+                           ((concat JMwill/org-agenda-directory "tickler.org") :maxlevel . 2)))
 
 ;; Set up todo keywords
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
@@ -168,7 +174,7 @@
 ;; plaese ensure that sqlite3 installed, use (executable-find "sqlite3") to check it
 ;; if sqlite3 installed and still cannot find it, use (add-to-list 'exec-path "path/to/sqlite3")
 (require-package 'org-roam)
-(if (not (file-directory-p "~/zettelkasten")) (make-directory "~/zettelkasten"))
-(setq org-roam-directory "~/zettelkasten")
+(if (not (file-directory-p "~/Orgroom/zettelkasten")) (make-directory "~/Orgroom/zettelkasten"))
+(setq org-roam-directory "~/Orgroom/zettelkasten")
 (add-hook 'after-init-hook 'org-roam-mode)
 ;; ========= org-roam settings =========
