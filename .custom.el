@@ -39,12 +39,14 @@
 (setq org-capture-templates `(("i" "inbox" entry
                                (file ,(concat JMwill/org-agenda-directory "inbox.org"))
                                "* TODO %i%?")
-                              ("l" "link" entry
-                               (file ,(concat JMwill/org-agenda-directory "inbox.org"))
-                               "* TODO %(org-cliplink-capture)" :immediate-finish t)
-                              ("c" "org-protocol-capture" entry
-                               (file ,(concat JMwill/org-agenda-directory "inbox.org"))
-                               "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
+                              ;; org-cliplink-capture not available in wsl
+                              ;; ("l" "link" entry
+                              ;;  (file ,(concat JMwill/org-agenda-directory "inbox.org"))
+                              ;;  "* TODO %(org-cliplink-capture)" :immediate-finish t)
+                              ;; need config org protocol, read website: https://blog.jethro.dev/posts/capturing_inbox/
+                              ;; ("c" "org-protocol-capture" entry
+                              ;;  (file ,(concat JMwill/org-agenda-directory "inbox.org"))
+                              ;;  "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
                               ("t" "Tickler" entry
                                (file+headline (concat JMwill/org-agenda-directory "tickler.org") "备忘录")
                                "* %i%? \n %U")
