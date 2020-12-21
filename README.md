@@ -64,7 +64,7 @@ brew cask install google-chrome appcleaner mathpix-snipping-tool \
 
 ```shell
 # mitmproxy 在 linux 上需要下载安装包安装：https://mitmproxy.org/
-apt install sdcv w3m tmux
+apt install sdcv w3m tmux sqlite3
 
 snap install code emacs mathpix-snipping-tool
 ```
@@ -72,6 +72,8 @@ snap install code emacs mathpix-snipping-tool
 #### 命令行编辑器
 
 近期对 Emacs 较为有兴趣，目前正在使用当中，推荐使用陈斌（斌哥）的[配置](https://github.com/redguardtoo/emacs.d)，上面安装的 w3m 也是为此服务的。
+
+同时笔记记录方式目前采用 `org-roam` 所以需要安装依赖包：`sqlite3`，关系图的可视化目前还未使用，所需安装包暂未列出，可以自行根据文档安装 [org-roam 关系图形化](https://www.orgroam.com/manual.html#Graphing)
 
 
 ## 安装
