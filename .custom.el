@@ -48,7 +48,7 @@
                               ;;  (file ,(concat JMwill/org-agenda-directory "inbox.org"))
                               ;;  "* TODO [[%:link][%:description]]\n\n %i" :immediate-finish t)
                               ("t" "Tickler" entry
-                               (file+headline (concat JMwill/org-agenda-directory "tickler.org") "备忘录")
+                               (file+headline (lambda () (concat JMwill/org-agenda-directory "tickler.org"))  "备忘录")
                                "* %i%? \n %U")
                               ("h" "Hugo post" entry
                                 ;; It is assumed that below file is present in `org-directory'
