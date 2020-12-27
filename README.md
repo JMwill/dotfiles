@@ -52,7 +52,7 @@ apt install git zsh autojump fzf ripgrep hugo
 #### MacOS
 
 ```shell
-brew install mitmproxy w3m tmux sqlite3
+brew install mitmproxy w3m tmux sqlite3 shellcheck
 brew cask install google-chrome appcleaner mathpix-snipping-tool \
             iterm2 visual-studio-code postman emacs \
             clashx keka iina \
@@ -64,7 +64,7 @@ brew cask install google-chrome appcleaner mathpix-snipping-tool \
 
 ```shell
 # mitmproxy 在 linux 上需要下载安装包安装：https://mitmproxy.org/
-apt install sdcv w3m tmux sqlite3
+apt install sdcv w3m tmux sqlite3 shellcheck
 
 snap install code emacs mathpix-snipping-tool
 ```
