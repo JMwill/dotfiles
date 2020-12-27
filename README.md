@@ -46,6 +46,7 @@ apt install git zsh autojump fzf ripgrep hugo
 
 - 主题 [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
 - 语法高亮插件：[zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
+- 命令自动补全: [zsh-autosuggestions](git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions)
 
 ### 推荐工具
 
