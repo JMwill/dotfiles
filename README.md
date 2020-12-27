@@ -52,7 +52,7 @@ apt install git zsh autojump fzf ripgrep hugo
 #### MacOS
 
 ```shell
-brew install mitmproxy w3m tmux
+brew install mitmproxy w3m tmux sqlite3
 brew cask install google-chrome appcleaner mathpix-snipping-tool \
             iterm2 visual-studio-code postman emacs \
             clashx keka iina \
