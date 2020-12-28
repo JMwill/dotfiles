@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ##################### Oneline alias #####################
 alias fli='alias | fzf' # Search alias with fzf
 alias localablexhost="xhost + 127.0.0.1" # Setup X11 client
@@ -18,8 +19,8 @@ fi
 
 ##################### Rsync upload/download shortcut #####################
 alias rssh="rsync -vzrtopg --progress -e ssh --delete"
-alias rtocloud="rssh $RSYNC_LOCAL_DIR tencent:$RSYNC_CLOUD_DIR"
-alias rtolocal="rssh tencent:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR"
+alias rtocloud='rssh $RSYNC_LOCAL_DIR tencent:$RSYNC_CLOUD_DIR'
+alias rtolocal='rssh tencent:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR'
 ##################### Rsync upload/download shortcut #####################
 
 
