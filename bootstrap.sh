@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-cd "$(dirname "${BASH_SOURCE}")";
+cd "$(dirname "${BASH_SOURCE[0]}")" || exit;
 
 git pull origin master;
 
@@ -16,16 +16,18 @@ function doIt() {
 }
 
 function lnIt() {
-    local backup_folder="/tmp/$(date +'%y%m%d%H%M%S-dotfile-bootstrap-ln-backup')"
-    local filelist=(
+    local backup_folder
+    local filelist
+    backup_folder="/tmp/$(date +'%y%m%d%H%M%S-dotfile-bootstrap-ln-backup')"
+    filelist=(
         .zshrc .vimrc .gitignore_global
         .gitconfig .custom.el .tmux.conf
         .ssh_config
     )
 
     echo -e "\e[32m\e[1mInfo:\e[0m \e[32mBackup file in ${backup_folder}\e[0m"
-    mkdir -p $backup_folder
-    rsync -avh --no-perms ${filelist[@]} $backup_folder
+    mkdir -p "$backup_folder"
+    rsync -avh --no-perms "${filelist[@]}" "$backup_folder"
 
     echo -e '\e[32m\e[1mInfo:\e[0m \e[32mLink file to ~\e[0m'
     for file in "${filelist[@]}"; do
@@ -38,16 +40,16 @@ function lnIt() {
     # source ~/.bash_profile;
 }
 
-if [ "$1" == "--overwrite" -o "$1" == "-o" ]; then
-    read -p "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
+if [[ "$1" == "--overwrite" || "$1" == "-o" ]]; then
+    read -rp "This may overwrite existing files in your home directory. Are you sure? (y/n) " -n 1;
     echo "";
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         doIt;
     fi;
-elif [ "$1" == "--force" -o "$1" == "-f" ]; then
+elif [[ "$1" == "--force" || "$1" == "-f" ]]; then
     doIt;
 else
-    read -p "This may link files in your home directory and will existed file/folder. Are you sure? (y/n) " -n 1;
+    read -rp "This may link files in your home directory and will existed file/folder. Are you sure? (y/n) " -n 1;
     echo "";
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         lnIt;
@@ -55,4 +57,4 @@ else
 fi;
 unset doIt;
 unset lnIt;
-cd ~
+cd ~ || exit;
