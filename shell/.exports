@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ##################### Book: Algorithms edition 4 config #####################
 if [ -z "$CLASSPATH" ]
 then
@@ -9,11 +10,9 @@ fi
 
 
 ##################### Command line tool: Rsync's upload/download config #####################
-export RSYNC_LOCAL_DIR="$(echo ~)/Personal/rsync-folder/"
-export RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
+
+RSYNC_LOCAL_DIR="$HOME/Personal/rsync-folder/"
+RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
+export RSYNC_LOCAL_DIR
+export RSYNC_CLOUD_DIR
 ##################### Command line tool: Rsync's upload/download config #####################
-
-
-##################### Export OS name #####################
-[ $(uname -s | grep -c CYGWIN) -eq 1 ] && OS_NAME="CYGWIN" || OS_NAME=`uname -s`
-##################### Export OS name #####################

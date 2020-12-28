@@ -1,3 +1,8 @@
+##################### Define OS name #####################
+[[ "$(uname -s | grep -c CYGWIN)" -eq 1 ]] && OS_NAME="CYGWIN" || OS_NAME=$(uname -s)
+##################### Define OS name #####################
+
+
 ##################### Inner utils #####################
 # Sed
 function basesed() {
