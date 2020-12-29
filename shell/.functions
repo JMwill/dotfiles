@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 ##################### Define OS name #####################
 [[ "$(uname -s | grep -c CYGWIN)" -eq 1 ]] && OS_NAME="CYGWIN" || OS_NAME=$(uname -s)
 ##################### Define OS name #####################
@@ -6,14 +7,14 @@
 ##################### Inner utils #####################
 # Sed
 function basesed() {
-    if [ "$OS_NAME" = "Darwin" ]; then
-        gsed $@
+    if [[ "$OS_NAME" == "Darwin" ]]; then
+        gsed "$@"
     else
-        sed $@
+        sed "$@"
     fi
 }
 function echosed() {
-    echo -n $(basesed $@)
+    echo -n "$(basesed "$@")"
 }
 ##################### Inner utils #####################
 
@@ -25,27 +26,30 @@ function gurl() {
         echo "Usage: gurl commit-id"
         echo "get the full http url of commit"
     else
-        local msg=`git remote -v|grep "origin\s\+.*\s\+(fetch)"|echosed -e"s/origin\s\+\(.*\)\s\+(fetch)/\1/"`
-        local url=""
+        local msg
+        msg=$(git remote -v|grep "origin\s\+.*\s\+(fetch)"|echosed -e"s/origin\s\+\(.*\)\s\+(fetch)/\1/")
+        # local url=""
         # github
-        echo $msg
+        echo "$msg"
         if [ "${msg:0:14}" = "git@github.com" ]; then
-            echo https://github.com/`echo ${msg}|echosed -e"s/^git\@github\.com\:\(.*\)\.git$/\1/"`/commit/$1
+            echo https://github.com/"$(echo "$msg"|echosed -e"s/^git\@github\.com\:\(.*\)\.git$/\1/")"/commit/"$1"
         elif [ "${msg:0:18}" = "https://github.com" ]; then
-            echo https://github.com/`echo ${msg}|echosed -e"s/^https\:\/\/github\.com\/\(.*\)\.git$/\1/"`/commit/$1
+            echo https://github.com/"$(echo "$msg"|echosed -e"s/^https\:\/\/github\.com\/\(.*\)\.git$/\1/")"/commit/"$1"
         fi
     fi
 }
 # pick commit id from `git log`
 function gcid () {
-    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|echosed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
-    echo ${commit_id}
+    local commit_id
+    commit_id=$(git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|echosed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/")
+    echo "$commit_id"
 }
 
 #pick commit from `git log` and output its url
 function gqurl () {
-    local commit_id=`git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|echosed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/"`
-    gurl ${commit_id}
+    local commit_id
+    commit_id=$(git log --pretty=format:'%h %ad %s (%an)' --date=short|fzf|echosed -e"s/^\([a-z0-9]\+\)\s\+.*$/\1/")
+    gurl "$commit_id"
 }
 ##################### Git function, prefix with g #####################
 
@@ -53,17 +57,17 @@ function gqurl () {
 ##################### Fzf helper #####################
 function pclip() {
     if [ "$OS_NAME" = "CYGWIN" ]; then
-        putclip $@;
+        putclip "$@";
     elif [ "$OS_NAME" = "Darwin" ] || [ "$(uname)" = "Darwin" ]; then
-        pbcopy $@;
+        pbcopy "$@";
     elif grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
-        clip.exe $@
+        echo -n "$@" | clip.exe;
     else
         if [ -x /usr/bin/xsel ]; then
-            xsel -ib $@;
+            xsel -ib "$@";
         else
             if [ -x /usr/bin/xclip ]; then
-                xclip -selection c $@;
+                xclip -selection c "$@";
             else
                 echo "Neither xsel or xclip is installed!"
             fi
@@ -96,18 +100,20 @@ function baseff() {
     filename=${filename##*./} # remove  ".../" from the beginning
     # Only the filename without path is needed
     # filename should be reasonable
-    local cli=`find . -not -iwholename '*/vendor/*' -not -iwholename '*/bower_components/*' -not -iwholename '*/node_modules/*' -not -iwholename '*/target/*' -not -iwholename '*.svn*' -not -iwholename '*.git*' -not -iwholename '*.sass-cache*' -not -iwholename '*.hg*' -type f -path '*'${filename}'*' -print | fzf`
+    local cli
+    cli=$(find . -not -iwholename '*/vendor/*' -not -iwholename '*/bower_components/*' -not -iwholename '*/node_modules/*' -not -iwholename '*/target/*' -not -iwholename '*.svn*' -not -iwholename '*.git*' -not -iwholename '*.sass-cache*' -not -iwholename '*.hg*' -type f -path '*'"$filename"'*' -print | fzf)
     # convert relative path to full path
     if [ "$cli" ]; then
-        echo $(cd $(dirname $cli); pwd)/$(basename $cli)
+        echo "$(cd "$(dirname "$cli")" || exit; pwd)/$(basename "$cli")"
     fi
 }
 
 function ff() {
-    local cli=`baseff $*`
+    local cli
+    cli=$(baseff "$@")
     if [ "$cli" ]; then
-        echo ${cli} | echosed 's%^'${HOME}'%~%'
-        echo -n ${cli}  | echosed 's%^'${HOME}'%~%' | pclip
+        echo "$cli" | echosed 's%^'"$HOME"'%~%'
+        pclip "$(echo -n "$cli"  | echosed 's%^'"$HOME"'%~%')"
     fi
     # echo ${cli}
     # echo -n ${cli} | pclip
@@ -125,32 +131,37 @@ function ff() {
 
 ##################### Docker helper #####################
 function dkls() {
-    local pos=${1:=1}
-    local dk_img=`docker images --format="table {{.ID}} {{.Repository}}:{{.Tag}} None Image"|basesed -e"1d" -e"/^$/d"`
-    local dk_cnt=`docker container ls --all --format="table {{.ID}} {{.Image}} {{.Names}} Container"|basesed -e"1d" -e"/^$/d"`
-    local dk_ps=`docker ps --format="table {{.ID}} {{.Image}} {{.Names}} Ps"|basesed -e"1d" -e"/^$/d"`
-    local dk_result=`{echo $dk_img;echo $dk_cnt;echo $dk_ps}|fzf|echosed -e"$(echo -n 's/^\([^ ]\+\)\s\([^ ]\+\)\s\([^ ]\+\)\s\+.*$/\\'$pos'/')"`
-    echo -n $dk_result
+    local pos dk_img dk_cnt dk_ps dk_result
+    pos=${1:=1}
+    dk_img=$(docker images --format="table {{.ID}} {{.Repository}}:{{.Tag}} None Image"|basesed -e"1d" -e"/^$/d")
+    dk_cnt=$(docker container ls --all --format="table {{.ID}} {{.Image}} {{.Names}} Container"|basesed -e"1d" -e"/^$/d")
+    dk_ps=$(docker ps --format="table {{.ID}} {{.Image}} {{.Names}} Ps"|basesed -e"1d" -e"/^$/d")
+    dk_result=$({ echo "$dk_img";echo "$dk_cnt";echo "$dk_ps";}|fzf|echosed -e"$(echo -n 's/^\([^ ]\+\)\s\([^ ]\+\)\s\([^ ]\+\)\s\+.*$/'\\$pos'/')")
+    echo "$pos $dk_img $dk_cnt $dk_ps" &> /dev/null;
+    echo -n "$dk_result";
 }
 
 function dkrun() {
-    local dk_image=`dkls 2`
+    local dk_image
+    dk_image=$(dkls 2)
     if [ -n "$dk_image" ]; then
-        docker run -it --rm -v `pwd`:/Outside ${dk_image} /bin/bash --login
+        docker run -it --rm -v "$(pwd)":/Outside "$dk_image" /bin/bash --login
     fi
 }
 
 function dkexec() {
-    local dk_id=`dkls 1`
+    local dk_id
+    dk_id=$(dkls 1)
     if [ -n "$dk_id" ]; then
-        docker exec -it ${dk_id} /bin/bash --login
+        docker exec -it "$dk_id" /bin/bash --login
     fi
 }
 
 function dkmysqlexec() {
-    local dk_id=`dkls 1`
+    local dk_id
+    dk_id=$(dkls 1)
     if [ -n "$dk_id" ]; then
-        docker exec -it ${dk_id} mysql -uroot -p
+        docker exec -it "$dk_id" mysql -uroot -p
     fi
 }
 ##################### Docker helper #####################
@@ -160,13 +171,13 @@ function dkmysqlexec() {
 function memtype() {
     chars='`1234567890-=~!@#$%^&*()_+'
 
-    out=$(echo $chars | fold -w1 | sort -R | tr -d '\n')
-    echo $out
+    out=$(echo "$chars" | fold -w1 | sort -R | tr -d '\n')
+    echo "$out"
 
-    read temp
+    read -r temp
 
     while [ "$out" != "$temp" ]; do
-        read temp
+        read -r temp
     done
 }
 ##################### Exercise function #####################
