@@ -16,9 +16,11 @@
 ;; ========= Org mode settings =========
 ;; Add agenda files
 (setq JMwill/org-agenda-directory "~/Orgroom/gtd/")
-(setq org-agenda-files '((concat JMwill/org-agenda-directory "inbox.org")
-                         (concat JMwill/org-agenda-directory "gtd.org")
-                         (concat JMwill/org-agenda-directory "tickler.org")))
+(setq JMwill/org-blog-directory "~/projects/blog/")
+(setq org-agenda-files (list
+                        (concat JMwill/org-agenda-directory "inbox.org")
+                        (concat JMwill/org-agenda-directory "gtd.org")
+                        (concat JMwill/org-agenda-directory "tickler.org")))
 
 ;; Set up org capture template
 ;; Populates only the EXPORT_FILE_NAME property in the inserted headline.
@@ -54,7 +56,7 @@
                                 ;; It is assumed that below file is present in `org-directory'
                                 ;; and that it has a "Blog Ideas" heading. It can even be a
                                 ;; symlink pointing to the actual location of all-posts.org!
-                               (file+olp "~/Personal/blog/content-org/2020.org" "Posts")
+                               (file+olp (lambda () (concat JMwill/org-blog-directory "content-org/2020.org")) "Posts")
                                (function org-hugo-new-subtree-post-capture-template))))
 
 ;; Set up org refile targets
