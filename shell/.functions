@@ -80,6 +80,8 @@ function ppaste() {
         getclip;
     elif [ "$OS_NAME" = "Darwin" ] || [ "$(uname)" = "Darwin" ]; then
         pbpaste;
+    elif grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
+        powershell.exe Get-Clipboard;
     else
         if [ -x /usr/bin/xsel ]; then
             xsel --clipboard --output;
