@@ -39,3 +39,10 @@ if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
   alias open='explorer.exe'
 fi
 ##################### WSL alias #####################
+
+
+##################### fdfind alias #####################
+if [[ $(command -v fdfind) ]]; then
+    alias fd=fdfind
+fi
+##################### fdfind alias #####################

@@ -86,6 +86,7 @@ ZSH_PLUGINS_ARRAY=(
   tmux
   zsh-syntax-highlighting
   zsh-autosuggestions
+  fd
 )
 plugins=("${ZSH_PLUGINS_ARRAY[@]}")
 
