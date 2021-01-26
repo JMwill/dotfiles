@@ -15,7 +15,8 @@
 
 ;; ========= Org mode settings =========
 ;; Add agenda files
-(setq JMwill/org-agenda-directory "~/Orgroom/gtd/")
+(setq JMwill/org-room-directory "~/Orgroom/")
+(setq JMwill/org-agenda-directory (concat JMwill/org-room-directory "gtd/"))
 (setq JMwill/org-blog-directory "~/projects/blog/")
 (setq org-agenda-files (list
                         (concat JMwill/org-agenda-directory "inbox.org")
@@ -178,9 +179,11 @@
 ;; plaese ensure that sqlite3 installed, use (executable-find "sqlite3") to check it
 ;; if sqlite3 installed and still cannot find it, use (add-to-list 'exec-path "path/to/sqlite3")
 (require-package 'org-roam)
-(setq JMwill/org-zettelkasten-directory "~/Orgroom/zettelkasten")
+(setq JMwill/org-zettelkasten-directory (concat JMwill/org-room-directory "zettelkasten/"))
+(setq org-roam-completion-system 'ivy)
 (if (not (file-directory-p JMwill/org-zettelkasten-directory))
     (make-directory JMwill/org-zettelkasten-directory))
 (setq org-roam-directory JMwill/org-zettelkasten-directory)
+(setq org-roam-db-update-idle-seconds 'immediate)
 (add-hook 'after-init-hook 'org-roam-mode)
 ;; ========= org-roam settings =========
