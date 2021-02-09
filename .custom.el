@@ -15,7 +15,7 @@
 
 ;; ========= Org mode settings =========
 ;; Add agenda files
-(setq JMwill/org-room-directory "~/Orgroom/")
+(setq JMwill/org-room-directory "~/orgroom/")
 (setq JMwill/org-agenda-directory (concat JMwill/org-room-directory "gtd/"))
 (setq JMwill/org-blog-directory "~/projects/blog/")
 (setq org-agenda-files (list
