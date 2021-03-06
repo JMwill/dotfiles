@@ -186,4 +186,45 @@
 (setq org-roam-directory JMwill/org-zettelkasten-directory)
 (setq org-roam-db-update-idle-seconds 'immediate)
 (add-hook 'after-init-hook 'org-roam-mode)
+
+;; define org-roam templates
+(setq org-roam-capture-templates
+             '(
+               ("d" "default" plain (function org-roam-capture--get-point)
+                "%?"
+                :file-name "%<%Y%m%d%H%M%S>-${slug}"
+                :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n\n"
+                :unnarrowed t)
+               ("n" "normal with references" plain (function org-roam-capture--get-point)
+                "%?\n\n参考资料: \n- "
+                :file-name "%<%Y%m%d%H%M%S>-${slug}"
+                :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n\n"
+                :unnarrowed t)))
+
+;; define org-roam dailies templates
+(setq org-roam-dailies-directory "daily/")
+(setq org-roam-dailies-capture-templates
+      '(("d" "default" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n")
+        ("r" "读书笔记" entry
+         #'org-roam-capture--get-point
+         "* %?\n\n来源: \n- "
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n"
+         :olp ("读书笔记"))
+        ("l" "实验/研究" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n"
+         :olp ("实验/研究"))
+        ("j" "日记" entry
+         #'org-roam-capture--get-point
+         "* %?"
+         :file-name "daily/%<%Y-%m-%d>"
+         :head "#+title: %<%Y-%m-%d>\n"
+         :olp ("日记"))))
 ;; ========= org-roam settings =========
