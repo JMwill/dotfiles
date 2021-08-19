@@ -86,12 +86,14 @@ snap install code emacs mathpix-snipping-tool
 通过 Git 工具将项目克隆到本地，我喜欢直接将克隆后的项目更名为 `~/.dotfiles`，也可以将项目克隆到任意喜欢的位置后再创建 `symlink` 链接到项目的位置，但名称需要是：`.dotfiles`
 
 ```shell
-git clone --depth 1 https://github.com/JMwill/dotfiles.git && mv dotfiles ~/.dotfiles && cd ~/.dotfiles && source bootstrap.sh
+git clone --recurse-submodules --depth 1 https://github.com/JMwill/dotfiles.git && mv dotfiles ~/.dotfiles && cd ~/.dotfiles && source bootstrap.sh
 
 # OR
 
-git clone --depth 1 https://github.com/JMwill/dotfiles.git && ln -s dotfiles ~/.dotfiles && cd ~/.dotfiles && source bootstrap.sh
+git clone --recurse-submodules --depth 1 https://github.com/JMwill/dotfiles.git && ln -s dotfiles ~/.dotfiles && cd ~/.dotfiles && source bootstrap.sh
 ```
+
+如果忘记添加 `--recurse-submodules` 可以通过 `git submodule update --init` 实现效果
 
 ### 设置默认 Shell
 
