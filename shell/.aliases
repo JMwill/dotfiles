@@ -25,9 +25,13 @@ alias rtolocal='rssh tencent:$RSYNC_CLOUD_DIR $RSYNC_LOCAL_DIR'
 
 
 ##################### Terminal's proxy alias #####################
+WINDOWS_IP=$(ip route | grep default | awk '{print $3}')
 function _export_proxy() {
-  local addr='127.0.0.1'
-  eval "export https_proxy=http://${1:-$addr}:${2:-7890} http_proxy=http://${1:-$addr}:${2:-7890} all_proxy=socks5://${1:-$addr}:${3:-7890}"
+  local PROXY_HTTP="http://${1:-$WINDOWS_IP}:${2:-7890}"
+  local PROXY_SOCKS="socks5://${1:-$WINDOWS_IP}:${2:-7890}"
+  export all_proxy="${PROXY_SOCKS}"
+  export http_proxy="${PROXY_HTTP}"
+  export https_proxy="${PROXY_HTTP}"
 }
 alias tproxy=_export_proxy
 alias tunproxy='unset all_proxy https_proxy http_proxy'
