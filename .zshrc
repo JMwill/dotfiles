@@ -77,7 +77,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 ZSH_PLUGINS_ARRAY=(
-  osx
+  macos
   git
   emacs
   nvm
@@ -87,8 +87,25 @@ ZSH_PLUGINS_ARRAY=(
   zsh-syntax-highlighting
   zsh-autosuggestions
   fd
+  docker
 )
 plugins=("${ZSH_PLUGINS_ARRAY[@]}")
+
+###########################################################################
+# Fix autosuggestions paste slow problem
+# This speeds up pasting w/ autosuggest
+# https://github.com/zsh-users/zsh-autosuggestions/issues/238
+pasteinit() {
+  OLD_SELF_INSERT=${${(s.:.)widgets[self-insert]}[2,3]}
+  zle -N self-insert url-quote-magic # I wonder if you'd need `.url-quote-magic`?
+}
+
+pastefinish() {
+  zle -N self-insert $OLD_SELF_INSERT
+}
+zstyle :bracketed-paste-magic paste-init pasteinit
+zstyle :bracketed-paste-magic paste-finish pastefinish
+###########################################################################
 
 source $ZSH/oh-my-zsh.sh
 
@@ -130,7 +147,7 @@ DOTFILES_PATH="$HOME/.dotfiles"
 # Load the overwrite setting, and then some:
 # * ~/.extra can be used for other settings you don’t want to commit.
 # * ~/.path can be used to extend `$PATH`.
-for file in "$DOTFILES_PATH"/shell/.{profile,path,zsh_prompt,exports,aliases,functions,extra}; do
+for file in "$DOTFILES_PATH"/shell/.{profile,path,zsh_prompt,exports,aliases,functions,software,extra}; do
   [[ ! -f $file ]] || source $file
 done
 unset file

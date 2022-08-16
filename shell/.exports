@@ -16,3 +16,15 @@ RSYNC_CLOUD_DIR='/home/ubuntu/Personal/rsync-folder/'
 export RSYNC_LOCAL_DIR
 export RSYNC_CLOUD_DIR
 ##################### Command line tool: Rsync's upload/download config #####################
+
+
+##################### WSL export #####################
+if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
+    export BROWSER='/mnt/c/Program Files/Google/Chrome/Application/chrome.exe'
+fi
+
+export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2; exit;}' 2>/dev/null):0.0 # in WSL 2
+[ -z "$PS1" ] && return
+# export LIBGL_ALWAYS_INDIRECT=
+# export LIBGL_ALWAYS_SOFTWARE=1
+##################### WSL export #####################
