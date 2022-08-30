@@ -1,5 +1,6 @@
 ;; ========= Custom settings =========
-(load-theme 'badwolf t)
+;; (load-theme 'badwolf t)
+(load-theme 'dracula t)
 ;; (set-face-attribute 'default nil :height 140)
 
 ;; Save all tempfiles in $TMPDIR/emacs$UID/
@@ -57,7 +58,8 @@
                                 ;; It is assumed that below file is present in `org-directory'
                                 ;; and that it has a "Blog Ideas" heading. It can even be a
                                 ;; symlink pointing to the actual location of all-posts.org!
-                               (file+olp (lambda () (concat JMwill/org-blog-directory "content-org/2020.org")) "Posts")
+                               ;; (file+olp (lambda () (concat JMwill/org-blog-directory "content-org/2021.org")) "Posts")
+                               (file ,(concat JMwill/org-blog-directory "content-org/2021.org"))
                                (function org-hugo-new-subtree-post-capture-template))))
 
 ;; Set up org refile targets
@@ -176,55 +178,95 @@
 ;; org-roam needs latest org, install step:
 ;; use "C-M-:" to exec this line: (add-to-list 'package-archives '("org" . "https://orgmode.org/elpa/") t)
 ;; after that M-x to run: package-refresh-contents & package-install org-roam
-;; plaese ensure that sqlite3 installed, use (executable-find "sqlite3") to check it
-;; if sqlite3 installed and still cannot find it, use (add-to-list 'exec-path "path/to/sqlite3")
-(require-package 'org-roam)
 (setq JMwill/org-zettelkasten-directory (concat JMwill/org-room-directory "zettelkasten/"))
-(setq org-roam-completion-system 'ivy)
 (if (not (file-directory-p JMwill/org-zettelkasten-directory))
     (make-directory JMwill/org-zettelkasten-directory))
-(setq org-roam-directory JMwill/org-zettelkasten-directory)
-(setq org-roam-db-update-idle-seconds 'immediate)
-(add-hook 'after-init-hook 'org-roam-mode)
+
+(require-package 'org-roam)
+(setq org-roam-v2-ack t)
+(setq org-roam-directory (file-truename JMwill/org-zettelkasten-directory))
+(setq org-roam-db-location (file-truename (concat JMwill/org-zettelkasten-directory "org-roam.db")))
+(require 'org-roam)
+(org-roam-db-autosync-mode)
 
 ;; define org-roam templates
 (setq org-roam-capture-templates
-             '(
-               ("d" "default" plain (function org-roam-capture--get-point)
-                "%?"
-                :file-name "%<%Y%m%d%H%M%S>-${slug}"
-                :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n\n"
-                :unnarrowed t)
-               ("n" "normal with references" plain (function org-roam-capture--get-point)
-                "%?\n\n参考资料: \n- "
-                :file-name "%<%Y%m%d%H%M%S>-${slug}"
-                :head "#+title: ${title}\n#+roam_alias: \n#+roam_tags: \n\n"
-                :unnarrowed t)))
+      '(("d" "default" plain "%?"
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                            "#+title: ${title}\n")
+         :unnarrowed t)
+        ("n" "normal with references" plain "%?\n\n参考资料: \n- "
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org"
+                            "#+title: ${title}\n#+filetags: %^{file tags}\n\n")
+         :unnarrowed t)))
 
 ;; define org-roam dailies templates
-(setq org-roam-dailies-directory "daily/")
 (setq org-roam-dailies-capture-templates
       '(("d" "default" entry
-         #'org-roam-capture--get-point
          "* %?"
-         :file-name "daily/%<%Y-%m-%d>"
-         :head "#+title: %<%Y-%m-%d>\n")
+         :if-new (file+head "%<%Y-%m-%d>.org"
+                            "#+title: %<%Y-%m-%d>\n"))
         ("r" "读书笔记" entry
-         #'org-roam-capture--get-point
          "* %?\n\n来源: \n- "
-         :file-name "daily/%<%Y-%m-%d>"
-         :head "#+title: %<%Y-%m-%d>\n"
-         :olp ("读书笔记"))
+         :olp ("读书笔记")
+         :if-new (file+head "%<%Y-%m-%d>.org"
+                            "#+title: %<%Y-%m-%d>\n"))
         ("l" "实验/研究" entry
-         #'org-roam-capture--get-point
          "* %?"
-         :file-name "daily/%<%Y-%m-%d>"
-         :head "#+title: %<%Y-%m-%d>\n"
-         :olp ("实验/研究"))
+         :olp ("实验/研究")
+         :if-new (file+head "%<%Y-%m-%d>.org"
+                            "#+title: %<%Y-%m-%d>\n"))
         ("j" "日记" entry
-         #'org-roam-capture--get-point
          "* %?"
-         :file-name "daily/%<%Y-%m-%d>"
-         :head "#+title: %<%Y-%m-%d>\n"
-         :olp ("日记"))))
+         :olp ("日记")
+         :if-new (file+head "%<%Y-%m-%d>.org"
+                            "#+title: %<%Y-%m-%d>\n"))))
 ;; ========= org-roam settings =========
+
+;; ========= beancount mode settings =========
+(add-to-list 'load-path "~/.dotfiles/beancount-mode/")
+(require 'beancount)
+(add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
+(add-hook 'beancount-mode-hook #'outline-minor-mode)
+;; ========= beancount mode settings =========
+
+;; ========= Communicate with Windows =========
+;; Reference: https://elecming.medium.com/the-ultimate-emacs-hacking-tutorial-in-windows-10-wsl-2-cfd3ea3893e3
+(defun wsl-browse-url-xdg-open (url &optional ignored)
+  (interactive (browse-url-interactive-arg "URL: "))
+  (shell-command-to-string (concat "explorer.exe " url)))
+
+(defmacro wsl--open-with (id &optional app dir)
+  `(defun ,(intern (format "wsl/%s" id)) ()
+     (interactive)
+     (wsl-open-with ,app ,dir)))
+(defun wsl-open-with (&optional app-name path)
+  "Send PATH to APP-NAME on WSL."
+  (interactive)
+  (let* ((path (expand-file-name
+                (replace-regexp-in-string
+                 "'" "\\'"
+                 (or path (if (derived-mode-p 'dired-mode)
+                              (dired-get-file-for-visit)
+                            (buffer-file-name)))
+                 nil t)))
+         (command (format "%s `wslpath -w %s`" (shell-quote-argument app-name) path)))
+    (shell-command-to-string command)))
+(wsl--open-with open-in-default-program "explorer.exe" buffer-file-name)
+(wsl--open-with reveal-in-explorer "explorer.exe" default-directory)
+
+;; When in WSL setup command and override default command
+(when (getenv "WSLENV")
+  (advice-add #'browse-url-xdg-open :override #'wsl-browse-url-xdg-open))
+
+
+;; Reference: https://gist.github.com/minorugh/1770a6aa93df5fe55f70b4d72091ff76
+(when (getenv "WSLENV")
+  (let ((cmd-exe "/mnt/c/Windows/System32/cmd.exe")
+        (cmd-args '("/c" "start")))
+    (when (file-exists-p cmd-exe)
+      (setq browse-url-generic-program cmd-exe
+            browse-url-generic-args cmd-args
+            browse-url-browser-function 'browse-url-generic
+            search-web-default-browser 'browse-url-generic))))
+;; ========= Communicate with Windows =========
