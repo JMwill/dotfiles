@@ -22,7 +22,7 @@ function lnIt() {
     filelist=(
         .zshrc .vimrc .gitignore_global
         .gitconfig .custom.el .tmux.conf
-        .ssh_config
+        .ssh_config .config/nvim/init.vim
     )
 
     echo -e "\e[32m\e[1mInfo:\e[0m \e[32mBackup file in ${backup_folder}\e[0m"
