@@ -32,18 +32,9 @@ call plug#end()
 
 
 " =================================================================================================
-" Yank to clipboard
-if executable('/mnt/c/WINDOWS/system32/clip.exe')
-  augroup WSLYank
-    autocmd!
-    "autocmd TextYankPost * if v:event.operator ==# 'y' | call system('iconv -t utf16 | /mnt/c/WINDOWS/system32/clip.exe', @0) | endif
-    autocmd TextYankPost * if v:event.operator ==# 'y' | call system('/mnt/c/WINDOWS/system32/clip.exe', @0) | endif
-  augroup END
-endif
-
 if exists('g:vscode')
     " VSCode extension
-    
+
     set nobackup
 
     " Better Navigation
@@ -108,6 +99,30 @@ else
     " ordinary Neovim
     set mouse=a
 endif
+
+" " Yank to clipboard
+" if executable('/mnt/c/WINDOWS/system32/clip.exe')
+"   augroup WSLYank
+"     autocmd!
+"     "autocmd TextYankPost * if v:event.operator ==# 'y' | call system('iconv -t utf16 | /mnt/c/WINDOWS/system32/clip.exe', @0) | endif
+"     autocmd TextYankPost * if v:event.operator ==# 'y' | call system('/mnt/c/WINDOWS/system32/clip.exe', @0) | endif
+"   augroup END
+" endif
+
+" clipboard setting base on: https://neovim.io/doc/user/provider.html#provider-clipboard
+set clipboard+=unnamedplus
+let g:clipboard = {
+    \ 'name': 'WslClipboard',
+    \   'copy': {
+    \      '+': 'clip.exe',
+    \      '*': 'clip.exe',
+    \    },
+    \   'paste': {
+    \      '+': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    \      '*': 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+    \   },
+    \   'cache_enabled': 0,
+    \ }
 
 " Keybindings
 nnoremap ; <Plug>(easymotion-prefix)
