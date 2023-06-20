@@ -1,0 +1,594 @@
+// 将设置放入此文件中以覆盖默认设置
+{
+  "files.trimTrailingWhitespace": true,
+  "files.associations": {
+    "*.ejs": "html",
+    "*.wxss": "css",
+    "*.ts": "typescriptreact",
+    "*.cjson": "jsonc",
+    "*.wxs": "javascript"
+  },
+  "editor.fontSize": 16,
+  "editor.cursorStyle": "line",
+  // "editor.wordWrap": "off",
+  "editor.renderWhitespace": "all",
+  // "editor.renderControlCharacters": false,
+  "editor.lineNumbers": "relative",
+  "editor.tabSize": 2,
+  "editor.linkedEditing": true,
+  "[javascriptreact]": {
+    "editor.linkedEditing": true
+  },
+  "terminal.integrated.fontFamily": "MesloLGS NF",
+  "terminal.integrated.commandsToSkipShell": [
+    "-workbench.action.quickOpen",
+    "-workbench.action.terminal.focusFind"
+  ],
+  "window.newWindowDimensions": "inherit",
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
+  // emmet 设置
+  "emmet.includeLanguages": {
+    "javascript": "javascriptreact",
+    "vue-html": "html",
+    "vue": "html",
+    "wxml": "html"
+  },
+  // "emmet.syntaxProfiles": {
+  //   "jsx": {
+  //     // "self_closing_tag": true,
+  //     // "attr_quotes": "single"
+  //   }
+  // },
+  // vim 设置
+  "vim.leader": ",",
+  "vim.easymotion": true,
+  "vim.easymotionChinesePhonetic": {
+    "enable": true
+  },
+  "vim.sneak": true,
+  "vim.visualstar": true,
+  "vim.ignorecase": false,
+  "vim.useSystemClipboard": true,
+  "vim.useCtrlKeys": true,
+  "vim.hlsearch": true,
+  "vim.handleKeys": {
+    "<C-e>": false,
+    "<C-y>": false
+  },
+  "vim.insertModeKeyBindings": [
+    {
+      "before": [
+        "k",
+        "j"
+      ],
+      "after": [
+        "<Esc>"
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "x",
+        "x"
+      ],
+      "commands": [
+        "editor.action.smartSelect.expand"
+      ]
+    },
+    {
+      "before": [
+        "z",
+        "z"
+      ],
+      "commands": [
+        "editor.action.smartSelect.shrink"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "c",
+        "i"
+      ],
+      "commands": [
+        "editor.action.commentLine"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "a",
+        "a"
+      ],
+      "commands": [
+        "editor.action.clipboardCopyAction"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "q",
+        "q"
+      ],
+      "commands": [
+        "workbench.action.findInFiles"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "s",
+        "s"
+      ],
+      "commands": [
+        "actions.find"
+      ]
+    },
+    {
+      "before": [
+        ";",
+        ";"
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "2",
+        "s"
+      ]
+    },
+    {
+      "before": [
+        ";",
+        "w"
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "s"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "v",
+        "a"
+      ],
+      "commands": [
+        "git.stageSelectedRanges"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "v",
+        "k"
+      ],
+      "commands": [
+        "git.unstageSelectedRanges"
+      ]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [
+        "<leader>",
+        "s",
+        "c"
+      ],
+      "commands": [
+        "workbench.action.files.newUntitledFile",
+        "workbench.action.editor.changeLanguageMode"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "b"
+      ],
+      "commands": [
+        "workbench.action.showAllEditorsByMostRecentlyUsed"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "x"
+      ],
+      "commands": [
+        "editor.action.smartSelect.expand"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "z",
+        "z"
+      ],
+      "commands": [
+        "editor.action.smartSelect.shrink"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "q",
+        "q"
+      ],
+      "commands": [
+        "workbench.action.findInFiles"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "f",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.files.copyPathOfActiveFile"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "f",
+        "n"
+      ],
+      "commands": [
+        "copyRelativeFilePath"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "t",
+        "p"
+      ],
+      "commands": [
+        "workbench.action.togglePanel"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "m"
+      ],
+      "commands": [
+        "workbench.action.showCommands"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "c",
+        "i"
+      ],
+      "commands": [
+        "editor.action.commentLine"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "t",
+        "a"
+      ],
+      "commands": [
+        "workbench.action.toggleActivityBarVisibility"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "t",
+        "b"
+      ],
+      "commands": [
+        "workbench.action.toggleSidebarVisibility"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "s"
+      ],
+      "commands": [
+        "workbench.action.files.save"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "s",
+        "s"
+      ],
+      "commands": [
+        "actions.find"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "s",
+        "i"
+      ],
+      "commands": [
+        "extension.matchitSelectItems"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "f"
+      ],
+      "commands": [
+        "workbench.action.files.openFile"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "k"
+      ],
+      "commands": [
+        "workbench.action.closeActiveEditor"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "r",
+        "r"
+      ],
+      "commands": [
+        "workbench.action.openRecent"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "k",
+        "k"
+      ],
+      "commands": [
+        "workbench.action.quickOpen"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "i",
+        "i"
+      ],
+      "commands": [
+        "workbench.action.gotoSymbol"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "1"
+      ],
+      "commands": [
+        "workbench.action.editorLayoutSingle"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "3"
+      ],
+      "commands": [
+        "workbench.action.splitEditorRight"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "2"
+      ],
+      "commands": [
+        "workbench.action.splitEditorDown"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "4"
+      ],
+      "commands": [
+        "workbench.action.editorLayoutTwoByTwoGrid"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "0"
+      ],
+      "commands": [
+        "workbench.action.closeGroup"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "x",
+        "z"
+      ],
+      "commands": [
+        "workbench.action.terminal.focus"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "t",
+        "f",
+        "m"
+      ],
+      "commands": [
+        "workbench.action.toggleZenMode"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "w",
+        "q"
+      ],
+      "after": [
+        ":wq"
+      ]
+    },
+    {
+      "before": [
+        ";",
+        ";"
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "2",
+        "s"
+      ]
+    },
+    {
+      "before": [
+        ";",
+        "w"
+      ],
+      "after": [
+        "<leader>",
+        "<leader>",
+        "s"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "n",
+        "e"
+      ],
+      "commands": [
+        "editor.action.marker.next"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "p",
+        "e"
+      ],
+      "commands": [
+        "editor.action.marker.prev"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "v",
+        "a"
+      ],
+      "commands": [
+        "git.stage"
+      ]
+    },
+    {
+      "before": [
+        "<leader>",
+        "v",
+        "k"
+      ],
+      "commands": [
+        "git.unstage"
+      ]
+    }
+  ],
+  "MarkdownPaste.path": "./assets",
+  "C_Cpp.updateChannel": "Insiders",
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "python.pythonPath": "C:\\Users\\Administrator\\anaconda3\\envs\\invest\\python.exe",
+  "python.autoComplete.extraPaths": [
+    "C:\\Users\\Administrator\\anaconda3\\envs\\python.exe",
+    "C:\\Users\\Administrator\\anaconda3\\envs\\invest\\python.exe"
+  ],
+  "minapp-vscode.disableAutoConfig": true,
+  "python.analysis.extraPaths": [
+    "C:\\Users\\Administrator\\anaconda3\\envs\\python.exe",
+    "C:\\Users\\Administrator\\anaconda3\\envs\\invest\\python.exe"
+  ],
+  "python.defaultInterpreterPath": "C:\\Users\\Administrator\\anaconda3\\envs\\invest\\python.exe",
+  "leek-fund.stocks": [
+    "sh000001",
+    "sh000300",
+    "sh000016",
+    "sh000688",
+    "hk03690",
+    "hk00700",
+    "usr_ixic",
+    "usr_dji",
+    "usr_inx",
+    "ZC0",
+    "sh601919",
+    "sh513660",
+    "sh000991",
+    "sh513050",
+    "hkHSTECH",
+    "sh513180",
+    "hkHSI",
+    "sz159920",
+    "sh516950",
+    "sh512980",
+    "sz002507"
+  ],
+  "leek-fund.statusBarStock": [
+    "undefined"
+  ],
+  "diffEditor.ignoreTrimWhitespace": false,
+  "leek-fund.funds": [
+    [
+      "100032"
+    ]
+  ],
+  "editor.inlineSuggest.enabled": true,
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "conventionalCommits.lineBreak": "\\n",
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[python]": {
+    "editor.formatOnType": true
+  },
+  "editor.unicodeHighlight.nonBasicASCII": false,
+  "remote.extensionKind": {
+    "genieai.chatgpt-vscode": [
+      "ui"
+    ],
+    "pub.name": [
+      "ui"
+    ]
+  },
+  "vscode-neovim.useWSL": true,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "workbench.colorTheme": "Dracula"
+}

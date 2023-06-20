@@ -1,0 +1,54 @@
+// 将键绑定放入此文件中以覆盖默认值
+[
+    // {
+    //     "key": "ctrl+`",
+    //     "command": "workbench.action.terminal.focus",
+    //     "when": "!terminalFocus"
+    // },
+    {
+        "key": "ctrl+`",
+        "command": "workbench.action.closePanel",
+        "when": "panelFocus"
+    },
+    {
+        "key": "ctrl+n",
+        "command": "workbench.action.quickOpenSelectNext",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+p",
+        "command": "workbench.action.quickOpenSelectPrevious",
+        "when": "inQuickOpen"
+    },
+    {
+        "key": "ctrl+tab",
+        "command": "workbench.action.terminal.focusNext",
+        "when": "terminalFocus"
+    },
+    {
+        "key": "ctrl+shift+tab",
+        "command": "workbench.action.terminal.focusPrevious",
+        "when": "terminalFocus"
+    },
+    {
+        "command": "vscode-neovim.send",
+        // the key sequence to activate the binding
+        "key": "ctrl+h",
+        // don't activate during insert mode
+        "when": "editorTextFocus && neovim.mode != insert",
+        // the input to send to Neovim
+        "args": "<C-h>"
+    },
+    {
+        "command": "vscode-neovim.compositeEscape1",
+        "key": "k",
+        "when": "neovim.mode == insert && editorTextFocus",
+        "args": "k"
+    },
+    {
+        "command": "vscode-neovim.compositeEscape2",
+        "key": "j",
+        "when": "neovim.mode == insert && editorTextFocus",
+        "args": "j"
+    }
+]
