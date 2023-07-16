@@ -1,13 +1,4 @@
 " =================================================================================================
-" Install Plug if not exist
-if empty("${XDG_DATA_HOME:-$HOME/.local/share}/nvim/site/autoload/plug.vim")
-    silent !curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
-endif
-" =================================================================================================
-
-
-" =================================================================================================
 " Common config
 let mapleader = ","
 inoremap kj <ESC>
@@ -100,17 +91,40 @@ else
     set mouse=a
 endif
 
-" " Yank to clipboard
-" if executable('/mnt/c/WINDOWS/system32/clip.exe')
-"   augroup WSLYank
-"     autocmd!
-"     "autocmd TextYankPost * if v:event.operator ==# 'y' | call system('iconv -t utf16 | /mnt/c/WINDOWS/system32/clip.exe', @0) | endif
-"     autocmd TextYankPost * if v:event.operator ==# 'y' | call system('/mnt/c/WINDOWS/system32/clip.exe', @0) | endif
-"   augroup END
-" endif
+"if executable('im-select-mspy.exe')
+  "augroup ImSelectSetup
+    "autocmd!
+    "autocmd VimEnter * :silent !im-select-mspy.exe 英语模式
+    "autocmd InsertLeave * :silent !im-select-mspy.exe 英语模式
+  "augroup END
+"endif
+"if executable('im-select-mspy.exe')
+  "augroup ImSelectSetup
+    "autocmd!
+    "autocmd VimEnter * let g:input_mode = system('im-select-mspy.exe') | silent !im-select-mspy.exe 英语模式
+    "autocmd InsertEnter * execute 'silent !im-select-mspy.exe' g:input_mode
+    "autocmd InsertLeave * let g:input_mode = system('im-select-mspy.exe') | silent !im-select-mspy.exe 英语模式
+    "autocmd VimLeave * execute 'silent !im-select-mspy.exe' g:input_mode
+  "augroup END
+"endif
+
 
 " clipboard setting base on: https://neovim.io/doc/user/provider.html#provider-clipboard
 set clipboard+=unnamedplus
+if executable('win32yank.exe')
+let g:clipboard = {
+    \ 'name': 'WslClipboard',
+    \   'copy': {
+    \      '+': 'win32yank.exe -i --crlf',
+    \      '*': 'win32yank.exe -i --crlf',
+    \    },
+    \   'paste': {
+    \      '+': 'win32yank.exe -o --lf',
+    \      '*': 'win32yank.exe -o --lf',
+    \   },
+    \   'cache_enabled': 0,
+    \ }
+elseif
 let g:clipboard = {
     \ 'name': 'WslClipboard',
     \   'copy': {
@@ -123,6 +137,7 @@ let g:clipboard = {
     \   },
     \   'cache_enabled': 0,
     \ }
+endif
 
 " Keybindings
 nnoremap ; <Plug>(easymotion-prefix)
