@@ -13,7 +13,6 @@ call plug#begin()
 " use normal easymotion when in VIM mode
 Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 " use VSCode easymotion when in VSCode mode
-Plug 'asvetliakov/vim-easymotion', Cond(exists('g:vscode'), { 'as': 'vsc-easymotion' })
 
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-expand-region'
@@ -44,22 +43,19 @@ if exists('g:vscode')
     nnoremap <silent> <Leader>xm <Cmd>call VSCodeNotify('workbench.action.showCommands')<CR>
     xnoremap <silent> <Leader>xm <Cmd>call VSCodeNotify('workbench.action.showCommands')<CR>
 
-    " nmap <Leader>ci <Plug>VSCodeCommentary
     nmap <Leader>ci <Plug>VSCodeCommentaryLine
     xmap <Leader>ci <Plug>VSCodeCommentary
     omap <Leader>ci <Plug>VSCodeCommentary
-    "nmap <Leader>cii <Plug>VSCodeCommentaryLine
-    "nmap <Leader>cii <Plug>VSCodeCommentary
 
     nnoremap <Leader>qq <Cmd>call VSCodeNotify('workbench.action.findInFiles', {'query': expand('<cword>')})<CR>
-    xnoremap <Leader>qq <Cmd>call VSCodeNotifyVisual('workbench.action.findInFiles', 0)<CR>
+    xnoremap <Leader>qq <Cmd>call VSCodeNotify('workbench.action.findInFiles', 0)<CR>
 
     nnoremap <Leader>ss <Cmd>call VSCodeNotify('actions.find', {'query': expand('<cword>')})<CR>
-    xnoremap <Leader>ss <Cmd>call VSCodeNotifyVisual('actions.find', 0)<CR>
+    xnoremap <Leader>ss <Cmd>call VSCodeNotify('actions.find', 0)<CR>
 
-    xnoremap <Leader>aa <Cmd>call VSCodeNotifyVisual('editor.action.clipboardCopyAction', 0)<CR>
-    xnoremap <Leader>va <Cmd>call VSCodeNotifyVisual('git.stageSelectedRanges', 0)<CR>
-    xnoremap <Leader>vk <Cmd>call VSCodeNotifyVisual('git.unstageSelectedRanges', 0)<CR>
+    xnoremap <Leader>aa <Cmd>call VSCodeNotify('editor.action.clipboardCopyAction', 0)<CR>
+    xnoremap <Leader>va <Cmd>call VSCodeNotify('git.stageSelectedRanges', 0)<CR>
+    xnoremap <Leader>vk <Cmd>call VSCodeNotify('git.unstageSelectedRanges', 0)<CR>
 
     nnoremap <Leader>sc <Cmd>call VSCodeNotify('workbench.action.files.newUntitledFile')<CR><Cmd>call VSCodeNotify('workbench.action.editor.changeLanguageMode')<CR>
     nnoremap <Leader>xb <Cmd>call VSCodeNotify('workbench.action.showAllEditorsByMostRecentlyUsed')<CR>
@@ -89,6 +85,9 @@ if exists('g:vscode')
 else
     " ordinary Neovim
     set mouse=a
+    " Keybindings
+    nnoremap ; <Plug>(easymotion-prefix)
+    xnoremap ; <Plug>(easymotion-prefix)
 endif
 
 "if executable('im-select-mspy.exe')
@@ -138,10 +137,6 @@ let g:clipboard = {
     \   'cache_enabled': 0,
     \ }
 endif
-
-" Keybindings
-nnoremap ; <Plug>(easymotion-prefix)
-xnoremap ; <Plug>(easymotion-prefix)
 
 " Expand
 nnoremap <Leader>xx <Plug>(expand_region_expand)
