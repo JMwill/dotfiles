@@ -123,7 +123,7 @@ let g:clipboard = {
     \   },
     \   'cache_enabled': 0,
     \ }
-elseif
+elseif executable('clip.exe')
 let g:clipboard = {
     \ 'name': 'WslClipboard',
     \   'copy': {
