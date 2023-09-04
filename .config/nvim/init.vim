@@ -11,9 +11,9 @@ endfunction
 
 call plug#begin()
 " use normal easymotion when in VIM mode
-Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
-" use VSCode easymotion when in VSCode mode
+"Plug 'easymotion/vim-easymotion', Cond(!exists('g:vscode'))
 
+Plug 'folke/flash.nvim'
 Plug 'tpope/vim-surround'
 Plug 'terryma/vim-expand-region'
 Plug 'preservim/nerdcommenter', Cond(!exists('g:vscode'))
@@ -86,8 +86,8 @@ else
     " ordinary Neovim
     set mouse=a
     " Keybindings
-    nnoremap ; <Plug>(easymotion-prefix)
-    xnoremap ; <Plug>(easymotion-prefix)
+    "nnoremap ; <Plug>(easymotion-prefix)
+    "xnoremap ; <Plug>(easymotion-prefix)
 endif
 
 "if executable('im-select-mspy.exe')
@@ -143,4 +143,10 @@ nnoremap <Leader>xx <Plug>(expand_region_expand)
 xnoremap xx <Plug>(expand_region_expand)
 nnoremap <Leader>zz <Plug>(expand_region_expand)
 xnoremap zz <Plug>(expand_region_shrink)
+
+" Flash Motion
+nnoremap ;w <Cmd>lua require("flash").jump({ pattern = ".", search = { mode = function(pattern) if pattern:sub(1, 1) == "." then pattern = pattern:sub(2) end return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern) end, }, jump = { pos = "start" }, })<CR>
+xnoremap ;w <Cmd>lua require("flash").jump({ pattern = ".", search = { mode = function(pattern) if pattern:sub(1, 1) == "." then pattern = pattern:sub(2) end return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern) end, }, jump = { pos = "start" }, })<CR>
+"xnoremap ;w <Cmd>lua require('flash').jump({ search = { mode = function(str) return "\\<" .. str end, }, })<CR>
+"xnoremap ;w <Cmd>lua require('flash').jump({ modes = { char = { jump_labels = false } } })<CR>
 " =================================================================================================
