@@ -17,7 +17,6 @@ export RSYNC_LOCAL_DIR
 export RSYNC_CLOUD_DIR
 ##################### Command line tool: Rsync's upload/download config #####################
 
-
 ##################### WSL export #####################
 if grep -qEi "(Microsoft|WSL)" /proc/version &> /dev/null ; then
     export BROWSER='/mnt/c/Program Files/Google/Chrome/Application/chrome.exe'

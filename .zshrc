@@ -1,3 +1,5 @@
+# Add deno completions to search path
+if [[ ":$FPATH:" != *":/home/will/.zsh/completions:"* ]]; then export FPATH="/home/will/.zsh/completions:$FPATH"; fi
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -88,6 +90,8 @@ ZSH_PLUGINS_ARRAY=(
   zsh-autosuggestions
   fd
   docker
+  virtualenvwrapper
+  autoenv
 )
 plugins=("${ZSH_PLUGINS_ARRAY[@]}")
 
@@ -106,6 +110,10 @@ pastefinish() {
 zstyle :bracketed-paste-magic paste-init pasteinit
 zstyle :bracketed-paste-magic paste-finish pastefinish
 ###########################################################################
+
+
+# source autoenv before zsh-autoenv.sh load
+source '/home/will/.nvm/versions/node/v22.12.0/lib/node_modules/@hyperupcall/autoenv/activate.sh'
 
 source $ZSH/oh-my-zsh.sh
 
@@ -152,3 +160,4 @@ for file in "$DOTFILES_PATH"/shell/.{profile,path,zsh_prompt,exports,aliases,fun
 done
 unset file
 ##################### Custom config #####################
+. "/home/will/.deno/env"

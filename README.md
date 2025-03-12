@@ -114,3 +114,9 @@ export PATH="/usr/local/bin:$PATH"
 ### 添加自定义命令
 
 如果 `~/.dotfiles/.extra` 文件存在，也会与其他文件一起加载，加载次序最后，因此可以新增、覆盖项目中的设置、命令、别名等
+
+## 资料
+
+### Python安装、环境配置
+
+> 参考文章： [Pipenv & 虚拟环境](https://pythonguidecn.readthedocs.io/zh/latest/dev/virtualenvs.html)
