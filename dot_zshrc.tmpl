@@ -11,13 +11,15 @@ fi
 # 2. 全局基础 PATH 统一收拢
 export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH"
 
-# 3. Node.js (fnm) 环境激活
+{{ if not (env "TERMUX_VERSION") -}}
+# 3. Node.js (fnm) 环境激活 (非 Termux 环境)
 if command -v fnm &> /dev/null; then
   eval "$(fnm env --use-on-cd --shell zsh)"
 elif [ -d "$HOME/.local/share/fnm" ]; then
   export PATH="$HOME/.local/share/fnm:$PATH"
   eval "$(fnm env --use-on-cd --shell zsh)"
 fi
+{{ end -}}
 
 # 4. 在 Oh My Zsh 启动前注入自定义补全路径 (彻底消除末尾二次 compinit 造成的卡顿)
 if [ -d "$HOME/.local/share/zsh/site-functions" ]; then
@@ -30,17 +32,16 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
   git
-  emacs
-  autojump
   fzf
   tmux
   zsh-syntax-highlighting
   zsh-autosuggestions
+  {{- if not (env "TERMUX_VERSION") }}
+  autojump
+  conda-zsh-completion
+  {{- end }}
   {{- if eq .chezmoi.os "darwin" }}
   osx
-  {{- end }}
-  {{- if not (env "TERMUX_VERSION") }}
-  conda-zsh-completion
   {{- end }}
 )
 

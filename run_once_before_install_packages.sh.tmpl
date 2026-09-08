@@ -10,7 +10,7 @@ echo "=================================================="
 # ==================== macOS ====================
 if command -v brew &>/dev/null; then
   echo ">>> [macOS] 正在通过 Homebrew 检查并安装软件..."
-  brew install zsh tmux git curl fzf autojump fd ripgrep bat croc fnm
+  brew install zsh tmux git fzf autojump fd ripgrep bat croc fnm
 else
   echo ">>> [警告] 未检测到 Homebrew，请先安装 brew 后重新执行 chezmoi apply"
 fi
@@ -20,7 +20,7 @@ fi
 # ==================== Android Termux ====================
 echo ">>> [Termux] 正在通过 pkg 检查并安装软件..."
 pkg update -y
-pkg install -y zsh tmux git curl fzf autojump fd ripgrep bat termux-api
+pkg install -y zsh tmux git curl fzf fd ripgrep bat termux-api
 
 {{ else -}}
 # ==================== 银河麒麟 / Debian / Ubuntu / WSL ====================
@@ -35,11 +35,13 @@ if ! command -v croc &>/dev/null; then
 fi
 {{ end -}}
 
-# 安装 fnm (Node.js 极速版本管理器，Linux/WSL 通用)
+{{ if not (env "TERMUX_VERSION") -}}
+# 安装 fnm (Node.js 极速版本管理器，非 Termux 环境通用)
 if ! command -v fnm &>/dev/null; then
   echo ">>> 正在安装 fnm (Fast Node Manager)..."
   curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 fi
+{{ end -}}
 {{ end -}}
 
 # 2. Oh My Zsh 核心安装 (若未安装)

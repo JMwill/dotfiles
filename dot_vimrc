@@ -64,20 +64,18 @@ set mouse=a
 set nostartofline
 set ffs=unix,dos
 
-" => 文件备份与跨会话持久撤销 (自动建目录，永不报错)
+" => 文件备份与跨会话持久撤销 (彻底消除 .swp 弹窗报错，仅保留干净的持久化撤销)
 let s:undo_dir = expand('~/.vim/undo')
-let s:backup_dir = expand('~/.vim/backups')
-let s:swap_dir = expand('~/.vim/swaps')
-
-if !isdirectory(s:undo_dir)   | call mkdir(s:undo_dir, 'p')   | endif
-if !isdirectory(s:backup_dir) | call mkdir(s:backup_dir, 'p') | endif
-if !isdirectory(s:swap_dir)   | call mkdir(s:swap_dir, 'p')   | endif
+if !isdirectory(s:undo_dir) | call mkdir(s:undo_dir, 'p') | endif
 
 set undodir=~/.vim/undo
-set backupdir=~/.vim/backups
-set directory=~/.vim/swaps
 set undofile
 set undolevels=1000
+
+" 彻底禁用产生碎片垃圾与弹窗警告的 swap 与 backup 文件
+set nobackup
+set nowritebackup
+set noswapfile
 
 " => 实用快捷键绑定
 " 快速保存
