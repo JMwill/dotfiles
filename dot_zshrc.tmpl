@@ -118,9 +118,16 @@ function tproxy() {
   export ALL_PROXY="$socks_url"
   export NODE_USE_ENV_PROXY=1
 
-  # 通用本地直连白名单 (单位内网专属白名单配置在 ~/.zshrc.local)
-  export NO_PROXY="localhost,127.0.0.1"
-  export no_proxy="localhost,127.0.0.1"
+  # 通用本地直连白名单 (智能保留既有白名单如 ~/.zshrc.local 中配置的单位内网域名)
+  local default_no_proxy="localhost,127.0.0.1"
+  if [[ -n "$NO_PROXY" ]]; then
+    if [[ "$NO_PROXY" != *"127.0.0.1"* ]]; then
+      export NO_PROXY="${NO_PROXY},${default_no_proxy}"
+    fi
+  else
+    export NO_PROXY="$default_no_proxy"
+  fi
+  export no_proxy="$NO_PROXY"
 
   echo -e "\033[32m✔ 终端代理已开启: ${proxy_url}\033[0m"
 }
@@ -207,11 +214,11 @@ function ppaste() {
 function ff() {
   local cli
   if command -v fd &>/dev/null; then
-    cli=$(fd --type f --hidden --exclude .git 2>/dev/null | fzf)
+    cli=$(fd --type f --hidden --exclude .git 2>/dev/null | fzf -q "${*:-}")
   elif command -v fdfind &>/dev/null; then
-    cli=$(fdfind --type f --hidden --exclude .git 2>/dev/null | fzf)
+    cli=$(fdfind --type f --hidden --exclude .git 2>/dev/null | fzf -q "${*:-}")
   else
-    cli=$(find . -not -iwholename '*/.git*' -not -iwholename '*/node_modules/*' -type f 2>/dev/null | fzf)
+    cli=$(find . -not -iwholename '*/.git*' -not -iwholename '*/node_modules/*' -type f 2>/dev/null | fzf -q "${*:-}")
   fi
 
   if [ -n "$cli" ]; then
