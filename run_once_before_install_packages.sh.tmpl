@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+echo "=================================================="
+echo ">>> 开始检查并自动补全系统基础依赖..."
+echo "=================================================="
+
+# 1. 平台原生包管理器安装
+{{ if eq .chezmoi.os "darwin" -}}
+# ==================== macOS ====================
+if command -v brew &>/dev/null; then
+  echo ">>> [macOS] 正在通过 Homebrew 检查并安装软件..."
+  brew install zsh tmux git curl fzf autojump fd ripgrep bat croc fnm
+else
+  echo ">>> [警告] 未检测到 Homebrew，请先安装 brew 后重新执行 chezmoi apply"
+fi
+
+{{ else if eq .chezmoi.os "linux" -}}
+{{ if env "TERMUX_VERSION" -}}
+# ==================== Android Termux ====================
+echo ">>> [Termux] 正在通过 pkg 检查并安装软件..."
+pkg update -y
+pkg install -y zsh tmux git curl fzf autojump fd ripgrep bat termux-api
+
+{{ else -}}
+# ==================== 银河麒麟 / Debian / Ubuntu / WSL ====================
+echo ">>> [Linux 桌面/WSL] 正在通过 apt 检查并安装基础包..."
+sudo apt update -y
+sudo apt install -y zsh tmux git curl fzf autojump fd-find ripgrep bat {{ if not (env "WSL_DISTRO_NAME") }}xclip{{ end }}
+
+# 安装 croc (若未安装)
+if ! command -v croc &>/dev/null; then
+  echo ">>> 正在安装 croc (跨端加密快传工具)..."
+  curl -fsSL https://getcroc.schollz.com | bash
+fi
+{{ end -}}
+
+# 安装 fnm (Node.js 极速版本管理器，Linux/WSL 通用)
+if ! command -v fnm &>/dev/null; then
+  echo ">>> 正在安装 fnm (Fast Node Manager)..."
+  curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+fi
+{{ end -}}
+
+# 2. Oh My Zsh 核心安装 (若未安装)
+if [ ! -d "$HOME/.oh-my-zsh" ]; then
+  echo ">>> 正在安装 Oh My Zsh..."
+  RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+fi
+
+ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
+
+# 3. 自动拉取自定义插件与主题 (全平台通用)
+if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
+  echo ">>> 正在克隆 Powerlevel10k 主题..."
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
+  echo ">>> 正在克隆 zsh-syntax-highlighting 插件..."
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+fi
+
+if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
+  echo ">>> 正在克隆 zsh-autosuggestions 插件..."
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+fi
+
+{{ if not (env "TERMUX_VERSION") -}}
+if [ ! -d "$ZSH_CUSTOM/plugins/conda-zsh-completion" ]; then
+  echo ">>> 正在克隆 conda-zsh-completion 插件..."
+  git clone https://github.com/conda-incubator/conda-zsh-completion "$ZSH_CUSTOM/plugins/conda-zsh-completion"
+fi
+{{ end -}}
+
+echo "=================================================="
+echo "✔ 所有基础依赖与插件就绪！即将部署配置文件..."
+echo "=================================================="

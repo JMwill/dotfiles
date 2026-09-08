@@ -1,0 +1,57 @@
+# 终端真彩色与历史回滚支持
+set -g default-terminal "xterm-256color"
+set -as terminal-overrides ",xterm-256color:Tc"
+set -g history-limit 50000
+
+# 鼠标支持与 Vi 模式
+set -g mouse on
+setw -g mode-keys vi
+
+# 窗口与窗格编号从 1 开始 (符合键盘手势)
+set -g base-index 1
+setw -g pane-base-index 1
+
+# 自动重命名与自动重排编号
+setw -g automatic-rename on
+set -g renumber-windows on
+
+# 面板分割绑定 (保持当前工作目录)
+unbind '"'
+unbind %
+bind - split-window -v -c "#{pane_current_path}"
+bind | split-window -h -c "#{pane_current_path}"
+
+# Vi 风格面板导航
+bind k select-pane -U
+bind j select-pane -D
+bind h select-pane -L
+bind l select-pane -R
+
+# 一键热重载配置
+bind r source-file ~/.tmux.conf \; display-message "✔ ~/.tmux.conf reloaded!"
+
+# 复制模式与多端跨平台剪贴板
+bind-key -T copy-mode-vi v send -X begin-selection
+bind-key -T copy-mode-vi 'C-v' send -X rectangle-toggle
+
+{{ if eq .chezmoi.os "darwin" -}}
+# macOS
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "pbcopy"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "pbcopy"
+{{ else if env "WSL_DISTRO_NAME" -}}
+# Windows WSL
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "clip.exe"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "clip.exe"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "clip.exe"
+{{ else if env "TERMUX_VERSION" -}}
+# Android Termux
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "termux-clipboard-set"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "termux-clipboard-set"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "termux-clipboard-set"
+{{ else -}}
+# Linux 桌面 (银河麒麟)
+bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -se c -i"
+bind-key -T copy-mode-vi Enter send-keys -X copy-pipe-and-cancel "xclip -se c -i"
+bind-key -T copy-mode-vi MouseDragEnd1Pane send-keys -X copy-pipe-and-cancel "xclip -se c -i"
+{{ end -}}

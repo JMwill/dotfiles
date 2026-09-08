@@ -1,114 +1,81 @@
-# JMwill's dotfile
+# JMwill's Dotfiles
 
-## 依赖
+基于 [chezmoi](https://www.chezmoi.io/) 构建的现代化、模块化、跨平台个人开发环境配置。
 
-### MacOS
+---
 
-首先安装管理工具 [brew](https://brew.sh/)，以及 `brew install rsync`
+## 🌟 支持环境
 
-### Ubuntu
+* **Linux 桌面 / 服务器**（银河麒麟 Kylin V10 SP1 aarch64 / Ubuntu / Debian）
+* **macOS**（Apple Silicon & Intel）
+* **Android**（Termux 手机 / 平板终端）
+* **Windows**（WSL2）
 
-#### 通过 apt 安装的依赖
+---
 
-```shell
-apt install -y build-essential \
-  rsync \
-  gcc \
-  file \
-  xsel
+## 🚀 极速上手
+
+### 1. 安装 Chezmoi
+
+* **macOS**: `brew install chezmoi`
+* **Android Termux**: `pkg install chezmoi`
+* **Linux / WSL 一键安装**:
+  ```bash
+  sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
+  ```
+
+### 2. 一键初始化并部署
+
+在任意新机器或移动设备上，只需一条命令即可全自动装配环境（自动安装依赖工具与插件、自动分发配置）：
+
+```bash
+chezmoi init --apply https://github.com/JMwill/dotfiles.git
 ```
 
-### 基础
+---
 
-必不可少的 [Git](https://git-scm.com/)，[curl](https://curl.se/) / [wget](https://www.gnu.org/software/wget/) 任意一个。其余依赖如下：
+## 📦 模块概览
 
-- Shell：[zsh](http://zsh.sourceforge.net/)，Ubuntu 下 apt，MacOS 则为 brew
-- Shell 配置管理工具：[Oh My Zsh](https://ohmyz.sh/)
-- 漫游文本系统工具：[autojump](https://github.com/wting/autojump)
-- 命令行模糊查找工具：[fzf](https://github.com/junegunn/fzf)
-- 文件传输工具 [rsync](https://rsync.samba.org/)
-- 文本查找工具：[ripgrep](https://github.com/BurntSushi/ripgrep#installation)
-- 文本流处理工具：[gnu-sed](https://www.gnu.org/software/sed/) MacOS 上的 sed 功能较弱，因此安装此工具
-- 博客框架：[hugo](https://gohugo.io/)
+| 模块 | 关键特性 | 对应源文件 |
+| :--- | :--- | :--- |
+| **Zsh** | Powerlevel10k 即时提示、fnm (Node.js)、智能代理 `tproxy` / `tunproxy`、原生 Git URL 提取 `gurl`、fd 极速文件检索 `ff`、历史记录防泄密、本地逃生舱 `~/.zshrc.local` | `dot_zshrc.tmpl` |
+| **Tmux** | 256 真彩色 (`Tc`)、50000 行历史回滚、窗口自适应 1 起编号、当前目录平滑分屏 (`-` / `\|`)、四端自适应系统剪贴板 (`pbcopy` / `xclip` / `clip.exe` / `termux-clipboard-set`) | `dot_tmux.conf.tmpl` |
+| **Git** | 跨平台凭据助手 (`osxkeychain` / Windows Credential Manager / `store`)、中文路径防乱码、全局忽略模板、彩色分支图 `git lg`、基于目录的公私邮箱智能切换 (`**/WorkProjects/**`) | `dot_gitconfig.tmpl`<br>`dot_gitignore_global` |
+| **Vim** | 精简原生 ~150 行、开箱即用 Badwolf 暗色主题、自愈式跨会话持久撤销 (`undofile`)、双拼秒退编辑态 (`kj`)、代码折叠与无缝窗格跳转 | `dot_vimrc`<br>`dot_vim/` |
+| **Emacs** | 深度契合 `redguardtoo/emacs.d`、Emacs 29 编译告警静默、清华 ELPA 国内镜像加速、临时与备份文件全隔离、pyim 中文输入法弹窗、keyfreq 按键热度统计 | `dot_custom.el` |
+| **装机总管** | 平台原生包管理器自动安装 (`apt` / `brew` / `pkg`)、`croc` 与 `fnm` 幂等自装、Oh My Zsh 插件自动克隆 | `run_once_before_install_packages.sh.tmpl` |
 
-```shell
-# Oh My Zsh 根据官方方式安装：https://ohmyz.sh/#install
-# nvm 根据官方方式安装：https://github.com/nvm-sh/nvm#installing-and-updating
+---
 
-# MacOS
-brew install git curl zsh autojump fzf ripgrep gun-sed hugo
+## 🛠️ 日常维护指南
 
-# Ubuntu
-apt install git zsh autojump fzf ripgrep hugo
-```
+* **查看当前配置与仓库模板差异**：
+  ```bash
+  chezmoi diff
+  ```
+* **将仓库最新修改应用到系统**：
+  ```bash
+  chezmoi apply
+  ```
+* **编辑模板**：
+  ```bash
+  chezmoi edit ~/.zshrc
+  ```
+* **将实机修改反向同步回仓库**：
+  ```bash
+  chezmoi re-add
+  # 或
+  chezmoi add ~/.zshrc
+  ```
+* **多端同步更新**：
+  ```bash
+  chezmoi update
+  ```
 
-#### Oh My Zsh 插件
+---
 
-- 主题 [Powerlevel10k](https://github.com/romkatv/powerlevel10k)
-- 语法高亮插件：[zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
-- 命令自动补全: [zsh-autosuggestions](git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions)
+## 🔒 私有与敏感配置隔离
 
-### 推荐工具
-
-#### MacOS
-
-```shell
-brew install mitmproxy w3m tmux sqlite3 shellcheck tldr fd
-brew cask install google-chrome appcleaner mathpix-snipping-tool \
-            iterm2 visual-studio-code postman emacs \
-            clashx keka iina \
-            slack google-backup-and-sync xquartz \
-            sourcetree telegram parallels-desktop
-```
-
-#### Ubuntu
-
-```shell
-# mitmproxy 在 linux 上需要下载安装包安装：https://mitmproxy.org/
-apt install sdcv w3m tmux sqlite3 shellcheck tldr fd-find
-
-snap install code emacs mathpix-snipping-tool
-```
-
-#### 命令行编辑器
-
-近期对 Emacs 较为有兴趣，目前正在使用当中，推荐使用陈斌（斌哥）的[配置](https://github.com/redguardtoo/emacs.d)，上面安装的 w3m 也是为此服务的。
-
-同时笔记记录方式目前采用 `org-roam` 所以需要安装依赖包：`sqlite3`，关系图的可视化目前还未使用，所需安装包暂未列出，可以自行根据文档安装 [org-roam 关系图形化](https://www.orgroam.com/manual.html#Graphing)
-
-
-## 安装
-
-**提醒**：本项目用于记录本人平常工作环境的配置文件，所有的设置不保证兼容性，使用前请确保已经了解项目内脚本作用，请勿盲目采用！
-
-### 使用 Git 以及 bootstrap 脚本进行安装
-
-通过 Git 工具将项目克隆到本地，我喜欢直接将克隆后的项目更名为 `~/.dotfiles`，也可以将项目克隆到任意喜欢的位置后再创建 `symlink` 链接到项目的位置，但名称需要是：`.dotfiles`
-
-```shell
-git clone --depth 1 https://github.com/JMwill/dotfiles.git && mv dotfiles ~/.dotfiles && cd ~/.dotfiles && source bootstrap.sh
-
-# OR
-
-git clone --depth 1 https://github.com/JMwill/dotfiles.git && ln -s dotfiles ~/.dotfiles && cd ~/.dotfiles && source bootstrap.sh
-```
-
-### 设置默认 Shell
-
-```shell
-chsh -s "$(command -v zsh)"
-```
-
-### 指定 `$PATH`
-
-如果 `~/.dotfiles/shell/.path` 文件存在，则会与其他文件一起被加载，加载次序靠前，仅次于 `~/.dotfiles/.profile`
-
-添加的例子可以如下：
-
-```shell
-export PATH="/usr/local/bin:$PATH"
-```
-
-### 添加自定义命令
-
-如果 `~/.dotfiles/.extra` 文件存在，也会与其他文件一起加载，加载次序最后，因此可以新增、覆盖项目中的设置、命令、别名等
+* 本项目严格遵循开源安全规范，所有公用模板不含任何私有域名、公司 Token 或凭据。
+* **单位内网代理白名单**：置于本地 `~/.zshrc.local` 中，自动加载且不入 Git 版本控制。
+* **公司专属 Git 邮箱**：在任何 `**/WorkProjects/**` 路径下，自动引入本地 `~/.gitconfig.work` 身份。

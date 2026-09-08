@@ -1,0 +1,25 @@
+[user]
+	name = JMwill
+	email = willsurpriseyou@foxmail.com
+
+[credential]
+{{- if eq .chezmoi.os "darwin" }}
+	helper = osxkeychain
+{{- else if env "WSL_DISTRO_NAME" }}
+	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+{{- else }}
+	helper = store
+{{- end }}
+
+[core]
+	excludesfile = {{ .chezmoi.homeDir }}/.gitignore_global
+	quotepath = false
+
+[init]
+	defaultBranch = main
+
+[alias]
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+
+[includeIf "gitdir:**/WorkProjects/**"]
+	path = {{ .chezmoi.homeDir }}/.gitconfig.work

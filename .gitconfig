@@ -1,7 +1,0 @@
-[user]
-  name = JMwill
-  email = willsurpriseyou@foxmail.com
-[credential]
-  helper = store --file ~/.will-git-credentials
-[core]
-  excludesfile = ~/.dotfiles/.gitignore_global
