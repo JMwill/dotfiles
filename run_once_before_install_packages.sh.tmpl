@@ -9,8 +9,16 @@ echo "=================================================="
 {{ if eq .chezmoi.os "darwin" -}}
 # ==================== macOS ====================
 if command -v brew &>/dev/null; then
-  echo ">>> [macOS] 正在通过 Homebrew 检查并安装软件..."
-  brew install zsh tmux git fzf autojump fd ripgrep bat croc fnm uv
+  MISSING_BREW=()
+  for pkg in zsh tmux git fzf autojump fd ripgrep bat croc fnm uv; do
+    brew list "$pkg" &>/dev/null || MISSING_BREW+=("$pkg")
+  done
+  if [ ${#MISSING_BREW[@]} -gt 0 ]; then
+    echo ">>> [macOS] 正在通过 Homebrew 安装缺失软件: ${MISSING_BREW[*]}..."
+    brew install "${MISSING_BREW[@]}"
+  else
+    echo ">>> [macOS] Homebrew 基础软件已全部就绪，跳过安装。"
+  fi
 else
   echo ">>> [警告] 未检测到 Homebrew，请先安装 brew 后重新执行 chezmoi apply"
 fi
@@ -18,15 +26,36 @@ fi
 {{ else if eq .chezmoi.os "linux" -}}
 {{ if env "TERMUX_VERSION" -}}
 # ==================== Android Termux ====================
-echo ">>> [Termux] 正在通过 pkg 检查并安装软件..."
-pkg update -y
-pkg install -y zsh tmux git curl fzf fd ripgrep bat termux-api croc uv
+MISSING_TERMUX=()
+for pkg in zsh tmux git curl fzf fd ripgrep bat termux-api croc uv; do
+  command -v "$pkg" &>/dev/null || MISSING_TERMUX+=("$pkg")
+done
+if [ ${#MISSING_TERMUX[@]} -gt 0 ]; then
+  echo ">>> [Termux] 正在通过 pkg 安装缺失软件: ${MISSING_TERMUX[*]}..."
+  pkg update -y
+  pkg install -y "${MISSING_TERMUX[@]}"
+else
+  echo ">>> [Termux] 基础软件已全部就绪，跳过安装。"
+fi
 
 {{ else -}}
 # ==================== 银河麒麟 / Debian / Ubuntu / WSL ====================
-echo ">>> [Linux 桌面/WSL] 正在通过 apt 检查并安装基础包..."
-sudo apt update -y
-sudo apt install -y zsh tmux git curl fzf autojump fd-find ripgrep bat {{ if not (env "WSL_DISTRO_NAME") }}xclip{{ end }}
+MISSING_PKGS=()
+for pkg in zsh tmux git curl fzf {{ if not (env "WSL_DISTRO_NAME") }}xclip{{ end }}; do
+  command -v "$pkg" &>/dev/null || MISSING_PKGS+=("$pkg")
+done
+command -v fdfind &>/dev/null || command -v fd &>/dev/null || MISSING_PKGS+=("fd-find")
+command -v rg &>/dev/null || MISSING_PKGS+=("ripgrep")
+command -v bat &>/dev/null || command -v batcat &>/dev/null || MISSING_PKGS+=("bat")
+[ -f /usr/share/autojump/autojump.sh ] || command -v autojump &>/dev/null || MISSING_PKGS+=("autojump")
+
+if [ ${#MISSING_PKGS[@]} -gt 0 ]; then
+  echo ">>> [Linux 桌面/WSL] 检测到缺失依赖: ${MISSING_PKGS[*]}，正在通过 apt 安装..."
+  sudo apt update -y
+  sudo apt install -y "${MISSING_PKGS[@]}"
+else
+  echo ">>> [Linux 桌面/WSL] 系统基础依赖已全部就绪，跳过 apt 安装。"
+fi
 
 # 安装 croc (若未安装)
 if ! command -v croc &>/dev/null; then
