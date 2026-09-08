@@ -1,4 +1,8 @@
+{{ if env "TERMUX_VERSION" -}}
+#!/data/data/com.termux/files/usr/bin/bash
+{{ else -}}
 #!/usr/bin/env bash
+{{ end -}}
 set -euo pipefail
 
 echo "=================================================="

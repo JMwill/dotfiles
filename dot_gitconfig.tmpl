@@ -23,3 +23,7 @@
 
 [includeIf "gitdir:**/WorkProjects/**"]
 	path = {{ .chezmoi.homeDir }}/.gitconfig.work
+
+[include]
+	path = {{ .chezmoi.homeDir }}/.gitconfig.local
+

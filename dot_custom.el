@@ -7,10 +7,13 @@
 (setq my-enable-startup-color-theme-p t)
 ;; 抑制 Emacs 29+ 异步原生编译产生的恼人弹窗警告 (纠正拼写错误)
 (setq native-comp-async-report-warnings-errors 'silent)
+(setq use-dialog-box nil)
+(setq ring-bell-function 'ignore)
 
 ;; 2. 国内 ELPA 镜像源加速 (防止网络超时)
 (setq package-archives '(("gnu"   . "https://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/")
-                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")))
+                         ("melpa" . "https://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/")
+                         ("nongnu". "https://mirrors.tuna.tsinghua.edu.cn/elpa/nongnu/")))
 
 ;; 3. 临时与自动备份文件隔离 (彻底杜绝在代码仓库中生成 filename~ 垃圾文件)
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
@@ -34,3 +37,8 @@
     (add-to-list 'grep-find-ignored-directories dir))
   (dolist (file '("*.min.js" "*.bundle.js" "*.min.css" "*.log"))
     (add-to-list 'grep-find-ignored-files file)))
+
+;; 7. 加载本地私有特异配置 (若存在，例如各机器专属的笔记目录等)
+(let ((local-custom (expand-file-name "~/.custom.local.el")))
+  (when (file-exists-p local-custom)
+    (load local-custom t nil)))

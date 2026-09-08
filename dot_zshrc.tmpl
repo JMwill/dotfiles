@@ -9,7 +9,36 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # 2. 全局基础 PATH 统一收拢
-export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH{{ if env "TERMUX_VERSION" }}:$PREFIX/local/bin{{ end }}"
+
+{{ if env "TERMUX_VERSION" -}}
+# ==============================================================================
+# Termux 后台 SSH 服务管理与防休眠唤醒锁
+# ==============================================================================
+function ssh-on() {
+  sshd 2>/dev/null
+  command -v termux-wake-lock &>/dev/null && termux-wake-lock
+  local ip
+  ip=$(ifconfig 2>/dev/null | awk '/wlan0:/{flag=1;next}/^[a-z0-9]+:/{flag=0}flag && /inet /{print $2}')
+  [ -z "$ip" ] && ip=$(ifconfig 2>/dev/null | awk '/inet /{if($2!="127.0.0.1") print $2}' | tail -n 1)
+  [ -z "$ip" ] && ip="<设备IP>"
+  local user
+  user=$(whoami)
+  echo -e "\033[32m✅ SSH 服务已启动 (后台防休眠唤醒锁已开启)\033[0m"
+  echo -e "📡 局域网连接 (Wi-Fi): \033[1;36mssh $user@$ip -p 8022\033[0m"
+  echo "📝 VS Code Remote-SSH 配置建议:"
+  echo "   Host termux"
+  echo "       HostName $ip"
+  echo "       Port 8022"
+  echo "       User $user"
+}
+
+function ssh-off() {
+  pkill sshd 2>/dev/null
+  command -v termux-wake-unlock &>/dev/null && termux-wake-unlock
+  echo -e "\033[33m🛑 SSH 服务已停止 (后台唤醒锁已释放)\033[0m"
+}
+{{ end -}}
 
 {{ if not (env "TERMUX_VERSION") -}}
 # 3. Node.js (fnm) 环境激活 (非 Termux 环境)
