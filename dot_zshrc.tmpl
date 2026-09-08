@@ -32,6 +32,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
   git
+  emacs
   fzf
   tmux
   zsh-syntax-highlighting
@@ -62,6 +63,15 @@ setopt HIST_REDUCE_BLANKS        # 自动修剪多余空格
 # 7. 核心别名与兼容性回退
 # ==============================================================================
 alias fli='alias | fzf' # 模糊搜索现有别名
+alias '。。'='..'       # 中文输入法全角句号智能容错 (自动转为 cd ..)
+
+# uv / uvx 自动补全 (若 site-functions 未命中则动态加载)
+if command -v uv &> /dev/null; then
+  if [ ! -f "$HOME/.local/share/zsh/site-functions/_uv" ]; then
+    eval "$(uv generate-shell-completion zsh)"
+    eval "$(uvx --generate-shell-completion zsh)"
+  fi
+fi
 
 # fd-find 兼容性别名 (适配 Debian/Ubuntu)
 if command -v fdfind &> /dev/null && ! command -v fd &> /dev/null; then

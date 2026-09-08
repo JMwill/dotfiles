@@ -10,7 +10,7 @@ echo "=================================================="
 # ==================== macOS ====================
 if command -v brew &>/dev/null; then
   echo ">>> [macOS] 正在通过 Homebrew 检查并安装软件..."
-  brew install zsh tmux git fzf autojump fd ripgrep bat croc fnm
+  brew install zsh tmux git fzf autojump fd ripgrep bat croc fnm uv
 else
   echo ">>> [警告] 未检测到 Homebrew，请先安装 brew 后重新执行 chezmoi apply"
 fi
@@ -20,7 +20,7 @@ fi
 # ==================== Android Termux ====================
 echo ">>> [Termux] 正在通过 pkg 检查并安装软件..."
 pkg update -y
-pkg install -y zsh tmux git curl fzf fd ripgrep bat termux-api croc
+pkg install -y zsh tmux git curl fzf fd ripgrep bat termux-api croc uv
 
 {{ else -}}
 # ==================== 银河麒麟 / Debian / Ubuntu / WSL ====================
@@ -32,6 +32,12 @@ sudo apt install -y zsh tmux git curl fzf autojump fd-find ripgrep bat {{ if not
 if ! command -v croc &>/dev/null; then
   echo ">>> 正在安装 croc (跨端加密快传工具)..."
   curl -fsSL https://getcroc.schollz.com | bash
+fi
+
+# 安装 uv (Astral 极速 Python 项目与包管理器)
+if ! command -v uv &>/dev/null; then
+  echo ">>> 正在安装 uv (Fast Python Package Manager)..."
+  curl -fsSL https://astral.sh/uv/install.sh | bash
 fi
 {{ end -}}
 
@@ -74,6 +80,17 @@ if [ ! -d "$ZSH_CUSTOM/plugins/conda-zsh-completion" ]; then
   git clone https://github.com/conda-incubator/conda-zsh-completion "$ZSH_CUSTOM/plugins/conda-zsh-completion"
 fi
 {{ end -}}
+
+# 4. 生成 uv / uvx 补全定义文件 (全平台极速懒加载)
+if command -v uv &>/dev/null || [ -f "$HOME/.local/bin/uv" ]; then
+  UV_BIN="$(command -v uv || echo "$HOME/.local/bin/uv")"
+  mkdir -p "$HOME/.local/share/zsh/site-functions"
+  "$UV_BIN" generate-shell-completion zsh > "$HOME/.local/share/zsh/site-functions/_uv" 2>/dev/null || true
+  if command -v uvx &>/dev/null || [ -f "$HOME/.local/bin/uvx" ]; then
+    UVX_BIN="$(command -v uvx || echo "$HOME/.local/bin/uvx")"
+    "$UVX_BIN" --generate-shell-completion zsh > "$HOME/.local/share/zsh/site-functions/_uvx" 2>/dev/null || true
+  fi
+fi
 
 echo "=================================================="
 echo "✔ 所有基础依赖与插件就绪！即将部署配置文件..."
