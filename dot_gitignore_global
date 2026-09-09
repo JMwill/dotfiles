@@ -1,47 +1,37 @@
-# Ignore tags created by etags, ctags, gtags (GNU global) and cscope
+# Ctags / Etags / GNU Global 索引文件 (支撑 Emacs counsel-etags 代码检索)
 TAGS
-.TAGS
-!TAGS/
 tags
 .tags
-!tags/
-gtags.files
 GTAGS
 GRTAGS
 GPATH
 GSYMS
-cscope.files
-cscope.out
-cscope.in.out
-cscope.po.out
+cscope.*
 
-# Logs and databases #
-######################
+# 本地临时日志与轻量数据库 (彻底移除 *.sql 误杀规则)
 *.log
-*.sql
 *.sqlite
+*.sqlite3
+*.db
 
-# OS generated files #
-######################
+# 操作系统缓存与元数据
 .DS_Store
 .DS_Store?
 ._*
 .Spotlight-V100
 .Trashes
-ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# Compiled source & Python #
-############################
-*.com
-*.class
-*.dll
-*.exe
+# 编译二进制与构建产物
 *.o
 *.so
-*.pyc
-*.pyo
+*.dll
+*.dylib
+*.exe
+*.class
+
+# Python 虚拟环境与字节码缓存
 __pycache__/
 *.py[cod]
 *$py.class
@@ -51,19 +41,15 @@ venv/
 .ruff_cache/
 .mypy_cache/
 
-# Temporary files #
-###################
+# 编辑器临时与备份文件
 *.bak
 *.swp
 *.swo
 *~
 *#
 
-# IDE files #
-#############
-.vscode
-.idea
-.iml
-*.sublime-workspace
-
+# 现代 IDE 与通用包依赖
+.idea/
+.vscode/
+*.iml
 node_modules/

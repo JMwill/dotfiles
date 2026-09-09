@@ -63,10 +63,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(
   git
-  emacs
   chezmoi
   fzf
-  tmux
   zsh-syntax-highlighting
   zsh-autosuggestions
   {{- if eq .chezmoi.os "darwin" }}
@@ -92,6 +90,11 @@ setopt HIST_REDUCE_BLANKS        # 自动修剪多余空格
 # ==============================================================================
 alias fli='alias | fzf' # 模糊搜索现有别名
 alias '。。'='..'       # 中文输入法全角句号智能容错 (自动转为 cd ..)
+
+# Tmux 原生极速别名 (保留常用极简缩写，零性能开销且不劫持原生 tmux 命令)
+alias ta='tmux attach -t'
+alias tl='tmux ls'
+alias ts='tmux new -s'
 
 # uv / uvx 自动补全 (若 site-functions 未命中则动态加载)
 if (( $+commands[uv] )); then

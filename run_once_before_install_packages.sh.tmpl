@@ -132,15 +132,6 @@ if command -v uv &>/dev/null || [ -f "$HOME/.local/bin/uv" ]; then
   fi
 fi
 
-# 5. 自动无缝迁移历史 autojump 记录至 zoxide (全平台通用，防重复导入)
-if command -v zoxide &>/dev/null || [ -f "$HOME/.local/bin/zoxide" ]; then
-  ZOXIDE_BIN="$(command -v zoxide || echo "$HOME/.local/bin/zoxide")"
-  if [ -f "$HOME/.local/share/autojump/autojump.txt" ] && [ ! -f "$HOME/.local/share/zoxide/db.zo" ]; then
-    echo ">>> 检测到历史 autojump 记录，正在无缝导入至 zoxide..."
-    "$ZOXIDE_BIN" import autojump 2>/dev/null || true
-  fi
-fi
-
 echo "=================================================="
 echo "✔ 所有基础依赖与插件就绪！即将部署配置文件..."
 echo "=================================================="

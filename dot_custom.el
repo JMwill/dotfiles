@@ -35,7 +35,7 @@
 
 ;; 6. 全局搜索/Grep 智能过滤 (排除大型依赖与打包产物)
 (with-eval-after-load 'grep
-  (dolist (dir '("node_modules" "bower_components" ".sass-cache" ".cache" ".npm" ".git"))
+  (dolist (dir '("node_modules" ".cache" ".npm" ".git"))
     (add-to-list 'grep-find-ignored-directories dir))
   (dolist (file '("*.min.js" "*.bundle.js" "*.min.css" "*.log"))
     (add-to-list 'grep-find-ignored-files file)))

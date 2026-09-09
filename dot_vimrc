@@ -24,8 +24,7 @@ set laststatus=2
 set showcmd
 set title
 set shortmess=atI
-set noerrorbells
-set novisualbell
+set belloff=all
 set tm=500
 
 " => 主题与真彩色渲染 (优先启用 Vim 9 官方现代旗舰配色 habamax，兼顾经典 desert)
@@ -56,8 +55,6 @@ if has("clipboard")
 endif
 
 set mouse=a
-set nostartofline
-set ffs=unix,dos
 
 " => 文件备份与跨会话持久撤销 (彻底消除 .swp 弹窗报错，仅保留干净的持久化撤销)
 let s:undo_dir = expand('~/.vim/undo')
@@ -109,6 +106,7 @@ function! StripWhitespace()
 endfunction
 noremap <leader>ss :call StripWhitespace()<CR>
 
-" 可视模式下按 * 或 # 快速搜索高亮选中内容
-vnoremap <silent> * :<C-u>let @/='\V'.escape(@*, '\')<CR>n
-vnoremap <silent> # :<C-u>let @/='\V'.escape(@*, '\')<CR>N
+" 可视模式下按 * 或 # 快速搜索当前选中文本 (使用专用内部寄存器 v，不污染系统剪贴板)
+xnoremap <silent> * "vy/\V<C-R>=escape(@v, '/\')<CR><CR>
+xnoremap <silent> # "vy?\V<C-R>=escape(@v, '?\')<CR><CR>
+
