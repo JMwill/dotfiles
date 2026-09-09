@@ -90,9 +90,6 @@ nnoremap <leader>xk :bd<CR>
 " 单文件内搜索 (对齐 Emacs/VSCode 的 ,ss 体系)
 nnoremap <leader>ss /
 
-" 快速清理行尾多余空格 (Clean Whitespace)
-nnoremap <leader>cw mz:keeppatterns %s/\s\+$//e<CR>`z
-
 " 空格键快速折叠/展开代码 (同时原生支持通用 za)
 nnoremap <space> za
 
