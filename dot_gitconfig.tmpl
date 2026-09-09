@@ -6,7 +6,7 @@
 {{- if eq .chezmoi.os "darwin" }}
 	helper = osxkeychain
 {{- else if env "WSL_DISTRO_NAME" }}
-	helper = /mnt/c/Program\\ Files/Git/mingw64/bin/git-credential-manager.exe
+	helper = "/mnt/c/Program Files/Git/mingw64/bin/git-credential-manager.exe"
 {{- else }}
 	helper = store
 {{- end }}

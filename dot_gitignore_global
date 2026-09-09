@@ -32,8 +32,8 @@ ehthumbs.db
 Thumbs.db
 desktop.ini
 
-# Compiled source #
-###################
+# Compiled source & Python #
+############################
 *.com
 *.class
 *.dll
@@ -42,6 +42,14 @@ desktop.ini
 *.so
 *.pyc
 *.pyo
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
 
 # Temporary files #
 ###################

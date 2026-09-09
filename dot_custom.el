@@ -17,6 +17,8 @@
 
 ;; 3. 临时与自动备份文件隔离 (彻底杜绝在代码仓库中生成 filename~ 垃圾文件)
 (defconst emacs-tmp-dir (expand-file-name (format "emacs%d" (user-uid)) temporary-file-directory))
+(unless (file-exists-p emacs-tmp-dir)
+  (ignore-errors (make-directory emacs-tmp-dir t)))
 (setq backup-directory-alist `((".*" . ,emacs-tmp-dir)))
 (setq auto-save-file-name-transforms `((".*" ,emacs-tmp-dir t)))
 (setq auto-save-list-file-prefix emacs-tmp-dir)

@@ -9,9 +9,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # 2. 全局基础 PATH 统一收拢
-export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH{{ if env "TERMUX_VERSION" }}:$PREFIX/local/bin{{ end }}"
+export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}:$PREFIX/local/bin{{ end }}"
 
-{{ if env "TERMUX_VERSION" -}}
+{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
 # ==============================================================================
 # Termux 后台 SSH 服务管理与防休眠唤醒锁
 # ==============================================================================
@@ -19,7 +19,9 @@ function ssh-on() {
   sshd 2>/dev/null
   command -v termux-wake-lock &>/dev/null && termux-wake-lock
   local ip
-  ip=$(ifconfig 2>/dev/null | awk '/wlan0:/{flag=1;next}/^[a-z0-9]+:/{flag=0}flag && /inet /{print $2}')
+  ip=$(ip route get 1.1.1.1 2>/dev/null | awk '{for(i=1;i<=NF;i++) if($i=="src") print $(i+1)}')
+  [ -z "$ip" ] && ip=$(ip -4 addr show wlan0 2>/dev/null | awk '/inet /{print $2}' | cut -d/ -f1)
+  [ -z "$ip" ] && ip=$(ifconfig 2>/dev/null | awk '/wlan0:/{flag=1;next}/^[a-z0-9]+:/{flag=0}flag && /inet /{print $2}')
   [ -z "$ip" ] && ip=$(ifconfig 2>/dev/null | awk '/inet /{if($2!="127.0.0.1") print $2}' | tail -n 1)
   [ -z "$ip" ] && ip="<设备IP>"
   local user
@@ -40,7 +42,7 @@ function ssh-off() {
 }
 {{ end -}}
 
-{{ if not (env "TERMUX_VERSION") -}}
+{{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
 # 3. Node.js (fnm) 环境激活 (非 Termux 环境)
 if command -v fnm &> /dev/null; then
   eval "$(fnm env --use-on-cd --shell zsh)"
@@ -67,7 +69,7 @@ plugins=(
   tmux
   zsh-syntax-highlighting
   zsh-autosuggestions
-  {{- if not (env "TERMUX_VERSION") }}
+  {{- if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) }}
   autojump
   conda-zsh-completion
   {{- end }}
@@ -206,7 +208,7 @@ function pclip() {
   printf "%s" "${*:-$(cat)}" | pbcopy
   {{- else if env "WSL_DISTRO_NAME" }}
   printf "%s" "${*:-$(cat)}" | clip.exe
-  {{- else if env "TERMUX_VERSION" }}
+  {{- else if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}
   if command -v termux-clipboard-set &>/dev/null; then
     printf "%s" "${*:-$(cat)}" | termux-clipboard-set
   fi
@@ -227,7 +229,7 @@ function ppaste() {
   pbpaste
   {{- else if env "WSL_DISTRO_NAME" }}
   powershell.exe -NoProfile -Command Get-Clipboard | tr -d '\r'
-  {{- else if env "TERMUX_VERSION" }}
+  {{- else if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}
   command -v termux-clipboard-get &>/dev/null && termux-clipboard-get
   {{- else }}
   if command -v xclip &>/dev/null; then
@@ -260,7 +262,7 @@ function ff() {
   fi
 }
 
-{{ if not (env "TERMUX_VERSION") -}}
+{{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
 # ==============================================================================
 # 10. Conda & Mamba 激活 (动态路径，Termux 自动排除)
 # ==============================================================================

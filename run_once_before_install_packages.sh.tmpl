@@ -1,5 +1,5 @@
-{{ if env "TERMUX_VERSION" -}}
-#!/data/data/com.termux/files/usr/bin/bash
+{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
+#!/data/data/com.termux/files/usr/bin/env bash
 {{ else -}}
 #!/usr/bin/env bash
 {{ end -}}
@@ -27,8 +27,7 @@ else
   echo ">>> [警告] 未检测到 Homebrew，请先安装 brew 后重新执行 chezmoi apply"
 fi
 
-{{ else if eq .chezmoi.os "linux" -}}
-{{ if env "TERMUX_VERSION" -}}
+{{ else if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
 # ==================== Android Termux ====================
 MISSING_TERMUX=()
 for pkg in zsh tmux git curl fzf fd ripgrep bat termux-api croc uv; do
@@ -42,7 +41,7 @@ else
   echo ">>> [Termux] 基础软件已全部就绪，跳过安装。"
 fi
 
-{{ else -}}
+{{ else if eq .chezmoi.os "linux" -}}
 # ==================== 银河麒麟 / Debian / Ubuntu / WSL ====================
 MISSING_PKGS=()
 for pkg in zsh tmux git curl fzf {{ if not (env "WSL_DISTRO_NAME") }}xclip{{ end }}; do
@@ -74,43 +73,48 @@ if ! command -v uv &>/dev/null; then
 fi
 {{ end -}}
 
-{{ if not (env "TERMUX_VERSION") -}}
+{{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
 # 安装 fnm (Node.js 极速版本管理器，非 Termux 环境通用)
 if ! command -v fnm &>/dev/null; then
   echo ">>> 正在安装 fnm (Fast Node Manager)..."
   curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 fi
 {{ end -}}
-{{ end -}}
 
-# 2. Oh My Zsh 核心安装 (若未安装)
+# 2. Oh My Zsh 核心安装 (若未安装，支持 GitHub 失败时自动通过 Gitee 镜像降级)
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   echo ">>> 正在安装 Oh My Zsh..."
-  RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  if ! (RUNZSH=no CHSH=no KEEP_ZSHRC=yes sh -c "$(curl -fsSL --connect-timeout 5 https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" 2>/dev/null); then
+    echo ">>> [提示] GitHub 直连受阻，尝试通过 Gitee 国内镜像安装 Oh My Zsh..."
+    git clone https://gitee.com/mirrors/oh-my-zsh.git "$HOME/.oh-my-zsh" || true
+  fi
 fi
 
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
-# 3. 自动拉取自定义插件与主题 (全平台通用)
+# 3. 自动拉取自定义插件与主题 (全平台通用，支持 Gitee 镜像容错)
 if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
   echo ">>> 正在克隆 Powerlevel10k 主题..."
-  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k"
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k" 2>/dev/null || \
+  git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git "$ZSH_CUSTOM/themes/powerlevel10k" || true
 fi
 
 if [ ! -d "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" ]; then
   echo ">>> 正在克隆 zsh-syntax-highlighting 插件..."
-  git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting"
+  git clone https://github.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" 2>/dev/null || \
+  git clone https://gitee.com/zsh-users/zsh-syntax-highlighting "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" || true
 fi
 
 if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
   echo ">>> 正在克隆 zsh-autosuggestions 插件..."
-  git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions"
+  git clone https://github.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions" 2>/dev/null || \
+  git clone https://gitee.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions" || true
 fi
 
-{{ if not (env "TERMUX_VERSION") -}}
+{{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
 if [ ! -d "$ZSH_CUSTOM/plugins/conda-zsh-completion" ]; then
   echo ">>> 正在克隆 conda-zsh-completion 插件..."
-  git clone https://github.com/conda-incubator/conda-zsh-completion "$ZSH_CUSTOM/plugins/conda-zsh-completion"
+  git clone https://github.com/conda-incubator/conda-zsh-completion "$ZSH_CUSTOM/plugins/conda-zsh-completion" 2>/dev/null || true
 fi
 {{ end -}}
 
