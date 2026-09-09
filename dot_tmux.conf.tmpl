@@ -3,6 +3,9 @@ set -g default-terminal "xterm-256color"
 set -as terminal-overrides ",xterm-256color:Tc"
 set -g history-limit 50000
 
+# 消除 Vim / Neovim 退出插入模式的 500ms 滞后延迟 (10ms 黄金平衡值)
+set -s escape-time 10
+
 # 鼠标支持与 Vi 模式
 set -g mouse on
 setw -g mode-keys vi

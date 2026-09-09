@@ -53,7 +53,7 @@ command -v bat &>/dev/null || command -v batcat &>/dev/null || MISSING_PKGS+=("b
 
 if [ ${#MISSING_PKGS[@]} -gt 0 ]; then
   echo ">>> [Linux 桌面/WSL] 检测到缺失依赖: ${MISSING_PKGS[*]}，正在通过 apt 安装..."
-  sudo apt update -y
+  sudo apt update -y || true
   sudo apt install -y "${MISSING_PKGS[@]}"
 else
   echo ">>> [Linux 桌面/WSL] 系统基础依赖已全部就绪，跳过 apt 安装。"
