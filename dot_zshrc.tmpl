@@ -9,6 +9,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # 2. 全局基础 PATH 统一收拢
+{{- if eq .chezmoi.os "darwin" }}
+export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
+{{- end }}
 export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}:$PREFIX/local/bin{{ end }}"
 
 {{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
@@ -105,13 +108,13 @@ if command -v uv &> /dev/null; then
   fi
 fi
 
-# fd-find 兼容性别名 (适配 Debian/Ubuntu)
-if command -v fdfind &> /dev/null && ! command -v fd &> /dev/null; then
+# fd-find 兼容性别名 (适配 Debian/Ubuntu，0 毫秒内部哈希直查)
+if (( $+commands[fdfind] )) && (( ! $+commands[fd] )); then
   alias fd=fdfind
 fi
 
 # batcat 兼容性别名 (适配 Debian/Ubuntu/WSL)
-if command -v batcat &> /dev/null && ! command -v bat &> /dev/null; then
+if (( $+commands[batcat] )) && (( ! $+commands[bat] )); then
   alias bat=batcat
 fi
 
@@ -127,10 +130,13 @@ function tproxy() {
   local host="127.0.0.1"
   local port="7890"
 
-  # 智能解析：单参数且全数字则识别为端口 (如 tproxy 10808)
+  # 智能解析：支持 "tproxy 10808"、"tproxy 192.168.1.5"、"tproxy 192.168.1.5 10808"、"tproxy 192.168.1.5:10808"
   if [[ $# -eq 1 ]]; then
     if [[ "$1" =~ ^[0-9]+$ ]]; then
       port="$1"
+    elif [[ "$1" == *:* ]]; then
+      host="${1%:*}"
+      port="${1##*:}"
     else
       host="$1"
     fi
@@ -182,12 +188,29 @@ function tproxystatus() {
 # ==============================================================================
 # 9. 高频 Git 与跨平台剪贴板辅助函数
 # ==============================================================================
-# 极速获取 Commit 的 GitHub 网页链接 (不传参数默认取 HEAD 最新提交)
+# 极速获取 Commit 的网页链接 (支持 GitHub, GitLab, Gitee 及单位内网 GitLab)
 function gurl() {
   local remote_url
   remote_url=$(git config --get remote.origin.url 2>/dev/null) || { echo "Not a git repo or no origin remote." >&2; return 1; }
-  local repo_path="${${remote_url#*github.com[:/]}%.git}"
-  echo "https://github.com/${repo_path}/commit/${1:-$(git rev-parse HEAD)}"
+  local commit_hash="${1:-$(git rev-parse HEAD 2>/dev/null)}" || { echo "No commits yet." >&2; return 1; }
+
+  local host path
+  if [[ "$remote_url" =~ ^git@([^:]+):(.+)\.git$ ]]; then
+    host="${match[1]}"
+    path="${match[2]}"
+  elif [[ "$remote_url" =~ ^https?://([^/]+)/(.+)\.git$ ]]; then
+    host="${match[1]}"
+    path="${match[2]}"
+  elif [[ "$remote_url" =~ ^https?://([^/]+)/(.+)$ ]]; then
+    host="${match[1]}"
+    path="${match[2]}"
+  else
+    local repo_path="${${remote_url#*github.com[:/]}%.git}"
+    echo "https://github.com/${repo_path}/commit/${commit_hash}"
+    return 0
+  fi
+
+  echo "https://${host}/${path}/commit/${commit_hash}"
 }
 
 # 交互式挑选 commit id
@@ -242,13 +265,18 @@ function ppaste() {
   {{- end }}
 }
 
-# fzf 文件路径查找并自动复制到剪贴板 (优先调用极速 fd)
+# fzf 文件路径查找并自动复制到剪贴板 (优先调用极速 fd/fdfind)
 function ff() {
   local cli
-  if command -v fd &>/dev/null; then
-    cli=$(fd --type f --hidden --exclude .git 2>/dev/null | fzf -q "${*:-}")
-  elif command -v fdfind &>/dev/null; then
-    cli=$(fdfind --type f --hidden --exclude .git 2>/dev/null | fzf -q "${*:-}")
+  local fd_bin=""
+  if (( $+commands[fd] )); then
+    fd_bin="fd"
+  elif (( $+commands[fdfind] )); then
+    fd_bin="fdfind"
+  fi
+
+  if [[ -n "$fd_bin" ]]; then
+    cli=$("$fd_bin" --type f --hidden --exclude .git 2>/dev/null | fzf -q "${*:-}")
   else
     cli=$(find . -not -iwholename '*/.git*' -not -iwholename '*/node_modules/*' -type f 2>/dev/null | fzf -q "${*:-}")
   fi
