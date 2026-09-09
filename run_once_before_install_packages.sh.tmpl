@@ -14,7 +14,7 @@ echo "=================================================="
 # ==================== macOS ====================
 if command -v brew &>/dev/null; then
   MISSING_BREW=()
-  for pkg in zsh tmux git fzf autojump fd ripgrep bat croc fnm uv; do
+  for pkg in zsh tmux git fzf zoxide fd ripgrep bat croc fnm uv; do
     brew list "$pkg" &>/dev/null || MISSING_BREW+=("$pkg")
   done
   if [ ${#MISSING_BREW[@]} -gt 0 ]; then
@@ -30,7 +30,7 @@ fi
 {{ else if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
 # ==================== Android Termux ====================
 MISSING_TERMUX=()
-for pkg in zsh tmux git curl fzf fd ripgrep bat termux-api croc uv; do
+for pkg in zsh tmux git curl fzf zoxide fd ripgrep bat termux-api croc uv; do
   command -v "$pkg" &>/dev/null || MISSING_TERMUX+=("$pkg")
 done
 if [ ${#MISSING_TERMUX[@]} -gt 0 ]; then
@@ -50,7 +50,6 @@ done
 command -v fdfind &>/dev/null || command -v fd &>/dev/null || MISSING_PKGS+=("fd-find")
 command -v rg &>/dev/null || MISSING_PKGS+=("ripgrep")
 command -v bat &>/dev/null || command -v batcat &>/dev/null || MISSING_PKGS+=("bat")
-[ -f /usr/share/autojump/autojump.sh ] || command -v autojump &>/dev/null || MISSING_PKGS+=("autojump")
 
 if [ ${#MISSING_PKGS[@]} -gt 0 ]; then
   echo ">>> [Linux 桌面/WSL] 检测到缺失依赖: ${MISSING_PKGS[*]}，正在通过 apt 安装..."
@@ -70,6 +69,16 @@ fi
 if ! command -v uv &>/dev/null; then
   echo ">>> 正在安装 uv (Fast Python Package Manager)..."
   curl -fsSL https://astral.sh/uv/install.sh | bash
+fi
+
+# 安装 zoxide (若系统包管理器未收录，使用官方预编译脚本安装至 ~/.local/bin)
+if ! command -v zoxide &>/dev/null && [ ! -f "$HOME/.local/bin/zoxide" ]; then
+  echo ">>> 正在安装 zoxide (极速目录跳转工具)..."
+  if command -v apt-get &>/dev/null && apt-cache show zoxide &>/dev/null; then
+    sudo apt install -y zoxide
+  else
+    curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+  fi
 fi
 {{ end -}}
 
@@ -120,6 +129,15 @@ if command -v uv &>/dev/null || [ -f "$HOME/.local/bin/uv" ]; then
   if command -v uvx &>/dev/null || [ -f "$HOME/.local/bin/uvx" ]; then
     UVX_BIN="$(command -v uvx || echo "$HOME/.local/bin/uvx")"
     "$UVX_BIN" --generate-shell-completion zsh > "$HOME/.local/share/zsh/site-functions/_uvx" 2>/dev/null || true
+  fi
+fi
+
+# 5. 自动无缝迁移历史 autojump 记录至 zoxide (全平台通用，防重复导入)
+if command -v zoxide &>/dev/null || [ -f "$HOME/.local/bin/zoxide" ]; then
+  ZOXIDE_BIN="$(command -v zoxide || echo "$HOME/.local/bin/zoxide")"
+  if [ -f "$HOME/.local/share/autojump/autojump.txt" ] && [ ! -f "$HOME/.local/share/zoxide/db.zo" ]; then
+    echo ">>> 检测到历史 autojump 记录，正在无缝导入至 zoxide..."
+    "$ZOXIDE_BIN" import autojump 2>/dev/null || true
   fi
 fi
 

@@ -72,9 +72,6 @@ plugins=(
   tmux
   zsh-syntax-highlighting
   zsh-autosuggestions
-  {{- if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) }}
-  autojump
-  {{- end }}
   {{- if eq .chezmoi.os "darwin" }}
   osx
   {{- end }}
@@ -115,6 +112,11 @@ fi
 # batcat 兼容性别名 (适配 Debian/Ubuntu/WSL)
 if (( $+commands[batcat] )) && (( ! $+commands[bat] )); then
   alias bat=batcat
+fi
+
+# zoxide (替代 autojump 的全平台极速目录跳转，保留 j 与 ji 交互式跳转)
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh --cmd j)"
 fi
 
 {{ if env "WSL_DISTRO_NAME" -}}
