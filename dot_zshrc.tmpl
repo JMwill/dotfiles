@@ -113,10 +113,6 @@ fi
 
 # zoxide (替代 autojump 的全平台极速目录跳转，保留 j 与 ji 交互式跳转)
 if (( $+commands[zoxide] )); then
-  # 兼容低版本 fzf (如 Ubuntu 20.04 / 银河麒麟 apt 提供的 fzf 0.20 不支持 --keep-right)
-  if (( $+commands[fzf] )) && ! fzf --help 2>&1 | grep -q -- '--keep-right'; then
-    export _ZO_FZF_OPTS="--exact --no-sort --bind=ctrl-z:ignore --exit-0 --height=40% --inline-info --no-multi --reverse --select-1"
-  fi
   eval "$(zoxide init zsh --cmd j)"
 fi
 
