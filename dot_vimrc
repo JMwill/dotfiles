@@ -68,37 +68,52 @@ set nobackup
 set nowritebackup
 set noswapfile
 
-" => 实用快捷键绑定
-" 快速保存
-nnoremap <leader>w :w!<CR>
+" => 实用快捷键绑定 (全面对齐 Emacs / redguardtoo / VS Code 统一交互体系)
+" 快速保存当前文件 (对齐 Emacs/VSCode 的 ,xs 体系)
+nnoremap <leader>xs :w<CR>
 
 " 切换当前工作目录
 nnoremap <leader>cd :cd %:p:h<CR>
 nnoremap <leader>lcd :lcd %:p:h<CR>
 
-" 空格键快速折叠/展开代码
+" 复制文件绝对路径与文件名到系统剪贴板 (与 Emacs / VS Code 统一)
+nnoremap <leader>fp :let @+=expand("%:p")<CR>:echo "Copied path: " . expand("%:p")<CR>
+nnoremap <leader>fn :let @+=expand("%:t")<CR>:echo "Copied file: " . expand("%:t")<CR>
+
+" Emacs / redguardtoo 经典窗口与分屏管理 (与 Emacs / VS Code 统一)
+nnoremap <leader>x1 <C-W>o
+nnoremap <leader>x2 <C-W>s
+nnoremap <leader>x3 <C-W>v
+nnoremap <leader>x0 <C-W>c
+nnoremap <leader>xk :bd<CR>
+
+" 单文件内搜索 (对齐 Emacs/VSCode 的 ,ss 体系)
+nnoremap <leader>ss /
+
+" 快速清理行尾多余空格 (Clean Whitespace)
+nnoremap <leader>cw mz:keeppatterns %s/\s\+$//e<CR>`z
+
+" 空格键快速折叠/展开代码 (同时原生支持通用 za)
 nnoremap <space> za
 
 " 双手不离主键盘区快速退出编辑模式
 inoremap kj <ESC>
 
-" 清理多余高亮
-nnoremap <leader>/ :nohlsearch<CR>
+" 普通模式下按 Esc 顺手消除搜索高亮 (与现代 IDE 行为对齐，彻底释放与 Emacs 切换中文冲突的 ,/)
+nnoremap <silent> <ESC> :nohlsearch<CR><ESC>
 
 " 按视觉行上下移动
 nnoremap j gj
 nnoremap k gk
 
-" 窗口间流畅跳转
+" 窗口间流畅跳转 (与 Tmux 风格保持一致)
 nnoremap <C-j> <C-W>j
 nnoremap <C-k> <C-W>k
 nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 
-" 快速清理行尾多余空格 (保持光标位置与搜索历史)
-nnoremap <leader>ss mz:keeppatterns %s/\s\+$//e<CR>`z
-
 " 可视模式下按 * 或 # 快速搜索当前选中文本 (使用专用内部寄存器 v，不污染系统剪贴板)
 xnoremap <silent> * "vy/\V<C-R>=escape(@v, '/\')<CR><CR>
 xnoremap <silent> # "vy?\V<C-R>=escape(@v, '?\')<CR><CR>
+
 
