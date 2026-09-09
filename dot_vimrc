@@ -26,23 +26,18 @@ set title
 set shortmess=atI
 set noerrorbells
 set novisualbell
-set t_vb=
 set tm=500
 
-" => 主题、高亮与字体
+" => 主题与真彩色渲染 (启用 24-bit RGB 原生色彩)
 syntax enable
-set t_Co=256
 set encoding=utf8
+set background=dark
+if has("termguicolors")
+  set termguicolors
+endif
 
-try
-  let g:badwolf_darkgutter = 1
-  colorscheme badwolf
-catch
-  try
-    colorscheme solarized
-  catch
-  endtry
-endtry
+let g:badwolf_darkgutter = 1
+silent! colorscheme badwolf
 
 " 软换行与缩进设置 (2空格缩进标准)
 set wrap linebreak nolist
@@ -52,12 +47,9 @@ set shiftwidth=2
 set autoindent
 set expandtab
 
-" => 系统与剪贴板设置
+" => 系统与剪贴板设置 (现代 Vim 统一 unnamed 与 unnamedplus)
 if has("clipboard")
-  set clipboard=unnamed
-  if has("unnamedplus")
-    set clipboard+=unnamedplus
-  endif
+  set clipboard=unnamed,unnamedplus
 endif
 
 set mouse=a
