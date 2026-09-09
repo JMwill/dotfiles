@@ -28,7 +28,7 @@ set noerrorbells
 set novisualbell
 set tm=500
 
-" => 主题与真彩色渲染 (启用 24-bit RGB 原生色彩)
+" => 主题与真彩色渲染 (优先启用 Vim 9 官方现代旗舰配色 habamax，兼顾经典 desert)
 syntax enable
 set encoding=utf8
 set background=dark
@@ -36,8 +36,11 @@ if has("termguicolors")
   set termguicolors
 endif
 
-let g:badwolf_darkgutter = 1
-silent! colorscheme badwolf
+try
+  colorscheme habamax
+catch
+  colorscheme desert
+endtry
 
 " 软换行与缩进设置 (2空格缩进标准)
 set wrap linebreak nolist
