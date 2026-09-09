@@ -12,7 +12,7 @@ fi
 {{- if eq .chezmoi.os "darwin" }}
 export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 {{- end }}
-export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$PATH{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}:$PREFIX/local/bin{{ end }}"
+export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$HOME/.local/share/fnm:$PATH{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}:$PREFIX/local/bin{{ end }}"
 
 {{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
 # ==============================================================================
@@ -47,10 +47,7 @@ function ssh-off() {
 
 {{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
 # 3. Node.js (fnm) 环境激活 (非 Termux 环境)
-if command -v fnm &> /dev/null; then
-  eval "$(fnm env --use-on-cd --shell zsh)"
-elif [ -d "$HOME/.local/share/fnm" ]; then
-  export PATH="$HOME/.local/share/fnm:$PATH"
+if (( $+commands[fnm] )); then
   eval "$(fnm env --use-on-cd --shell zsh)"
 fi
 {{ end -}}
@@ -97,7 +94,7 @@ alias fli='alias | fzf' # 模糊搜索现有别名
 alias '。。'='..'       # 中文输入法全角句号智能容错 (自动转为 cd ..)
 
 # uv / uvx 自动补全 (若 site-functions 未命中则动态加载)
-if command -v uv &> /dev/null; then
+if (( $+commands[uv] )); then
   if [ ! -f "$HOME/.local/share/zsh/site-functions/_uv" ]; then
     eval "$(uv generate-shell-completion zsh)"
     eval "$(uvx --generate-shell-completion zsh)"
@@ -291,35 +288,8 @@ function ff() {
   fi
 }
 
-{{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
-# ==============================================================================
-# 10. Conda & Mamba 激活 (动态路径，Termux 自动排除)
-# ==============================================================================
-if [ -d "{{ .chezmoi.homeDir }}/miniforge3" ]; then
-  __conda_setup="$('{{ .chezmoi.homeDir }}/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-  if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-  elif [ -f "{{ .chezmoi.homeDir }}/miniforge3/etc/profile.d/conda.sh" ]; then
-    . "{{ .chezmoi.homeDir }}/miniforge3/etc/profile.d/conda.sh"
-  else
-    export PATH="{{ .chezmoi.homeDir }}/miniforge3/bin:$PATH"
-  fi
-  unset __conda_setup
-
-  export MAMBA_EXE='{{ .chezmoi.homeDir }}/miniforge3/bin/mamba'
-  export MAMBA_ROOT_PREFIX='{{ .chezmoi.homeDir }}/miniforge3'
-  __mamba_setup="$("$MAMBA_EXE" shell hook --shell zsh --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
-  if [ $? -eq 0 ]; then
-    eval "$__mamba_setup"
-  else
-    alias mamba="$MAMBA_EXE"
-  fi
-  unset __mamba_setup
-fi
-{{ end -}}
-
-# 11. 加载 Powerlevel10k 主题自定义配置
+# 10. 加载 Powerlevel10k 主题自定义配置
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# 12. 本地私有逃生舱 (存放公司专属环境变量、内网域名等，不入 Git 仓库)
+# 11. 本地私有逃生舱 (存放公司专属环境变量、内网域名等，不入 Git 仓库)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
