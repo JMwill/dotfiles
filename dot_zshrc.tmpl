@@ -74,7 +74,6 @@ plugins=(
   zsh-autosuggestions
   {{- if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) }}
   autojump
-  conda-zsh-completion
   {{- end }}
   {{- if eq .chezmoi.os "darwin" }}
   osx

@@ -111,12 +111,6 @@ if [ ! -d "$ZSH_CUSTOM/plugins/zsh-autosuggestions" ]; then
   git clone https://gitee.com/zsh-users/zsh-autosuggestions "$ZSH_CUSTOM/plugins/zsh-autosuggestions" || true
 fi
 
-{{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
-if [ ! -d "$ZSH_CUSTOM/plugins/conda-zsh-completion" ]; then
-  echo ">>> 正在克隆 conda-zsh-completion 插件..."
-  git clone https://github.com/conda-incubator/conda-zsh-completion "$ZSH_CUSTOM/plugins/conda-zsh-completion" 2>/dev/null || true
-fi
-{{ end -}}
 
 # 4. 生成 uv / uvx 补全定义文件 (全平台极速懒加载)
 if command -v uv &>/dev/null || [ -f "$HOME/.local/bin/uv" ]; then
