@@ -84,7 +84,7 @@ fi
 
 {{ if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) -}}
 # 安装 fnm (Node.js 极速版本管理器，非 Termux 环境通用)
-if ! command -v fnm &>/dev/null; then
+if ! command -v fnm &>/dev/null && [ ! -f "$HOME/.local/share/fnm/fnm" ]; then
   echo ">>> 正在安装 fnm (Fast Node Manager)..."
   curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
 fi
