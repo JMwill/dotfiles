@@ -13,7 +13,6 @@ set scrolloff=7
 set wildmenu
 set number
 set relativenumber
-set ruler
 set showmatch
 set hlsearch
 set incsearch
@@ -71,7 +70,7 @@ set noswapfile
 
 " => 实用快捷键绑定
 " 快速保存
-nmap <leader>w :w!<cr>
+nnoremap <leader>w :w!<CR>
 
 " 切换当前工作目录
 nnoremap <leader>cd :cd %:p:h<CR>
@@ -91,20 +90,13 @@ nnoremap j gj
 nnoremap k gk
 
 " 窗口间流畅跳转
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
 
-" 快速清理行尾多余空格
-function! StripWhitespace()
-  let save_cursor = getpos(".")
-  let old_query = getreg('/')
-  :%s/\s\+$//e
-  call setpos('.', save_cursor)
-  call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
+" 快速清理行尾多余空格 (保持光标位置与搜索历史)
+nnoremap <leader>ss mz:keeppatterns %s/\s\+$//e<CR>`z
 
 " 可视模式下按 * 或 # 快速搜索当前选中文本 (使用专用内部寄存器 v，不污染系统剪贴板)
 xnoremap <silent> * "vy/\V<C-R>=escape(@v, '/\')<CR><CR>

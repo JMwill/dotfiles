@@ -283,9 +283,7 @@ function ff() {
   fi
 
   if [ -n "$cli" ]; then
-    local full_path
-    full_path="$(cd "$(dirname "$cli")" || exit; pwd)/$(basename "$cli")"
-    full_path="${full_path/#$HOME/~}"
+    local full_path="${${cli:A}/#$HOME/~}"
     echo "$full_path"
     pclip "$full_path"
   fi
