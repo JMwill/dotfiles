@@ -14,6 +14,15 @@ export PATH="/opt/homebrew/bin:/opt/homebrew/sbin:$PATH"
 {{- end }}
 export PATH="$HOME/.local/bin:$HOME/bin:/usr/local/bin:$HOME/.local/share/fnm:$PATH{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}:$PREFIX/local/bin{{ end }}"
 
+# 全局默认编辑器统一 (优先 vim，兜底 vi)
+if (( $+commands[vim] )); then
+  export EDITOR="vim"
+  export VISUAL="vim"
+elif (( $+commands[vi] )); then
+  export EDITOR="vi"
+  export VISUAL="vi"
+fi
+
 {{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
 # ==============================================================================
 # Termux 后台 SSH 服务管理与防休眠唤醒锁

@@ -132,6 +132,19 @@ if command -v uv &>/dev/null || [ -f "$HOME/.local/bin/uv" ]; then
   fi
 fi
 
+# 5. 自动补全 VS Code / Cursor 核心扩展 (若系统已安装对应 IDE)
+for cli in code cursor; do
+  if command -v "$cli" &>/dev/null; then
+    installed_exts=$("$cli" --list-extensions 2>/dev/null || true)
+    for ext in vscodevim.vim ms-vscode-remote.remote-ssh; do
+      if ! echo "$installed_exts" | grep -qi "^${ext}$"; then
+        echo ">>> [$cli] 正在安装核心扩展: $ext..."
+        "$cli" --install-extension "$ext" 2>/dev/null || true
+      fi
+    done
+  fi
+done
+
 echo "=================================================="
 echo "✔ 所有基础依赖与插件就绪！即将部署配置文件..."
 echo "=================================================="

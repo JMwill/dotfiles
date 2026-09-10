@@ -3,3 +3,14 @@ LICENSE
 .git/
 .gitignore
 
+{{- if or (ne .chezmoi.os "linux") (env "WSL_DISTRO_NAME") (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}
+.config/albert
+.config/albert/**
+{{- end }}
+
+{{- if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}
+.config/Code
+.config/Code/**
+.config/Cursor
+.config/Cursor/**
+{{- end }}

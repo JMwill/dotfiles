@@ -1,0 +1,18 @@
+{{ if eq .chezmoi.os "darwin" -}}
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Code settings hash: {{ include "dot_config/private_Code/User/settings.json" | sha256sum }}
+# Cursor settings hash: {{ include "dot_config/private_Cursor/User/settings.json" | sha256sum }}
+
+# 建立 macOS 下 VS Code 与 Cursor 配置软链接
+for app in Code Cursor; do
+  MAC_DIR="$HOME/Library/Application Support/$app/User"
+  SRC_DIR="$HOME/.config/$app/User"
+  if [ -d "$SRC_DIR" ]; then
+    mkdir -p "$MAC_DIR"
+    [ -f "$SRC_DIR/settings.json" ] && ln -sf "$SRC_DIR/settings.json" "$MAC_DIR/settings.json"
+    [ -f "$SRC_DIR/keybindings.json" ] && ln -sf "$SRC_DIR/keybindings.json" "$MAC_DIR/keybindings.json"
+  fi
+done
+{{ end -}}
