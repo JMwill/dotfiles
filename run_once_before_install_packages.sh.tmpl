@@ -82,14 +82,24 @@ if ! command -v zoxide &>/dev/null && [ ! -f "$HOME/.local/bin/zoxide" ]; then
 fi
 
 # 安装 glow (CLI Markdown 阅读器，若未安装)
-if ! command -v glow &>/dev/null; then
+if ! command -v glow &>/dev/null && [ ! -f "$HOME/.local/bin/glow" ]; then
   echo ">>> 正在安装 glow (CLI Markdown Reader)..."
-  if command -v apt-get &>/dev/null; then
-    sudo mkdir -p /etc/apt/keyrings 2>/dev/null || true
-    curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg 2>/dev/null || true
-    echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list >/dev/null 2>&1 || true
-    sudo apt update -y 2>/dev/null || true
-    sudo apt install -y glow 2>/dev/null || true
+  if command -v apt-get &>/dev/null && apt-cache show glow &>/dev/null; then
+    sudo apt install -y glow
+  else
+    # 纯用户态免 root 独立二进制安装，彻底避免污染信创系统 APT 源与安全审计报警
+    GLOW_ARCH="x86_64"
+    [ "$(uname -m)" = "aarch64" ] && GLOW_ARCH="arm64"
+    GLOW_URL=$(curl -fsSL --connect-timeout 5 https://api.github.com/repos/charmbracelet/glow/releases/latest 2>/dev/null | grep -E "browser_download_url.*Linux_${GLOW_ARCH}\.tar\.gz" | cut -d '"' -f 4 | head -n 1)
+    if [ -n "$GLOW_URL" ]; then
+      mkdir -p /tmp/glow_install "$HOME/.local/bin"
+      if curl -fsSL --connect-timeout 10 "$GLOW_URL" -o /tmp/glow_install/glow.tar.gz 2>/dev/null; then
+        tar -xzf /tmp/glow_install/glow.tar.gz -C /tmp/glow_install 2>/dev/null || true
+        find /tmp/glow_install -type f -name glow -exec mv {} "$HOME/.local/bin/glow" \; 2>/dev/null || true
+        chmod +x "$HOME/.local/bin/glow" 2>/dev/null || true
+      fi
+      rm -rf /tmp/glow_install
+    fi
   fi
 fi
 {{ end -}}
