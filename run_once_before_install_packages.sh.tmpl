@@ -145,6 +145,23 @@ for cli in code cursor; do
   fi
 done
 
+# 6. 默认登录 Shell 检查与友好切换
+if command -v zsh &>/dev/null; then
+  ZSH_PATH="$(command -v zsh)"
+{{- if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}
+  # Termux 环境免密直切
+  if [ "${SHELL##*/}" != "zsh" ]; then
+    echo ">>> [Termux] 正在将默认 Shell 自动切换为 zsh..."
+    chsh -s zsh 2>/dev/null || true
+  fi
+{{- else }}
+  # Linux / macOS 环境友好引导
+  if [ "${SHELL##*/}" != "zsh" ]; then
+    echo ">>> [提示] 当前默认 Shell 为 $SHELL，若需切换为 zsh 请执行: chsh -s $ZSH_PATH"
+  fi
+{{- end }}
+fi
+
 echo "=================================================="
 echo "✔ 所有基础依赖与插件就绪！即将部署配置文件..."
 echo "=================================================="

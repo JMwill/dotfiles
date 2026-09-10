@@ -44,8 +44,10 @@ chezmoi init --apply https://github.com/JMwill/dotfiles.git
 | **Vim** | 精简原生 ~115 行、单文件自洽 (内置官方旗舰配色 habamax，兼顾 desert)、全面对齐 Emacs/VSCode 统一交互体系 (`,xs` 保存 / `,x` 系列分屏 / `,fp` 路径拷贝)、自愈式持久撤销 (`undofile`)、双拼秒退编辑态 (`kj`) | `dot_vimrc` |
 | **Cursor / VS Code** | 深度契合 redguardtoo Evil 哲学、近 500 行精细 Vim 映射、双手秒退编辑态 (`kj`)、空格折叠与无缝窗格跳转、macOS 路径自动软链接、终端防劫持清屏与 QuickOpen 快速导航 | `dot_config/Cursor/`<br>`dot_config/Code/`<br>`run_onchange_after_setup_vscode_darwin.sh.tmpl` |
 | **Albert (Linux)** | 极速桌面启动器配置 (`Alt+Space`)、Spotlight Dark 主题、多平台自适应纳管 (非 Linux 桌面及 Termux 环境自动忽略) | `dot_config/albert/albert.conf` |
+| **Glow** | Markdown 终端阅读器全局优化、自动感知深浅色终端 (`style: "auto"`)、终端宽度自适应 (`width: 0`) | `dot_config/glow/glow.yml` |
+| **Termux (Android)** | 针对 Vim/Tmux 触屏特化的双行虚拟快捷功能键 (`extra-keys`)、禁用铃声振动 (非 Android 环境自动忽略) | `dot_termux/termux.properties` |
 | **Emacs** | 深度契合 `redguardtoo/emacs.d`、Emacs 29 编译告警静默、清华 ELPA 国内镜像加速、临时与备份文件全隔离、pyim 中文输入法弹窗、keyfreq 按键热度统计 | `dot_custom.el` |
-| **装机总管** | 平台原生包管理器自动安装 (`apt` / `brew` / `pkg`)、VS Code/Cursor 核心扩展补全 (`vscodevim`, `remote-ssh`)、`zoxide`、`uv`、`croc` 与 `fnm` 幂等自装、Oh My Zsh 插件自动克隆与 Gitee 镜像容错 | `run_once_before_install_packages.sh.tmpl` |
+| **装机总管** | 平台原生包管理器自动安装 (`apt` / `brew` / `pkg`)、VS Code/Cursor 核心扩展补全 (`vscodevim`, `remote-ssh`)、默认登录 Shell 自动/引导切换、`zoxide`、`uv`、`croc` 与 `fnm` 幂等自装、Oh My Zsh 插件自动克隆与 Gitee 镜像容错 | `run_once_before_install_packages.sh.tmpl` |
 
 ---
 

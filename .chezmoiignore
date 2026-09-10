@@ -2,6 +2,13 @@ README.md
 LICENSE
 .git/
 .gitignore
+.github
+.github/**
+
+{{- if and (ne .chezmoi.os "android") (not (env "TERMUX_VERSION")) }}
+.termux
+.termux/**
+{{- end }}
 
 {{- if or (ne .chezmoi.os "linux") (env "WSL_DISTRO_NAME") (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}
 .config/albert
