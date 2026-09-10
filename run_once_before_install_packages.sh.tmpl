@@ -14,7 +14,7 @@ echo "=================================================="
 # ==================== macOS ====================
 if command -v brew &>/dev/null; then
   MISSING_BREW=()
-  for pkg in zsh tmux git fzf zoxide fd ripgrep bat croc fnm uv; do
+  for pkg in zsh tmux git vim fzf zoxide fd ripgrep bat glow croc fnm uv; do
     brew list "$pkg" &>/dev/null || MISSING_BREW+=("$pkg")
   done
   if [ ${#MISSING_BREW[@]} -gt 0 ]; then
@@ -30,7 +30,7 @@ fi
 {{ else if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
 # ==================== Android Termux ====================
 MISSING_TERMUX=()
-for pkg in zsh tmux git curl fzf zoxide fd ripgrep bat termux-api croc uv; do
+for pkg in zsh tmux git vim curl fzf zoxide fd ripgrep bat glow termux-api croc uv; do
   command -v "$pkg" &>/dev/null || MISSING_TERMUX+=("$pkg")
 done
 if [ ${#MISSING_TERMUX[@]} -gt 0 ]; then
@@ -44,7 +44,7 @@ fi
 {{ else if eq .chezmoi.os "linux" -}}
 # ==================== 银河麒麟 / Debian / Ubuntu / WSL ====================
 MISSING_PKGS=()
-for pkg in zsh tmux git curl fzf {{ if not (env "WSL_DISTRO_NAME") }}xclip{{ end }}; do
+for pkg in zsh tmux git vim curl fzf {{ if not (env "WSL_DISTRO_NAME") }}xclip{{ end }}; do
   command -v "$pkg" &>/dev/null || MISSING_PKGS+=("$pkg")
 done
 command -v fdfind &>/dev/null || command -v fd &>/dev/null || MISSING_PKGS+=("fd-find")
@@ -78,6 +78,18 @@ if ! command -v zoxide &>/dev/null && [ ! -f "$HOME/.local/bin/zoxide" ]; then
     sudo apt install -y zoxide
   else
     curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install.sh | sh
+  fi
+fi
+
+# 安装 glow (CLI Markdown 阅读器，若未安装)
+if ! command -v glow &>/dev/null; then
+  echo ">>> 正在安装 glow (CLI Markdown Reader)..."
+  if command -v apt-get &>/dev/null; then
+    sudo mkdir -p /etc/apt/keyrings 2>/dev/null || true
+    curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg 2>/dev/null || true
+    echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list >/dev/null 2>&1 || true
+    sudo apt update -y 2>/dev/null || true
+    sudo apt install -y glow 2>/dev/null || true
   fi
 fi
 {{ end -}}
