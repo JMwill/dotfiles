@@ -48,6 +48,7 @@ chezmoi init --apply https://github.com/JMwill/dotfiles.git
 | **Termux (Android)** | 针对 Vim/Tmux 触屏特化的双行虚拟快捷功能键 (`extra-keys`)、禁用铃声振动 (非 Android 环境自动忽略) | `dot_termux/termux.properties` |
 | **Emacs** | 深度契合 `redguardtoo/emacs.d`、Emacs 29 编译告警静默、清华 ELPA 国内镜像加速、临时与备份文件全隔离、pyim 中文输入法弹窗、keyfreq 按键热度统计 | `dot_custom.el` |
 | **装机总管** | 平台原生包管理器自动安装 (`apt` / `brew` / `pkg`)、VS Code/Cursor 核心扩展补全 (`vscodevim`, `remote-ssh`)、默认登录 Shell 自动/引导切换、`zoxide`、`uv`、`croc` 与 `fnm` 幂等自装、Oh My Zsh 插件自动克隆与 Gitee 镜像容错 | `run_once_before_install_packages.sh.tmpl` |
+| **CI / CD** | GitHub Actions 自动化流水线，多系统 Runner (Ubuntu / macOS) 自动执行 `chezmoi doctor`、语法检测与 Dry-run 演练 | `.github/workflows/ci.yml` |
 
 ---
 

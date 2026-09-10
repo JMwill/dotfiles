@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  test:
+    name: Test on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Checkout dotfiles
+        uses: actions/checkout@v4
+
+      - name: Install Chezmoi
+        run: |
+          sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
+
+      - name: Verify Chezmoi Version & Doctor
+        run: |
+          chezmoi --version
+          chezmoi doctor || true
+
+      - name: Test Chezmoi Dry-Run Apply
+        run: |
+          chezmoi init --source . --apply --dry-run --verbose
+
+      - name: Validate Rendered Script Syntax
+        run: |
+          chezmoi execute-template < run_once_before_install_packages.sh.tmpl > /tmp/test_install.sh
+          bash -n /tmp/test_install.sh
+
+      - name: Validate Zsh Configuration Syntax
+        run: |
+          if command -v zsh &>/dev/null; then
+            chezmoi execute-template < dot_zshrc.tmpl > /tmp/test_zshrc
+            zsh -n /tmp/test_zshrc
+          fi
