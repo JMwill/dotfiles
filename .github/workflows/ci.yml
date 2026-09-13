@@ -5,6 +5,8 @@ on:
     branches: [ master, main ]
   pull_request:
     branches: [ master, main ]
+  schedule:
+    - cron: '0 0 * * 1'  # 每周一 UTC 00:00 自动探活外部依赖链接
 
 jobs:
   test:
@@ -36,6 +38,8 @@ jobs:
         run: |
           chezmoi execute-template < run_once_before_install_packages.sh.tmpl > /tmp/test_install.sh
           bash -n /tmp/test_install.sh
+          chezmoi execute-template --override-data '{"chezmoi": {"os": "android"}}' < run_onchange_after_setup_termux.sh.tmpl > /tmp/test_termux.sh
+          bash -n /tmp/test_termux.sh
 
       - name: Validate Zsh Configuration Syntax
         run: |
@@ -43,3 +47,7 @@ jobs:
             chezmoi execute-template < dot_zshrc.tmpl > /tmp/test_zshrc
             zsh -n /tmp/test_zshrc
           fi
+
+      - name: Verify Upstream Font Link Health
+        run: |
+          curl -fsSLI -L --connect-timeout 10 "https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf" >/dev/null

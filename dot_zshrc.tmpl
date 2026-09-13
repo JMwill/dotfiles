@@ -298,8 +298,46 @@ function ff() {
   fi
 }
 
+# 一键补齐/更新当前平台 Nerd Font 图标字体
+function dotfiles-font() {
+  {{- if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") }}
+  echo ">>> [Termux] 正在下载 MesloLGS NF 图标字体..."
+  mkdir -p "$HOME/.termux"
+  local raw_url="https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf"
+  if curl -fsSL --connect-timeout 8 "https://ghproxy.net/${raw_url}" -o "$HOME/.termux/font.ttf" 2>/dev/null || \
+     curl -fsSL --connect-timeout 8 "$raw_url" -o "$HOME/.termux/font.ttf"; then
+    command -v termux-reload-settings &>/dev/null && termux-reload-settings || true
+    echo -e "\033[32m✔ Termux 字体已安装并热重载生效！请执行 exec zsh 重启终端查看满血图标。\033[0m"
+  else
+    echo -e "\033[31m✖ 字体下载失败，请检查网络后重试。\033[0m"
+  fi
+  {{- else if eq .chezmoi.os "darwin" }}
+  if command -v brew &>/dev/null; then
+    echo ">>> [macOS] 正在通过 Homebrew 安装 MesloLGS NF 字体..."
+    brew install --cask font-meslo-lg-nerd-font
+    echo -e "\033[32m✔ 字体安装完成！请在终端设置 (Preferences -> Profiles -> Font) 中选用 MesloLGS NF。\033[0m"
+  fi
+  {{- else }}
+  echo ">>> [Linux] 正在下载 MesloLGS NF 字体至 ~/.local/share/fonts..."
+  mkdir -p "$HOME/.local/share/fonts"
+  local base_url="https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master"
+  for f in "MesloLGS%20NF%20Regular.ttf" "MesloLGS%20NF%20Bold.ttf" "MesloLGS%20NF%20Italic.ttf" "MesloLGS%20NF%20Bold%20Italic.ttf"; do
+    local decoded_name="${f//%20/ }"
+    curl -fsSL --connect-timeout 8 "https://ghproxy.net/${base_url}/$f" -o "$HOME/.local/share/fonts/$decoded_name" 2>/dev/null || \
+    curl -fsSL --connect-timeout 8 "${base_url}/$f" -o "$HOME/.local/share/fonts/$decoded_name" 2>/dev/null || true
+  done
+  command -v fc-cache &>/dev/null && fc-cache -fv "$HOME/.local/share/fonts" 2>/dev/null || true
+  echo -e "\033[32m✔ Linux 字体已安装并已刷新字体库！请在终端首选项中选择 MesloLGS NF。\033[0m"
+  {{- end }}
+}
+
 # 10. 加载 Powerlevel10k 主题自定义配置
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# 若当前终端因缺少字体降级为兼容模式，输出一次性温和提示
+if [[ "$POWERLEVEL9K_MODE" == "compatible" ]]; then
+  echo -e "\033[33m💡 [提示] 当前终端未安装 Nerd Font，已自动启用兼容模式(无方块)。若需满血图标可执行: dotfiles-font\033[0m"
+fi
 
 # 11. 本地私有逃生舱 (存放公司专属环境变量、内网域名等，不入 Git 仓库)
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local

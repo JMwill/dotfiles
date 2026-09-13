@@ -1,0 +1,17 @@
+{{ if or (eq .chezmoi.os "android") (env "TERMUX_VERSION") -}}
+#!/data/data/com.termux/files/usr/bin/env bash
+# termux.properties hash: {{ include "dot_termux/termux.properties" | sha256sum }}
+
+# 1. 自动置备 MesloLGS NF Nerd Font 字体 (仅 2.5MB，开箱即满血)
+if [ ! -f "$HOME/.termux/font.ttf" ]; then
+  echo ">>> [Termux] 正在自动安装 MesloLGS NF (Nerd Font) 图标字体..."
+  mkdir -p "$HOME/.termux"
+  FONT_URL="https://raw.githubusercontent.com/romkatv/powerlevel10k-media/master/MesloLGS%20NF%20Regular.ttf"
+  MIRROR_URL="https://ghproxy.net/${FONT_URL}"
+  curl -fsSL --connect-timeout 8 "$MIRROR_URL" -o "$HOME/.termux/font.ttf" 2>/dev/null || \
+  curl -fsSL --connect-timeout 8 "$FONT_URL" -o "$HOME/.termux/font.ttf" 2>/dev/null || true
+fi
+
+# 2. 立即热重载 Termux 配置 (字体与虚拟功能按键瞬时生效)
+command -v termux-reload-settings &>/dev/null && termux-reload-settings || true
+{{ end -}}

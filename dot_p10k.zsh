@@ -117,8 +117,15 @@
     # example               # example user-defined segment (see prompt_example function below)
   )
 
-  # Defines character set used by powerlevel10k. It's best to let `p10k configure` set it for you.
-  typeset -g POWERLEVEL9K_MODE=nerdfont-v3
+  # Defines character set used by powerlevel10k.
+  # 智能感知当前终端字体能力：
+  # 1. 在手机 Termux 且未安装自定义字体时，自动降级为 compatible 模式，杜绝方块
+  # 2. 在纯文本 Linux 控制台 (TERM=linux) 下自动降级
+  if [[ -n "$TERMUX_VERSION" && ! -f "$HOME/.termux/font.ttf" ]] || [[ "$TERM" == "linux" ]]; then
+    typeset -g POWERLEVEL9K_MODE=compatible
+  else
+    typeset -g POWERLEVEL9K_MODE=nerdfont-v3
+  fi
   # When set to `moderate`, some icons will have an extra space after them. This is meant to avoid
   # icon overlap when using non-monospace fonts. When set to `none`, spaces are not added.
   typeset -g POWERLEVEL9K_ICON_PADDING=none
@@ -349,7 +356,11 @@
 
   #####################################[ vcs: git status ]######################################
   # Branch icon. Set this parameter to '\UE0A0 ' for the popular Powerline branch icon.
-  typeset -g POWERLEVEL9K_VCS_BRANCH_ICON='\uF126 '
+  if [[ "$POWERLEVEL9K_MODE" == "compatible" ]]; then
+    typeset -g POWERLEVEL9K_VCS_BRANCH_ICON=''
+  else
+    typeset -g POWERLEVEL9K_VCS_BRANCH_ICON='\uF126 '
+  fi
 
   # Untracked files icon. It's really a question mark, your font isn't broken.
   # Change the value of this parameter to show a different icon.
