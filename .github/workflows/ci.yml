@@ -21,6 +21,11 @@ jobs:
       - name: Checkout dotfiles
         uses: actions/checkout@v4
 
+      - name: Link repository to Chezmoi default source path
+        run: |
+          mkdir -p ~/.local/share
+          ln -s "$GITHUB_WORKSPACE" ~/.local/share/chezmoi
+
       - name: Install Chezmoi
         run: |
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b /usr/local/bin
@@ -32,7 +37,7 @@ jobs:
 
       - name: Test Chezmoi Dry-Run Apply
         run: |
-          chezmoi init --source . --apply --dry-run --verbose
+          chezmoi apply --dry-run --verbose
 
       - name: Validate Rendered Script Syntax
         run: |
@@ -40,6 +45,8 @@ jobs:
           bash -n /tmp/test_install.sh
           chezmoi execute-template --override-data '{"chezmoi": {"os": "android"}}' < run_onchange_after_setup_termux.sh.tmpl > /tmp/test_termux.sh
           bash -n /tmp/test_termux.sh
+          chezmoi execute-template --override-data '{"chezmoi": {"os": "darwin"}}' < run_onchange_after_setup_vscode_darwin.sh.tmpl > /tmp/test_darwin.sh
+          bash -n /tmp/test_darwin.sh
 
       - name: Validate Zsh Configuration Syntax
         run: |
